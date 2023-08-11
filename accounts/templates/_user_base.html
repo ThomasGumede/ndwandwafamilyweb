@@ -1,0 +1,67 @@
+{% extends '_base.html' %}
+{% load static %}
+
+{% block title %}Account Settings | Dribble{% endblock title %}
+
+{% block content %}
+<section class="w-full mt-36 font-sans mb-20 bg-white">
+  <div class="container">
+
+    <div class="w-full relative p-4 space-y-6 bg-white">
+      {% if messages %}
+            {% for message in messages %}
+                <div id="alert" class="cursor-pointer rounded-lg py-5 flex items-center justify-between w-full px-6 text-base bg-blue-100 text-blue-700 mb-3" role="alert">
+                    {{message}}
+                    <button id="cancel_alert" class="cursor-pointer text-black border-none outline-none text-xl">x</button>
+                </div>
+            {% endfor %}
+        {% endif %}
+      <div class="grid items-start overflow-hidden gap-y-7">
+          <div class="w-fit">
+            <div class="flex w-full h-full items-start gap-5 md:gap-8">
+              <div class="h-16 w-16 md:w-20 md:h-20 bg-custom-primary rounded-full grid items-center justify-center overflow-hidden">
+                <div class="">
+                    <p class="text-3xl md:text-4xl font-normal text-white">{{request.user.first_name.0}}</p>
+                </div>
+              </div>
+              <div class="space-y-1 w-48 md:w-72">
+                <h5 class="text-black text-base md:text-lg font-bold">{{request.user.first_name}}</h5>
+                <p class="text-custom-tertiary text-sm md:text-base font-normal">Update your username and manage your account</p>
+              </div>
+            </div>
+          </div>
+          <div class="flex flex-col md:flex-row items-start w-full">
+            <div class="w-full md:w-56">
+              <div class="border border-gray-5000 p-3">
+                <div class="items-start text-black p-2 overflow-hidden w-full h-full justify-between">
+                  <div class="space-y-4 grid w-fit h-full self-start">
+                    <a class="" href="{% url 'accounts:general_edit' request.user.username request.user.pk %}">General</a>
+                    <a class="" href="{% url 'accounts:update_account' request.user.username request.user.pk %}">Edit profile</a>
+                    <a class="" href="{% url 'accounts:password_change' request.user.username request.user.pk %}">Password</a>
+                    {% if request.user.address != none %}
+                    <a class="" href="{% url 'accounts:updateaddress'  request.user.address.id %}">Edit address</a>
+                    {% else %}
+                    <a class="" href="{% url 'accounts:createaddress' request.user.username request.user.pk %}">Add address</a>
+                    {% endif %}
+                    <a class="" href="{% url 'accounts:create_qualification' request.user.pk %}">Add Qualification</a>
+                    <a class="" href="{% url 'accounts:addnextofkin' request.user.username %}">Add Relative</a>
+                    <a class="" href="">Email Notifications</a>
+                    <a class="" href="">Sessions</a>
+                    <hr />
+                    <a class="" href="">Delete Account</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="w-full h-full md:w-[calc(100%_-_200px)] md:px-7">
+              {% block accountblock %}
+              {% endblock accountblock %}
+            </div>
+          </div>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+{% endblock content %}

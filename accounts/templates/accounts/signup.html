@@ -1,0 +1,309 @@
+{% extends '_base.html' %}
+{% load static %}
+
+{% block content %}
+<section class="w-full mt-48 overflow-hidden mb-20">
+    {% if messages %}
+            {% for message in messages %}
+                <div id="alert" class="cursor-pointer rounded-lg py-5 flex items-center justify-between w-full px-6 text-base bg-blue-100 text-blue-700 mb-3" role="alert">
+                    {{message}}
+                    <button id="cancel_alert" class="cursor-pointer text-black border-none outline-none text-xl">x</button>
+                </div>
+            {% endfor %}
+        {% endif %}
+    <div class="container">
+        <div class="lg:w-11/12 mx-auto bg-white">
+            <div class="space-y-4 border-0 bg-white w-full relative">
+                {% if form.non_field_errors %}
+                <div class="w-fit space-y-1 mx-auto text-sm text-red-500 font-normal">
+                    <p class="">{{form.non_field_errors}}</p>
+                </div>
+                {% endif %}
+                <div class="flex-auto px-4 lg:px-10 py-10 pt-0">
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="flex flex-col md:flex-row mx-auto w-fit items-center gap-6 p-4 mb-2">
+                            <div id="img_container"
+                                class="w-24 group h-24 md:w-36 md:h-36 rounded-full border-2 overflow-hidden relative border-dotted {% if form.photo.errors %} border-red-500 {% else %}border-custom-primary{% endif %}  ">
+                                {% if request.user.photo == none %}
+                                <img id="no_image" src="{% static 'imgs/home.jpg' %}"
+                                    class="w-full h-full object-cover" />
+                                {% else %}
+                                <img id="img" src="{{request.user.photo.url}}" class="w-full h-full object-cover" />
+                                {% endif %}
+                            </div>
+                            <div class="space-y-1 text-custom-tertiary text-sm">
+                                <p>Upload image of you</p>
+                                <p>High resolution images (png, jpg, gif)</p>
+                                <p>Max 10MB image size each</p>
+                                <p id="pick_image"
+                                    class=" z-40 cursor-pointer text-center w-32  text-xs text-white border-custom-primary  py-2 px-1 bg-custom-primary my-auto">
+                                    Upload Image
+                                </p>
+                            </div>
+                        </div>
+                        <input type="file" name="photo" accept="image/*" id="id_photo" class="w-[0.1px] h-[0.1px] opacity-0 overflow-hidden absolute -z-[1]" />
+                        <h6 class="text-blueGray-400 text-sm mt-3 mb-6 font-bold uppercase">
+                            User Information
+                        </h6>
+                        <div class="flex flex-wrap">
+                            <div class="w-full lg:w-6/12 px-4">
+                                <div class="relative w-full mb-3">
+                                    <label for="id_username"
+                                        class="block uppercase {% if form.username.errors %}text-red-500 {% else %} text-gray-600 {% endif %} text-xs font-bold mb-2"
+                                        htmlfor="grid-password">
+                                        Username*
+                                    </label>
+                                    <input id="id_username" required name="username" type="text"
+                                        class="border-0 px-3 py-3 {% if form.username.errors %} border-2 border-red-500{% endif %} placeholder-blueGray-300 text-gray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                                        value="">
+                                        <span class="text-[11px] text-custom-tertiary block font-normal lowercase">{{form.username.help_text}}</span>
+                                        {% if form.username.errors %}
+                                        <span class="text-[11px] text-red-500 block font-normal lowercase">{{form.username.errors.as_text}}</span>
+                                        {% endif %}
+                                </div>
+                            </div>
+                            <div class="w-full lg:w-6/12 px-4">
+                                <div class="relative w-full mb-3">
+                                    <label class="block uppercase {% if form.email.errors %}text-red-500 {% else %} text-gray-600 {% endif %} text-xs font-bold mb-2"
+                                        htmlfor="grid-password">
+                                        Email address*
+                                    </label>
+                                    <input id="id_email" name="email" required type="email"
+                                        class="border-0 px-3 py-3 {% if form.email.errors %} border-2 border-red-500{% endif %} placeholder-blueGray-300 text-gray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                                        value="">
+                                        <span class="text-[11px] text-custom-tertiary block font-normal lowercase">{{form.email.help_text}}</span>
+                                        {% if form.email.errors %}
+                                            <span class="text-[11px] text-red-500 block font-normal lowercase">{{form.email.errors.as_text}}</span>
+                                        {% endif %}
+                                </div>
+                            </div>
+                            <div class="w-full lg:w-6/12 px-4">
+                                <div class="relative w-full mb-3">
+                                    <label for="id_first_name"
+                                        class="block uppercase {% if form.first_name.errors %}text-red-500 {% else %} text-gray-600 {% endif %} text-xs font-bold mb-2"
+                                        htmlfor="grid-password">
+                                        First Name* <span
+                                            class="text-[11px] text-custom-tertiary font-normal lowercase">(Registered
+                                            both first and second name(s))</span>
+                                    </label>
+                                    <input id="id_first_name" name="first_name" required maxlength="300" type="text"
+                                        class="border-0 px-3 py-3 {% if form.first_name.errors %} border-2 border-red-500{% endif %} placeholder-blueGray-300 text-gray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                                        value="">
+                                        <span class="text-[11px] text-custom-tertiary block font-normal lowercase">{{form.first_name.help_text}}</span>
+                                        {% if form.first_name.errors %}
+                                            <span class="text-[11px] text-red-500 block font-normal lowercase">{{form.first_name.errors.as_text}}</span>
+                                        {% endif %}
+                                    
+                                </div>
+                            </div>
+                            <div class="w-full lg:w-6/12 px-4">
+                                <div class="relative w-full mb-3">
+                                    <label for="id_last_name"
+                                        class="block uppercase {% if form.last_name.errors %}text-red-500 {% else %} text-gray-600 {% endif %} text-xs font-bold mb-2"
+                                        htmlfor="grid-password">
+                                        Surname* <span
+                                            class="text-[11px] text-custom-tertiary font-normal lowercase">(Registered
+                                            surname)</span>
+                                    </label>
+                                    <input id="id_last_name" name="last_name" required maxlength="300" type="text"
+                                        class="border-0 px-3 {% if form.last_name.errors %} border-2 border-red-500{% endif %} py-3 placeholder-blueGray-300 text-custom-tertiary -600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150">
+                                        <span class="text-[11px] text-custom-tertiary block font-normal lowercase">{{form.last_name.help_text}}</span>
+                                        {% if form.last_name.errors %}
+                                            <span class="text-[11px] text-red-500 block font-normal lowercase">{{form.last_name.errors.as_text}}</span>
+                                        {% endif %}
+                                    </div>
+                            </div>
+                            <div class="w-full lg:w-6/12 px-4">
+                                <div class="relative w-full mb-3">
+                                    <label for="id_tel" class="block uppercase {% if form.tel.errors %}text-red-500 {% else %} text-gray-600 {% endif %} text-xs font-bold mb-2"
+                                        htmlfor="grid-password">
+                                        Phone*
+                                    </label>
+                                    <input id="id_tel" name="tel" required maxlength="15" type="tel"
+                                        class="border-0 px-3 py-3 {% if form.tel.errors %} border-2 border-red-500{% endif %} placeholder-blueGray-300 text-gray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150">
+                                        <span class="text-[11px] text-custom-tertiary block font-normal lowercase">{{form.tel.help_text}}</span>
+                                        {% if form.tel.errors %}
+                                            <span class="text-[11px] text-red-500 block font-normal lowercase">{{form.tel.errors.as_text}}</span>
+                                        {% endif %}  
+                                </div>
+                            </div>
+                            <div class="w-full lg:w-6/12 px-4">
+                                <div class="relative w-full mb-3">
+                                    <label for="id_id_number"
+                                        class="block uppercase {% if form.id_number.errors %}text-red-500 {% else %} text-gray-600 {% endif %} text-xs font-bold mb-2"
+                                        htmlfor="grid-password">
+                                        Id number* <span
+                                            class="text-[11px] text-custom-tertiary font-normal lowercase">(Your identification number will be verified)</span>
+                                    </label>
+                                    <input id="id_id_number" name="id_number" required maxlength="13" type="text"
+                                        class="border-0 px-3 py-3 {% if form.id_number.errors %} border-2 border-red-500{% endif %} placeholder-blueGray-300 text-gray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150">
+                                        <span class="text-[11px] text-custom-tertiary block font-normal lowercase">{{form.id_number.help_text}}</span>
+                                        {% if form.id_number.errors %}
+                                            <span class="text-[11px] text-red-500 block font-normal lowercase">{{form.id_number.errors.as_text}}</span>
+                                        {% endif %}
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr class="mt-6 border-b-1 border-blueGray-300">
+
+                        <h6 class="text-blueGray-400 text-sm mt-3 mb-6 font-bold uppercase">
+                            About Me
+                        </h6>
+                        <div class="flex flex-wrap">
+                            <div class="w-full lg:w-12/12 px-4">
+                                <div class="relative w-full mb-3">
+                                    <label for="id_biography"
+                                        class="block uppercase {% if form.biography.errors %}text-red-500 {% else %} text-gray-600 {% endif %} text-xs font-bold mb-2"
+                                        htmlfor="grid-password">
+                                        About me*
+                                    </label>
+                                    <textarea maxlength="20000" name="biography" id="id_biography" type="text"
+                                        class="border-0 px-3 py-3 {% if form.biography.errors %} border-2 border-red-500{% endif %} placeholder-blueGray-300 text-gray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                                        rows="4"> </textarea>
+                                        <span class="text-[11px] text-custom-tertiary block font-normal lowercase">{{form.biography.help_text}}</span>
+                                        {% if form.biography.errors %}
+                                        <span class="text-[11px] text-red-500 block font-normal lowercase">{{form.biography.errors.as_text}}</span>
+                                        {% endif %}
+                                </div>
+                            </div>
+                            <div class="w-full lg:w-6/12 px-4">
+                                <div class="relative w-full mb-3">
+                                    <label for="id_occupation"
+                                        class="block uppercase {% if form.occupation.errors %}text-red-500 {% else %} text-gray-600 {% endif %} text-xs font-bold mb-2"
+                                        htmlfor="grid-password">
+                                        Occupation <span
+                                            class="text-[11px] text-custom-tertiary font-normal lowercase">(Write 'N/A'
+                                            if not employeed)</span>
+                                    </label>
+                                    <input id="id_occupation" name="occupation" maxlength="300" type="text"
+                                        class="border-0 px-3 py-3 placeholder-blueGray-300 {% if form.occupation.errors %} border-2 border-red-500{% endif %} text-gray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                                        value="">
+                                        <span class="text-[11px] text-custom-tertiary block font-normal lowercase">{{form.occupation.help_text}}</span>
+                                    {% if form.occupation.errors %}
+                                    <span class="text-[11px] text-red-500 block font-normal lowercase">{{form.occupation.errors.as_text}}</span>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="w-full lg:w-6/12 px-4">
+                                <div class="relative w-full mb-3">
+                                    <label for="id_professional_affiliations"
+                                        class="block uppercase {% if form.professional_affiliations.errors %}text-red-500 {% else %} text-gray-600 {% endif %} text-xs font-bold mb-2"
+                                        htmlfor="grid-password">
+                                        professional affiliations <span
+                                            class="text-[11px] text-custom-tertiary font-normal lowercase">(Write 'N/A'
+                                            if no affiliations)</span>
+                                    </label>
+                                    <input id="id_professional_affiliations" name="professional_affiliations"
+                                        maxlength="300" type="text"
+                                        class="border-0 px-3 py-3 placeholder-blueGray-300 text-custom-tertiary {% if form.professional_affiliations.errors %} border-2 border-red-500{% endif %} bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150">
+                                        <span class="text-[11px] text-custom-tertiary block font-normal lowercase">{{form.professional_affiliations.help_text}}</span>
+                                        {% if form.professional_affiliations.errors %}
+                                        <span class="text-[11px] text-red-500 block font-normal lowercase">{{form.professional_affiliations.errors.as_text}}</span>
+                                        {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                        <hr class="mt-6 border-b-1 border-blueGray-300">
+                        <h6 class="text-blueGray-400 text-sm mt-3 mb-6 font-bold uppercase">
+                            Security
+                        </h6>
+                        <div class="flex flex-wrap">
+                            <div class="w-full lg:w-6/12 px-4">
+                                <div class="relative w-full mb-3">
+                                    <label for="id_password"
+                                        class="block {% if form.password1.errors %}text-red-500 {% else %} text-gray-600 {% endif %} uppercase  text-xs font-bold mb-2"
+                                        htmlfor="grid-password">
+                                        Password* <span
+                                            class="text-[11px] text-custom-tertiary font-normal lowercase">(Must be 8
+                                            characters)</span>
+                                    </label>
+                                    <input id="id_password1" name="password1" required maxlength="300" type="password"
+                                        class="border-0 {% if form.password1.errors %} border-2 border-red-500{% endif %} px-3 py-3 placeholder-blueGray-300 text-gray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                                        value="">
+                                        <span class="text-[11px] text-custom-tertiary block font-normal lowercase">{{form.password1.help_text}}</span>
+                                    {% if form.password1.errors %}
+                                    <span class="text-[11px] text-red-500 block font-normal lowercase">{{form.password1.errors.as_text}}</span>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="w-full lg:w-6/12 px-4">
+                                <div class="relative w-full mb-3">
+                                    <label for="id_password2"
+                                        class="block uppercase {% if form.password2.errors %}text-red-500 {% else %} text-custom-tertiary {% endif %} text-xs font-bold mb-2"
+                                        htmlfor="grid-password">
+                                        Retype password* <span
+                                            class="text-[11px]   font-normal lowercase"></span>
+                                    </label>
+                                    <input id="id_password2" name="password2" required maxlength="300" type="password"
+                                        class=" px-3 py-3 placeholder-blueGray-300 text-custom-tertiary -600 bg-white rounded text-sm shadow focus:outline-none {% if form.password2.errors %} border-2 border-red-500{% endif %} focus:ring w-full ease-linear transition-all duration-150">
+                                        <span class="text-[11px] text-custom-tertiary block font-normal lowercase">{{form.password2.help_text}}</span>
+                                        {% if form.password2.errors %}
+                                        <span class="text-[11px] text-red-500 block font-normal lowercase">{{form.password2.errors.as_text}}</span>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="space-x-7 mt-3">
+                            <div class="text-center inline-block h-12 bg-custom-primary w-[150px] rounded-md cursor-pointer">
+                                <input type="submit" value="submit"
+                                    class="text-white w-full h-full cursor-pointer text-sm font-semibold" />
+                            </div>
+                            <div class="inline-block">
+                                <p>Already a member?  <a href="{% url 'accounts:login' %}" class="text-blue-400">Sign in</a></p>
+                            </div>
+
+                        </div>
+                        
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock content %}
+{% block javascripts %}
+ <script>
+     let file_picker = document.querySelector("#id_photo"),
+     pick_image = document.querySelector("#pick_image")
+
+     pick_image.addEventListener('click', () => {
+        file_picker.click()
+     })
+
+     file_picker.onchange = ({target}) =>
+     {
+         var no_image = document.querySelector("#no_image");
+         var img_container = document.querySelector("#img_container")
+         var img = document.querySelector("#img")
+         var file = target.files[0]
+         if(file){
+             console.log(no_image)
+            if(no_image)
+            {
+                console.log(img_container)
+                
+                img_container.removeChild(no_image);
+                img_container.innerHTML += `
+                    <img
+                        src="${window.URL.createObjectURL(file)}"
+                        alt="{{request.user.first_name}}"
+                        class="w-full h-full object-cover"
+                        id="img"
+                    />
+                `
+            }else {
+                img.src= window.URL.createObjectURL(file)
+            } 
+
+         }else {
+             alert("no file selected")
+         }
+        
+     }
+ </script>
+
+{% endblock javascripts %}

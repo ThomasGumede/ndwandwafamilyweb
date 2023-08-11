@@ -1,0 +1,86 @@
+{% extends '_base.html' %}
+{% load static %}
+{% block title %}Events{% endblock title %}
+
+{% block content %}
+
+<section class="w-full mt-36 bg-white mb-20">
+    <div class="w-full font-sans">
+        <div class="space-y-2 w-full p-10">
+            <div class="w-full flex justify-between items-center">
+                <div class="text-custom-tertiary text-base font-normal">
+                    <p>Phan</p>
+                </div>
+                <div id class="relative bg-custom-primary z-40 py-2 px-3">
+                    <p id="category_button" aria-haspopup="true" aria-expanded="true" class="text-white text-sm cursor-pointer">Category</p>
+                    <div id="category_menu" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" class="absolute  hidden right-0 z-20 mt-2 duration-500 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                        <div class="py-1 z-40">
+                            <a href="{% url 'event:event_list' %}" role="menuitem" tabindex="-1" class="text-gray-700 block px-4 py-2 text-sm">All</a>
+                            {% for category in categories %}
+                                <a href="{% url 'event:event_list_by_category' category_id=category.id %}" role="menuitem" tabindex="-1" class="text-gray-700 block px-4 py-2 text-sm">{{category.label}}</a>
+                            {% endfor %}   
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="grid md:grid-cols-3 mt-4 gap-3 w-full">
+                {% if events.count != 0 %}
+                    {% for event in events %}
+                        <div class="relative md:w-96 h-80">
+                            <div class="bg-custom-primary  z-20 text-white absolute top-4 left-4 py-1 md:py-2 px-2 md:px-4 text-center">
+                                <p class="text-xs">{{event.category.label}}</p>
+                            </div>
+                            
+                            
+                            <img src="{{event.image.url}}" alt="" srcset=""
+                                class="object-cover block h-full w-full">
+                            
+                            
+                            <div class="w-full h-full bg-black opacity-70 absolute top-0 left-0"></div>
+                            <div
+                                class="absolute group text-white duration-500 bg-transparent hover:bg-white bottom-4 left-1/2 -translate-x-1/2 w-[calc(100%_-_16px)] h-fit p-3">
+                                <div class="font-sans space-y-3">
+                                    <span class="group-hover:text-custom-tertiary duration-500 text-sm font-normal">
+                                        <i class="fa fa-times-circle text-xs md:text-base" aria-hidden="true"></i>
+                                        {{event.event_date}}
+                                    </span>
+                                    <a href="{% url 'event:event_details' slug=event.slug %}" class="block group-hover:text-black duration-500 font-bold text-lg md:text-2xl">
+                                        {{event.title}}
+                                    </a>
+                                    <div class="space-y-7 w-full">
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                        <div class="self-center justify-self-center w-fit">
+                            <p class="mx-auto">Not events available on this category</p>
+                        </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock content %}
+
+{% block javascripts %}
+<script>
+    
+    const categoryBtn = document.getElementById("category_button");
+    const categoryMenu = document.getElementById("category_menu");
+
+    categoryBtn.addEventListener("click", function(){
+        if(categoryMenu.classList.contains("hidden"))
+        {
+            categoryMenu.classList.remove("hidden")
+            categoryMenu.classList.add("block")
+        }else {
+            categoryMenu.classList.remove("block")
+            categoryMenu.classList.add("hidden") 
+        }
+    })
+</script>
+{% endblock javascripts %}
