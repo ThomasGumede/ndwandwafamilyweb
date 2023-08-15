@@ -24,27 +24,7 @@
                 <div class="flex-auto px-4 lg:px-10 py-10 pt-0">
                     <form method="post" enctype="multipart/form-data">
                         {% csrf_token %}
-                        <div class="flex flex-col md:flex-row w-fit items-center gap-6 p-4 mb-2">
-                            <div id="img_container"
-                                class="w-24 group h-24 md:w-36 md:h-36 border-2 overflow-hidden relative border-dotted {% if form.image.errors %} border-red-500 {% else %}border-custom-primary{% endif %}  ">
-
-                                <img id="no_image" src="{% static 'imgs/home.jpg' %}"
-                                    class="w-full h-full object-cover" />
-
-                            </div>
-                            <div class="space-y-1 text-custom-tertiary text-sm">
-                                <p>Upload image you own right to</p>
-                                <p>High resolution images (png, jpg, gif)</p>
-                                <p>Max 5MB image size</p>
-                                <p>{{form.image.help_text}}</p>
-                                <p id="pick_image"
-                                    class=" z-40 cursor-pointer text-center w-32  text-xs text-white border-custom-primary  py-2 px-1 bg-custom-primary my-auto">
-                                    Upload Image
-                                </p>
-                            </div>
-                        </div>
-                        <input type="file" name="image" accept="image/*" id="id_image"
-                            class="w-[0.1px] h-[0.1px] opacity-0 overflow-hidden absolute -z-[1]" />
+                        
                         <h6 class="text-blueGray-400 text-sm mt-3 mb-6 font-bold uppercase">
                             Campaign Information
                         </h6>
@@ -164,6 +144,43 @@
                             About The Campaign
                         </h6>
                         <div class="flex flex-wrap">
+                            <div class="w-full">
+                                <div class="relative w-full mb-3">
+                                    <label for="id_image"
+                                        class="block uppercase {% if form.image.errors %}text-red-500 {% else %} text-gray-600 {% endif %} text-xs font-bold mb-2"
+                                        htmlfor="grid-password">
+                                        event picture*
+                                    </label>
+                                    <input type="file" name="image" accept="image/*" id="id_image"
+                                        class="w-[0.1px] h-[0.1px] opacity-0 overflow-hidden absolute -z-[1]" />
+                                    <div class="w-full border rounded-md bg-white border-dotted p-6">
+                                        <div
+                                            class="flex items-center flex-col md:flex-row gap-4 w-full justify-between">
+                                            <div class="flex items-center space-x-4">
+                                                <div id="img_container" class="h-16 w-20 overflow-hidden rounded bg-gray-300">
+                                                    <div id="no_image"></div>
+                                                </div>
+                                                <div class="space-y-1">
+                                                    <p class="text-xs font-bold text-gray-500">Upload image
+                                                        to illustrate your campaign</p>
+                                                    <p class="text-xs font-light text-gray-500">SVG, PNG,
+                                                        JPG, JPEG or GIF</p>
+                                                </div>
+                                            </div>
+                                            <div id="pick_image" class="border p-2 cursor-pointer text-center text-black">
+                                                <p class="text-sm">Browser</p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <span
+                                        class="text-[11px] text-custom-tertiary block font-normal lowercase">{{form.image.help_text}}</span>
+                                    {% if form.image.errors %}
+                                    <span
+                                        class="text-[11px] text-red-500 block font-normal lowercase">{{form.image.errors.as_text}}</span>
+                                    {% endif %}
+                                </div>
+                            </div>
                             <div class="w-full lg:w-12/12 px-4">
                                 <div class="relative w-full mb-3">
                                     <label for="id_details"

@@ -92,5 +92,9 @@ class CampaignDeleteView(LoginRequiredMixin, View):
         else:
             return JsonResponse(data={"success": False, "message": "Something went wrong on our side, campaign was not removed"}, status=500)
     
-
+class CategoryCreateView(LoginRequiredMixin, View):
+    
+    def post(self, request, *args, **kwargs):
+        data = request.POST.get("label")
+        
     

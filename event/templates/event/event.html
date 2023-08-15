@@ -1,0 +1,250 @@
+{% extends '_base.html' %}
+{% load static %}
+{% block title %}Campaigns{% endblock title %}
+
+{% block content %}
+
+<section class="w-full relative mt-48 font-sans bg-white mb-20">
+    {% if messages %}
+        {% for message in messages %}
+        <div id="alert"
+            class="cursor-pointer rounded-lg py-5 flex items-center justify-between w-full px-6 text-base bg-blue-100 text-blue-700 mb-3"
+            role="alert">
+            {{message}}
+            <button id="cancel_alert" class="cursor-pointer text-black border-none outline-none text-xl">x</button>
+        </div>
+        {% endfor %}
+    {% endif %}
+    <div class="container">
+        {% csrf_token %}
+        <div class="relative w-full">
+            <div class="space-y-7">
+                <div class="border-b w-full border-b-gray-500 py-6">
+                    <div class="flex flex-col md:flex-row gap-7 items-center w-full">
+                        <div class="content md:w-[calc(100%_-_550px)]">
+                            <a href="" class="text-base mb-1 text-black font-bold">
+                                << all events</a>
+                                    <div class="space-y-5 mb-5">
+                                        <h1 class="text-2xl md:text-4xl text-black font-bold">{{event.title}}</h1>
+                                        <p class="text-sm text-gray-500 font-normal space-x-2"><i
+                                                class="fa-solid text-lg text-gray-500 fa-clock"></i>
+                                            <span>{{event.event_startdate}}</span>{% if request.user.is_authenticated and event.author == request.user%}<a href="" class="text-custom-primary">Edit</a><span id="delete_event"  class="text-red cursor-pointer">Delete</span>{% endif %}
+                                        </p>
+                                        <p class="text-gray-500 text-sm font-light">
+                                            {{event.content}}
+                                        </p>
+                                    </div>
+                                    <div class="flex items-center space-x-6">
+                                        <div
+                                            class="w-fit py-3 px-3 text-center border-2 border-custom-primary bg-white">
+                                            <p class="text-custom-primary text-sm">Add to calender</p>
+                                        </div>
+                                        <div
+                                            class="border w-fit cursor-pointer rounded-md border-custom-tertiary py-2 px-3 text-center bg-white text-custom-tertiary">
+                                            <p>R100 per ticket</p>
+                                        </div>
+                                    </div>
+
+                        </div>
+                        <div class="h-[400px] w-full md:w-[550px]">
+                            
+                            {% if event.image %}
+                            <img src="{{event.image.url}}" alt="{{event.title}}" class="w-full h-full object-cover" />
+                            {% else %}
+                            <img src="{% static 'imgs/home.jpg' %}" alt="" srcset=""
+                                class="object-cover block h-full w-full">
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                <div class="w-full flex-col md:flex-row flex items-center gap-5">
+                    <div class="p-9 w-[300px] h-[300px] md:w-[450px] bg-custom-secondary text-white">
+                        <div class="space-y-5">
+                            <h3 class="text-base md:text-lg font-bold">Organiser</h3>
+                            <p class="text-sm md:text-base font-medium">{{event.author.first_name}}
+                                {{event.author.last_name}}</p>
+                            <p class="text-sm md:text-base font-medium space-x-2"><i
+                                    class="fa-solid text-lg fa-clock"></i> <span>{{event.author.last_name}}</span></p>
+                            <p class="text-sm md:text-base font-medium space-x-2"><i
+                                    class="fa-solid text-lg fa-clock"></i> <span>{{event.author.last_name}}</span></p>
+                            <p class="text-sm md:text-base font-medium space-x-2"><i
+                                    class="fa-solid text-lg fa-clock"></i> <span>{{event.author.last_name}}</span></p>
+                        </div>
+                    </div>
+                    <div class="p-9 w-[300px] h-[300px] md:w-[450px] bg-custom-secondary text-white">
+                        <div class="space-y-5">
+                            <h3 class="text-base md:text-lg font-bold">Organiser</h3>
+                            <p class="text-sm md:text-base font-medium">{{event.author.first_name}}
+                                {{event.author.last_name}}</p>
+                            <p class="text-sm md:text-base font-medium space-x-2"><i
+                                    class="fa-solid text-lg fa-clock"></i> <span>{{event.author.last_name}}</span></p>
+                            <p class="text-sm md:text-base font-medium space-x-2"><i
+                                    class="fa-solid text-lg fa-clock"></i> <span>{{event.author.last_name}}</span></p>
+                            <p class="text-sm md:text-base font-medium space-x-2"><i
+                                    class="fa-solid text-lg fa-clock"></i> <span>{{event.author.last_name}}</span></p>
+                        </div>
+                    </div>
+                    <div class="p-9 w-[300px] h-[300px] md:w-[450px] bg-custom-primary text-white">
+                        <div class="space-y-5">
+                            <h3 class="text-base md:text-lg font-bold">VENUE</h3>
+                            <p class="text-sm md:text-base font-medium">{{event.event_address.city}}</p>
+                            <p class="text-sm md:text-base font-medium">{{event.event_address.address_one}},
+                                {{event.event_address.state}}, {{event.event_address.zipcode}},
+                                {{event.event_address.country}}</p>
+                            <p class="text-sm md:text-base font-medium space-x-2"><i
+                                    class="fa-solid text-lg fa-clock"></i> <span>{{event.author.last_name}}</span></p>
+                            <p class="text-sm md:text-base font-medium space-x-2"><i
+                                    class="fa-solid text-lg fa-clock"></i> <span>{{event.author.last_name}}</span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<div id="modal" class="w-full hidden h-screen z-[700] fixed top-0 left-0 bg-[#00000090]">
+    <div data-href="{% url 'event:delete_event' event_uuid=event.id %}" id="inner_model" class="w-80 md:w-96 h-72 grid items-center justify-center absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[600] bg-white p-4 rounded-lg">
+        <div id="inner_model_child" class="space-y-3 text-center font-sans">
+            <h6 class="text-black text-xl md:text-2xl font-bold">Are you sure?</h6>
+            
+            <i class="fa-solid fa-trash fa-shake text-2xl md:text-5xl"></i>
+            <p class="text-gray-500 text-sm md:text-base font-normal">
+                Are you sure you want to delete this event? ({{event.title}})
+            </p>
+            <div class="flex flex-wrap gap-4 justify-around">
+                <div class="text-center inline-block h-12 bg-custom-primary w-[150px] rounded-md cursor-pointer">
+                    <button id="delete_event_ok" 
+                        class="text-white w-full h-full cursor-pointer text-sm font-semibold">submit</button>
+                </div>
+                <div
+                    class="text-center inline-block h-12 border-custom-primary border-2 bg-white w-[150px] rounded-md cursor-pointer">
+                    <button id="cancel" 
+                        class="text-custom-primary w-full h-full cursor-pointer text-sm font-semibold">cancel</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- <div id="modal_2" class="w-full hidden h-screen z-[500] fixed top-0 left-0 bg-[#00000090]">
+    <div id="inner_model_2" class="w-96 h-72 grid items-center justify-center absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[600] bg-white p-4 rounded-lg">
+        <div id="inner_model_child_2" class="space-y-3 text-center font-sans">
+            <h6 class="text-black text-2xl font-bold">deleting...</h6>
+            <i class="fa-solid fa-spinner fa-spin text-8xl text-custom-primary"></i>
+        </div>
+    </div>
+</div> -->
+
+{% endblock content %}
+
+{% block javascripts %}
+{% if request.user.is_authenticated %}
+<script>
+
+
+    const modal = document.getElementById("modal")
+    const delete_event_ok = document.getElementById("delete_event_ok")
+    const cancel = document.getElementById("cancel")
+    const delete_event = document.getElementById("delete_event")
+
+    delete_event.addEventListener("click", (e) => {
+        if (modal.classList.contains("hidden")) {
+            modal.classList.remove("hidden")
+            modal.classList.add("block")
+        }
+
+
+    })
+    var csrftoken = Cookies.get("csrftoken");
+    function csrfSafeMethod(method) {
+        // these HTTP methods do not require CSRF protection
+        return /^(GET|HEAD|OPTIONS|TRACE)$/.test(method);
+    }
+
+    $("#delete_event_ok").on("click", (e) => {
+        e.preventDefault()
+        $.ajax({
+            type: "POST",
+            beforeSend: function(xhr, settings){
+                xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
+                $("#inner_model").empty()
+                $("#inner_model").html(
+                    `<div id="inner_model_child_2" class="space-y-3 text-center font-sans">
+                    <h6 class="text-black text-2xl font-bold">deleting...</h6>
+                    <i class="fa-solid fa-spinner fa-spin text-8xl text-custom-primary"></i>
+                </div>`
+                )
+            },
+            url: $("#inner_model").attr("data-href"),
+            data: {
+
+            },
+            contentType: 'application/json; charset=utf-8',
+            cache: false,
+            success: function (data) {
+                $("#inner_model").empty();
+                if (data.success) {
+                    
+                    $("#inner_model").html(
+                    `<div id="inner_model_child" class="space-y-3 text-center font-sans">
+                        <h6 class="text-black text-2xl font-bold">Deleted!!</h6>
+            
+                        <i class="fa-solid fa-check fa-bounce text-red-500 text-5xl"></i>
+                        <p class="text-gray-500 text-base font-normal">
+                            ${data.message}
+                        </p>
+                        <p class="text-gray-500 text-base font-normal">
+                            redirect in 5 seconds
+                        </p>
+                    </div>`
+                );
+                window.setTimeout(() => {
+                    window.location.href = data.url
+                }, 5000)
+                } else {
+                    $("#inner_model").html(
+                        `<div id="inner_model_child" class="space-y-3 text-center font-sans">
+                        <h6 class="text-black text-2xl font-bold">Delete failed!!</h6>
+            
+                        <i class="fa-solid fa-trash fa-shake text-red-500 text-5xl"></i>
+                        <p class="text-gray-500 text-base font-normal">
+                            ${data.message}
+                        </p>
+                    </div>`
+                )
+                }
+                },
+            error: function (error) {
+                $("#inner_model").empty();
+                $("#inner_model").html(
+                    `<div id="inner_model_child" class="space-y-3 text-center font-sans">
+                        <h6 class="text-black text-2xl font-bold">Error on our side</h6>
+            
+                        <i class="fa-solid fa-trash fa-shake text-red-500 text-5xl"></i>
+                        <p class="text-gray-500 text-base font-normal">
+                            ${error.statusText}
+                        </p>
+                        <p class="text-gray-500 text-base font-normal">
+                            Okay, we did this. Will fix it!
+                        </p>
+                    </div>`
+                );
+                window.setTimeout(() => {
+                    window.location.href = data.url
+                }, 10000)
+            },
+            complete : function(){
+                
+            }
+        })
+        
+    })
+
+
+
+
+
+</script>
+{% endif %}
+{% endblock javascripts %}

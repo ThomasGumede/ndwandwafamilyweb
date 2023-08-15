@@ -19,6 +19,7 @@ urlpatterns = [
     path("login", LoginView.as_view(template_name="accounts/login.html", form_class=UserLoginForm, redirect_authenticated_user=True), name="login"),
     path('logout', LogoutView.as_view(next_page="accounts:login"), name='logout'),
     path('signup', AccountCreateView.as_view(), name='signup'),
+    path("address_search", AddressListView.as_view(), name="address_search"),
     
     path("updateaddress/<id>", UpdateAddressView.as_view(), name="updateaddress"),
     path("updatequlification/<int:pk>/<uuid:id>", QualificationUpdateView.as_view(), name="updatequlification"),

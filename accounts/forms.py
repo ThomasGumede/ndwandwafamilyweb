@@ -80,6 +80,7 @@ class GeneralEditForm(forms.ModelForm):
         fields = ["username", "email", "tel", "id_number"]
 
 class AddressForm(forms.ModelForm):
+    user_address = forms.UUIDField(required=False)
     class Meta:
         model = Address
         fields = ["address_one", "address_two", "city", "country", "state", "zipcode"]
@@ -90,10 +91,18 @@ class NextOfKinForm(forms.ModelForm):
         model = NextOfKin
         fields = ['full_name', 'relationship', 'tel']
 
+        # widgets = {
+        #     'relationship': forms.DateTimeInput(attrs={"class": "border-0 px-3 py-3 {% if form.relationship.errors %} border-2 border-red-500{% endif %} placeholder-blueGray-300 text-gray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"}),
+        #     }
+
 class QualificationForm(forms.ModelForm):
     class Meta:
         model = Qualification
         fields = ['institution', 'name', 'qualification_type', 'year']
+
+        # widgets = {
+        #     'qualification_type': forms.DateTimeInput(attrs={"class": "border-0 px-3 py-3 {% if form.qualification_type.errors %} border-2 border-red-500{% endif %} placeholder-blueGray-300 text-gray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"}),
+        #     }
 
 
 

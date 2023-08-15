@@ -1,3 +1,4 @@
+import datetime
 import uuid
 from django.urls import reverse
 from utils.file_upload_helper import handle_event_file_upload, handle_post_file_upload
@@ -9,8 +10,14 @@ from django.dispatch import receiver
 from django.db.models.signals import pre_delete
 from django.utils.translation import gettext as _
 from taggit.managers import TaggableManager
+from taggit.models import  GenericUUIDTaggedItemBase, TaggedItemBase
 from django.contrib.auth import get_user_model
 from django.template.defaultfilters import slugify
+from django.utils import timezone
+class UUIDTaggedItem(GenericUUIDTaggedItemBase, TaggedItemBase):
+    class Meta:
+        verbose_name = _("Tag")
+        verbose_name_plural = _("Tags")
 
 class Event(models.Model):
     id = models.UUIDField(default=uuid.uuid4, primary_key=True, unique=True, editable=False, db_index=True)
@@ -18,14 +25,13 @@ class Event(models.Model):
     title = models.CharField(help_text=_("Enter title for your event"), max_length=150)
     slug = models.SlugField(max_length=250, blank=True, unique=True)
     author = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, default=None, related_name="events")
-    category = models.ForeignKey(Category, on_delete=models.PROTECT, related_name="events")
     content = models.TextField()
-    is_ticket_sold = models.BooleanField(_("Tickets will be sold?"), default=False)
-    ticket_price = models.DecimalField(help_text=_("Enter ticket price"), max_digits=1000, decimal_places=2, default=0.00)
+    ticket_price = models.DecimalField(help_text=_("Enter ticket price, leave 0.00 if no tickets sales"), max_digits=1000, decimal_places=2, default=0.00)
     event_address = models.ForeignKey(Address, on_delete=models.SET_NULL, related_name="events", blank=True, null=True)
     is_approved = models.BooleanField(default=False)
-    event_date = models.DateTimeField(default=in_fourteen_days)
-    tags = TaggableManager(blank=True)
+    event_startdate = models.DateTimeField(default=timezone.now)
+    event_enddate = models.DateTimeField(default=in_fourteen_days)
+    tags = TaggableManager(blank=True, through=UUIDTaggedItem)
     created = models.DateTimeField(auto_now_add=True)
 
 
@@ -51,7 +57,36 @@ class Event(models.Model):
     
     def get_absolute_url(self):
         return reverse("event:event_details", kwargs={"slug": self.slug})
+    
+    def clean(self):
+        
 
+        valid = True
+        event_startdate = self.event_startdate
+        event_enddate = self.event_enddate
+        self.errors = {}
+        if str(event_startdate) < str(datetime.date.today()):
+            self.errors['date'] = 'invalid date'
+            valid = False
+        elif str(event_enddate) == str(event_startdate):
+            self.errors['date'] = 'invalid date'
+            valid = False
+        elif str(event_enddate) < str(event_startdate):
+            self.errors['date'] = 'invalid date'
+            # 'End date should be greater than start date.'
+            valid = False
+        elif str(event_enddate) == str(datetime.date.today()):
+            self.errors['date'] = 'invalid date'
+            valid = False
+        if self.title == '':
+            self.errors['title'] = 'title is required'
+            valid = False
+        if self.content == '':
+            self.errors['content'] = 'content is required'
+            valid = False
+        
+        return valid
+    
 class Post(models.Model):
     id = models.UUIDField(default=uuid.uuid4, primary_key=True, unique=True, editable=False, db_index=True)
     image = models.ImageField(help_text=_("Upload news image."), upload_to=handle_post_file_upload, blank=True, null=True)
@@ -60,7 +95,7 @@ class Post(models.Model):
     author = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, default=None, related_name="posts")
     category = models.ForeignKey(Category, on_delete=models.PROTECT, related_name="posts")
     content = models.TextField()
-    tags = TaggableManager(blank=True)
+    tags = TaggableManager(blank=True, through=UUIDTaggedItem)
     created = models.DateTimeField(auto_now_add=True)
 
     class Meta:

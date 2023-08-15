@@ -26,7 +26,7 @@
                                 <p>{{campaign.category.label}}</p>
                             </div>
                             <h1 class="text-3xl md:text-5xl text-black font-bold ">
-                                {{campaign.title}} {% if campaign.creator == request.user %} <a href="{% url 'campaign:campaign_update' campaign_id=campaign.id %}" class="text-custom-primary p-1 border border-custom-primary text-center text-base">Edit</a> {% endif %}
+                                {{campaign.title}} {% if campaign.creator == request.user %} <a href="{% url 'campaign:campaign_update' campaign_id=campaign.id %}" class="text-custom-primary p-1 border border-custom-primary text-center text-base">Edit</a> <span id="delete_event"  class="text-red-500 p-1 border border-custom-primary text-center text-base cursor-pointer">Delete</span>{% endif %}
                             </h1>
                             <div class="flex items-center space-x-5">
                                 <div class="w-16 h-16 rounded-full bg-custom-primary"></div>
@@ -96,4 +96,153 @@
     </div>
 </section>
 
+<div id="modal" class="w-full hidden h-screen z-[700] fixed top-0 left-0 bg-[#00000090]">
+    <div data-href="{% url 'campaign:delete_campaign' campaign_uuid=campaign.id %}" id="inner_model" class="w-80 md:w-96 h-72 grid items-center justify-center absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[600] bg-white p-4 rounded-lg">
+        <div id="inner_model_child" class="space-y-3 text-center font-sans">
+            <h6 class="text-black text-xl md:text-2xl font-bold">Are you sure?</h6>
+            
+            <i class="fa-solid fa-trash fa-shake text-2xl md:text-5xl"></i>
+            <p class="text-gray-500 text-sm md:text-base font-normal">
+                Are you sure you want to delete this campaign? ({{campaign.title}})
+            </p>
+            <div class="flex flex-wrap gap-4 justify-around">
+                <div class="text-center inline-block h-12 bg-custom-primary w-[150px] rounded-md cursor-pointer">
+                    <button id="delete_event_ok" 
+                        class="text-white w-full h-full cursor-pointer text-sm font-semibold">submit</button>
+                </div>
+                <div
+                    class="text-center inline-block h-12 border-custom-primary border-2 bg-white w-[150px] rounded-md cursor-pointer">
+                    <button onclick="close_modal()" id="cancel" 
+                        class="text-custom-primary w-full h-full cursor-pointer text-sm font-semibold">cancel</button>
+                </div>
+            </div>
+
+        </div>
+        <div id="cancel_modal" onclick="close_modal()" class="absolute right-4 top-4 w-8 h-8 flex items-center justify-center">
+            <p class="text-gray-600 text-base font-bold">X</p>
+        </div>
+    </div>
+</div>
+
 {% endblock content %}
+
+{% block javascripts %}
+{% if request.user.is_authenticated %}
+<script>
+
+
+    const modal = document.getElementById("modal")
+    const delete_event_ok = document.getElementById("delete_event_ok")
+    const cancel = document.getElementById("cancel")
+    const delete_event = document.getElementById("delete_event")
+
+    delete_event.addEventListener("click", (e) => {
+        if (modal.classList.contains("hidden")) {
+            modal.classList.remove("hidden")
+            modal.classList.add("block")
+        }
+    })
+    
+    function close_modal(){
+        if (modal.classList.contains("block")) {
+            modal.classList.remove("block")
+            modal.classList.add("hidden")
+        }
+    }
+
+    $("#delete_event_ok").on("click", (e) => {
+        e.preventDefault()
+        $.ajax({
+            type: "POST",
+            beforeSend: function(xhr, settings){
+                xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
+                $("#inner_model").empty()
+                $("#inner_model").html(
+                    `<div id="inner_model_child_2" class="space-y-3 text-center font-sans">
+                    <h6 class="text-black text-2xl font-bold">deleting...</h6>
+                    <i class="fa-solid fa-spinner fa-spin text-8xl text-custom-primary"></i>
+                </div>
+                `
+                )
+            },
+            url: $("#inner_model").attr("data-href"),
+            data: {
+
+            },
+            contentType: 'application/json; charset=utf-8',
+            cache: false,
+            success: function (data) {
+                $("#inner_model").empty();
+                if (data.success) {
+                    
+                    $("#inner_model").html(
+                    `<div id="inner_model_child" class="space-y-3 text-center font-sans">
+                        <h6 class="text-black text-2xl font-bold">Deleted!!</h6>
+            
+                        <i class="fa-solid fa-check fa-bounce text-red-500 text-5xl"></i>
+                        <p class="text-gray-500 text-base font-normal">
+                            ${data.message}
+                        </p>
+                        <p class="text-gray-500 text-base font-normal">
+                            redirect in 5 seconds
+                        </p>
+                    </div>
+                    =
+                    `
+                );
+                window.setTimeout(() => {
+                    window.location.href = data.url
+                }, 5000)
+                } else {
+                    $("#inner_model").html(
+                        `<div id="inner_model_child" class="space-y-3 text-center font-sans">
+                            <h6 class="text-black text-2xl font-bold">Delete failed!!</h6>
+                
+                            <i class="fa-solid fa-trash fa-shake text-red-500 text-5xl"></i>
+                            <p class="text-gray-500 text-base font-normal">
+                                ${data.message}
+                            </p>
+                        </div>
+                        <div onclick="close_modal()" class="absolute right-4 top-4 w-8 h-8 flex items-center justify-center">
+                            <p class="text-gray-600 text-base font-bold">X</p>
+                        </div>
+                    `
+                )
+                }
+                },
+            error: function (error) {
+                $("#inner_model").empty();
+                $("#inner_model").html(
+                    `<div id="inner_model_child" class="space-y-3 text-center font-sans">
+                        <h6 class="text-black text-2xl font-bold">Error on our side</h6>
+            
+                        <i class="fa-solid fa-trash fa-shake text-red-500 text-5xl"></i>
+                        <p class="text-gray-500 text-base font-normal">
+                            ${error.statusText}
+                        </p>
+                        <p class="text-gray-500 text-base font-normal">
+                            Okay, we did this. Will fix it!
+                        </p>
+                    </div>
+                    
+                    `
+                );
+                window.setTimeout(() => {
+                    window.location.href = data.url
+                }, 10000)
+            },
+            complete : function(){
+                
+            }
+        })
+        
+    })
+
+
+
+
+
+</script>
+{% endif %}
+{% endblock javascripts %}

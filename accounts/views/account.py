@@ -12,10 +12,52 @@ from django.contrib.auth import update_session_auth_hash, get_user_model
 
 User = get_user_model()
 
-class AccountsView(LoginRequiredMixin, ListView):
-    model = CustomUser
+class AccountsView(LoginRequiredMixin, View):
+    
     context_object_name = "users"
     template_name = "accounts.html"
+
+    def get(self, request, *args, **kwargs):
+        query = request.GET.get("q")
+        query_by = request.GET.get("search_by")
+        queryset = User.objects
+        if query != None:
+            match query_by:
+                case "first_name":
+                    queryset = User.objects.filter(first_name__icontains = query)
+                case "last_name":
+                    queryset = User.objects.filter(last_name__icontains = query)
+                case "username":
+                    queryset = User.objects.filter(username__icontains = query)
+                case "occupation":
+                    queryset = User.objects.filter(occupation__icontains = query)
+                case "professional_affiliations":
+                    queryset = User.objects.filter(professional_affiliations__icontains = query)
+                case "address":
+                    queryset = User.objects.filter(address__address_one__icontains = query)
+                case "city":
+                    queryset = User.objects.filter(address__city__icontains = query)
+                case _:
+                    queryset = User.objects.filter(first_name__icontains = query)
+
+            # if query_by == "first_name":
+            #     queryset = User.objects.filter(first_name__icontains = query)
+            # elif query_by == "last_name":
+            #     queryset = User.objects.filter(last_name__icontains = query)
+            # elif query_by == "username":
+            #     queryset = User.objects.filter(username__icontains = query)
+            # elif query_by == "occupation":
+            #     queryset = User.objects.filter(occupation__icontains = query)
+            # elif query_by == "professional_affiliations":
+            #     queryset = User.objects.filter(professional_affiliations__icontains = query)
+            # elif query_by == "address":
+            #     queryset = User.objects.filter(address__address_one__icontains = query)
+            # elif query_by == "city":
+            #     queryset = User.objects.filter(address__city__icontains = query)
+            # else:
+            #     queryset = User.objects.filter(first_name__icontains = query)
+        
+        return render(request, self.template_name, {"users": queryset.only("first_name", "last_name", "username","occupation", "address__state", "photo")})
 
 class AccountDetailView(LoginRequiredMixin, DetailView):
     queryset = CustomUser.objects.select_related("address").prefetch_related("qualifications", "next_of_kins")
@@ -57,7 +99,7 @@ class AccountCreateView(View):
 class GeneralView(LoginRequiredMixin, View):
     model = None
     form_class = GeneralEditForm
-    template_name = "accounts/manage/general.html"
+    template_name = "accounts/manage/user/general.html"
 
     def get_user(self, username, pk):
         user = get_object_or_404(User, username=username, pk=pk)
@@ -79,7 +121,10 @@ class GeneralView(LoginRequiredMixin, View):
             cd = form.cleaned_data
             self.model.username = cd["username"]
             self.model.email = cd["email"]
-            self.model.save(update_fields=["username", "email"])
+            self.model.tel = cd["tel"]
+            if self.model.id_number != cd["id_number"]:
+                return HttpResponseForbidden("You not allowed to update ID number, contact administrator")
+            self.model.save(update_fields=["username", "email", "tel"])
             messages.success(request, "Username or email updated successfully")
             return redirect("accounts:general_edit", username=self.model.username, pk=self.model.pk)
         else:
@@ -111,6 +156,7 @@ class AccountUpdateView(LoginRequiredMixin, View):
         if form.is_valid():
             cd = form.cleaned_data
             self.model.photo = cd["photo"]
+            print(cd["photo"])
             self.model.biography = cd["biography"]
             self.model.first_name = cd["first_name"]
             self.model.last_name = cd["last_name"]

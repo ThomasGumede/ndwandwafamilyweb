@@ -34,9 +34,9 @@
                                         htmlfor="grid-password">
                                         full name & surname*
                                     </label>
-                                    <input value="{{form.full_name.value}}" id="id_full_name" name="full_name" required maxlength="300" type="text"
+                                    <input  id="id_full_name" name="full_name" required maxlength="300" type="text"
                                         class="border-0 px-3 py-3 {% if form.full_name.errors %} border-2 border-red-500{% endif %} placeholder-blueGray-300 text-gray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                                        value="{{form.full_name.value}}">
+                                        >
                                     <span
                                         class="text-[11px] text-custom-tertiary block font-normal lowercase">{{form.full_name.help_text}}</span>
                                     {% if form.full_name.errors %}
@@ -52,7 +52,7 @@
                                         htmlfor="grid-password">
                                         Phone*
                                     </label>
-                                    <input value="{{form.tel.value}}" id="id_tel" name="tel" maxlength="300" type="tel"
+                                    <input id="id_tel" name="tel" maxlength="300" type="tel"
                                         class="border-0 px-3 {% if form.tel.errors %} border-2 border-red-500{% endif %} py-3 placeholder-blueGray-300 text-custom-tertiary -600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150">
                                     <span
                                         class="text-[11px] text-custom-tertiary block font-normal lowercase">{{form.tel.help_text}}</span>
@@ -69,24 +69,7 @@
                                         htmlfor="grid-password">
                                         relationship*
                                     </label>
-                                    <select name="relationship" value="{{form.relationship.value}}" id="id_relationship" class="border-0 px-3 {% if form.tel.errors %} border-2 border-red-500{% endif %} py-3 placeholder-blueGray-300 text-custom-tertiary -600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150">
-                                        <option value="OTHER" selected="">Other</option>
-                                      
-                                        <option value="WIFE">Wife</option>
-                                      
-                                        <option value="HUSBAND">Husband</option>
-                                      
-                                        <option value="CHILD">Child</option>
-                                      
-                                        <option value="MOTHER">Mother</option>
-                                      
-                                        <option value="FATHER">Father</option>
-                                      
-                                        <option value="GRANDMOTHER">Grandmother</option>
-                                      
-                                        <option value="GRANDFATHER">Grandfather</option>
-                                      
-                                      </select>
+                                    {{form.relationship}}
                                     <span
                                         class="text-[11px] text-custom-tertiary block font-normal lowercase">{{form.relationship.help_text}}</span>
                                     {% if form.relationship.errors %}

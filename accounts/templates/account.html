@@ -91,6 +91,12 @@
                     <p data-category="campaigns"
                         class="text-gray-700 user_nav_item hover:text-custom-primary hover:bg-white duration-500 cursor-pointer p-2 bg-gray-200 rounded-lg text-center ">
                         Campaigns</p>
+                    <p data-category="events"
+                        class="text-gray-700 user_nav_item hover:text-custom-primary hover:bg-white duration-500 cursor-pointer p-2 bg-gray-200 rounded-lg text-center ">
+                        Events</p>
+                    <p data-category="post"
+                        class="text-gray-700 user_nav_item hover:text-custom-primary hover:bg-white duration-500 cursor-pointer p-2 bg-gray-200 rounded-lg text-center ">
+                        Posts</p>
                 </div>
                 <div class="">
                     <div id="biography" class="block user_nav_list">
@@ -217,8 +223,9 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody class="bg-white">
-                                                    <tr class="text-gray-700">
+                                                    
                                                         {% for qualification in user.qualifications.all %}
+                                                        <tr class="text-gray-700"></tr>
                                                             <td class="px-4 py-3 border">
                                                                 <p class="text-xs text-gray-500">{{qualification.institution}}</p>
                                                             </td>
@@ -244,8 +251,9 @@
                                                                 </div>
                                                             </td>
                                                             {% endif %}
+                                                        </tr>
                                                         {% endfor %}
-                                                    </tr>
+                                                    
                                                 </tbody>
                                             </table>
                                         </div>
@@ -326,8 +334,9 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody class="bg-white">
-                                                    <tr class="text-gray-700">
+                                                    
                                                         {% for relative in user.next_of_kins.all %}
+                                                        <tr class="text-gray-700"></tr>
                                                             <td class="px-4 py-3 border">
                                                                 <p class="text-xs text-gray-500">{{relative.full_name}}</p>
                                                             </td>
@@ -350,8 +359,9 @@
                                                                 </div>
                                                             </td>
                                                             {% endif %}
+                                                        </tr>
                                                         {% endfor %}
-                                                    </tr>
+                                                    
                                                 </tbody>
                                             </table>
                                         </div>
@@ -470,6 +480,226 @@
                         </div>
                     </div>
                     <div id="campaigns" class="hidden user_nav_list">
+                        <div class="space-y-5 grid w-full">
+                            <h5 class="text-black text-2xl font-bold ">Campaigns</h5>
+                            {% if user.campaigns.count == 0 %}
+                                {% if user == request.user %}
+                                    <div class="self-center justify-self-center">
+                                        <div class="text-center bg-custom-primary p-2 rounded-md border w-fit text-base">
+                                            <a href="{% url 'campaign:create_campaign' %}" class="text-white"> Add compaign </a>
+                                        </div>
+                                    </div>
+                                {% else %}
+                                    <div class="flex items-start flex-col md:flex-row gap-9">
+                                        <div class="space-y-4 w-[calc(100%_-_280px)]">
+        
+                                            <p class="text-sm text-custom-tertiary font-normal">
+                                                {{user.first_name}} currently does not have campaigns
+                                            </p>
+                                        </div>
+                                        <div class="p-5 w-72 bg-custom-primary rounded-lg">
+                                            <div class="space-y-4 text-white">
+                                                <h6 class="font-bold text-base text-center">Contact</h6>
+                                                <div class="text-start space-y-2 text-sm font-normal">
+                                                    <p>Email: {{user.email}}</p>
+                                                    <p>Phone: {{user.tel}}</p>
+                                                    <p>Address: {{user.address.address_one}}, {{user.address.address_two}},
+                                                        {{user.address.city}}</p>
+                                                </div>
+                                                {% if request.user == user %}
+                                                <div>
+                                                    <a id="navbar-button" href="{% url 'campaign:create_campaign' %}"
+                                                        class=" border-white border-2 hover:bg-white hover:text-custom-primary text-white duration-500 h-10 w-32 grid items-center justify-center text-center font-sans font-normal text-xs md:text-sm ">Update
+                                                        contact</a>
+                                                </div>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endif %}
+                            {% else %}
+                                <div class="flex items-start flex-col md:flex-row gap-9">
+                                    <div class="w-[calc(100%_-_280px)]">
+                                        <div class="w-full overflow-x-auto">
+                                            <table class="w-full">
+                                                <thead>
+                                                    <tr class="text-sm font-semibold tracking-wide text-left text-gray-900 bg-gray-100 uppercase border-b border-gray-600">
+                                                        <th class="px-4 py-3">Campaign</th>
+                                                        <th class="px-4 py-3">Category</th>
+                                                        <th class="px-4 py-3">Target R</th>
+                                                        <th class="px-4 py-3">Current R</th>
+                                                        {% if request.user == user %}
+                                                        <th class="px-4 py-3">Actions</th>
+                                                        {% endif %}
+                                                    </tr>
+                                                </thead>
+                                                <tbody class="bg-white">
+                                                    {% for campaign in user.campaigns.all %}
+                                                        <tr id="campaign.id" class="text-gray-700">
+                                                            <td class="px-4 py-3 border">
+                                                                <p class="text-xs text-gray-500">{{campaign.title}}</p>
+                                                            </td>
+                                                            <td class="px-4 py-3 border">
+                                                                <p class="text-xs text-gray-500">{{campaign.category.label}}</p>
+                                                            </td>
+                                                            <td class="px-4 py-3 border">
+                                                                <p class="text-xs text-gray-500">R{{campaign.target}}</p>
+                                                            </td>
+                                                            <td class="px-4 py-3 border">
+                                                                <p class="text-xs text-gray-500">R{{campaign.current_amount}}</p>
+                                                            </td>
+                                                            {% if request.user == user %}
+                                                            <td class="px-4 py-3 border">
+                                                                <div>
+                                                                    <div class="text-xs text-white bg-custom-primary inline-block w-fit text-center py-1 px-2">
+                                                                        <a href="w-full h-full">Edit</a>
+                                                                    </div>
+                                                                    <div data-href="{% url 'campaign:delete_campaign' campaign.id %}" class="text-xs delete-btn text-white bg-red-500 inline-block w-fit text-center py-1 px-2">
+                                                                        <p  data-campaign_uuid="{{campaign.id}}">Delete</p>
+                                                                    </div>
+                                                                    
+                                                                </div>
+                                                            </td>
+                                                            {% endif %}
+                                                        </tr>
+                                                    {% endfor %}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="p-5 w-72 bg-custom-primary rounded-lg">
+                                        <div class="space-y-4 text-white">
+                                            <h6 class="font-bold text-base text-center">Contact</h6>
+                                            <div class="text-start space-y-2 text-sm font-normal">
+                                                <p>Email: {{user.email}}</p>
+                                                <p>Phone: {{user.tel}}</p>
+                                                <p>Address: {{user.address.address_one}}, {{user.address.address_two}},
+                                                    {{user.address.city}}</p>
+                                            </div>
+                                            {% if request.user == user %}
+                                            <div>
+                                                <a id="navbar-button" href="{% url 'campaign:create_campaign' %}"
+                                                    class=" border-white border-2 hover:bg-white hover:text-custom-primary text-white duration-500 h-10 w-32 grid items-center justify-center text-center font-sans font-normal text-xs md:text-sm ">Update
+                                                    contact</a>
+                                            </div>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div id="events" class="hidden user_nav_list">
+                        <div class="space-y-5 grid w-full">
+                            <h5 class="text-black text-2xl font-bold ">Events</h5>
+                            {% if user.events.count == 0 %}
+                                {% if user == request.user %}
+                                    <div class="self-center justify-self-center">
+                                        <div class="text-center bg-custom-primary p-2 rounded-md border w-fit text-base">
+                                            <a href="{% url 'campaign:create_campaign' %}" class="text-white"> Add compaign </a>
+                                        </div>
+                                    </div>
+                                {% else %}
+                                    <div class="flex items-start flex-col md:flex-row gap-9">
+                                        <div class="space-y-4 w-[calc(100%_-_280px)]">
+        
+                                            <p class="text-sm text-custom-tertiary font-normal">
+                                                {{user.first_name}} currently does not have events
+                                            </p>
+                                        </div>
+                                        <div class="p-5 w-72 bg-custom-primary rounded-lg">
+                                            <div class="space-y-4 text-white">
+                                                <h6 class="font-bold text-base text-center">Contact</h6>
+                                                <div class="text-start space-y-2 text-sm font-normal">
+                                                    <p>Email: {{user.email}}</p>
+                                                    <p>Phone: {{user.tel}}</p>
+                                                    <p>Address: {{user.address.address_one}}, {{user.address.address_two}},
+                                                        {{user.address.city}}</p>
+                                                </div>
+                                                {% if request.user == user %}
+                                                <div>
+                                                    <a id="navbar-button" href="{% url 'campaign:create_campaign' %}"
+                                                        class=" border-white border-2 hover:bg-white hover:text-custom-primary text-white duration-500 h-10 w-32 grid items-center justify-center text-center font-sans font-normal text-xs md:text-sm ">Update
+                                                        contact</a>
+                                                </div>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endif %}
+                            {% else %}
+                                <div class="flex items-start flex-col md:flex-row gap-9">
+                                    <div class="w-[calc(100%_-_280px)]">
+                                        <div class="w-full overflow-x-auto">
+                                            <table class="w-full">
+                                                <thead>
+                                                    <tr class="text-sm font-semibold tracking-wide text-left text-gray-900 bg-gray-100 uppercase border-b border-gray-600">
+                                                        <th class="px-4 py-3">Campaign</th>
+                                                        <th class="px-4 py-3">Category</th>
+                                                        <th class="px-4 py-3">Target R</th>
+                                                        <th class="px-4 py-3">Current R</th>
+                                                        {% if request.user == user %}
+                                                        <th class="px-4 py-3">Actions</th>
+                                                        {% endif %}
+                                                    </tr>
+                                                </thead>
+                                                <tbody class="bg-white">
+                                                    {% for campaign in user.events.all %}
+                                                        <tr id="campaign.id" class="text-gray-700">
+                                                            <td class="px-4 py-3 border">
+                                                                <p class="text-xs text-gray-500">{{campaign.title}}</p>
+                                                            </td>
+                                                            <td class="px-4 py-3 border">
+                                                                <p class="text-xs text-gray-500">{{campaign.category.label}}</p>
+                                                            </td>
+                                                            <td class="px-4 py-3 border">
+                                                                <p class="text-xs text-gray-500">R{{campaign.target}}</p>
+                                                            </td>
+                                                            <td class="px-4 py-3 border">
+                                                                <p class="text-xs text-gray-500">R{{campaign.current_amount}}</p>
+                                                            </td>
+                                                            {% if request.user == user %}
+                                                            <td class="px-4 py-3 border">
+                                                                <div>
+                                                                    <div class="text-xs text-white bg-custom-primary inline-block w-fit text-center py-1 px-2">
+                                                                        <a href="w-full h-full">Edit</a>
+                                                                    </div>
+                                                                    <div data-href="{% url 'campaign:delete_campaign' campaign.id %}" class="text-xs delete-btn text-white bg-red-500 inline-block w-fit text-center py-1 px-2">
+                                                                        <p  data-campaign_uuid="{{campaign.id}}">Delete</p>
+                                                                    </div>
+                                                                    
+                                                                </div>
+                                                            </td>
+                                                            {% endif %}
+                                                        </tr>
+                                                    {% endfor %}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="p-5 w-72 bg-custom-primary rounded-lg">
+                                        <div class="space-y-4 text-white">
+                                            <h6 class="font-bold text-base text-center">Contact</h6>
+                                            <div class="text-start space-y-2 text-sm font-normal">
+                                                <p>Email: {{user.email}}</p>
+                                                <p>Phone: {{user.tel}}</p>
+                                                <p>Address: {{user.address.address_one}}, {{user.address.address_two}},
+                                                    {{user.address.city}}</p>
+                                            </div>
+                                            {% if request.user == user %}
+                                            <div>
+                                                <a id="navbar-button" href="{% url 'campaign:create_campaign' %}"
+                                                    class=" border-white border-2 hover:bg-white hover:text-custom-primary text-white duration-500 h-10 w-32 grid items-center justify-center text-center font-sans font-normal text-xs md:text-sm ">Update
+                                                    contact</a>
+                                            </div>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div id="posts" class="hidden user_nav_list">
                         <div class="space-y-5 grid w-full">
                             <h5 class="text-black text-2xl font-bold ">Campaigns</h5>
                             {% if user.campaigns.count == 0 %}

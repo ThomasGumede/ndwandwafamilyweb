@@ -17,151 +17,120 @@
 </head>
 
 <body>
-    <header class="absolute top-0 z-50 left-0 w-full bg-custom-secondary">
-        <div class="container font-sans bg-custom-secondary">
-            <div class="relative w-full">
-                <nav class="flex flex-col mb-5 md:flex-row items-center min-w-full justify-between">
-                    <div class="flex items-center space-x-9 ">
-                        <div class="logo flex items-center  space-x-2">
-                            <div class="w-11 h-11">
-                                <img src="{% static 'imgs/logo.png' %}" alt="Ndwandwa LOGO" class="object-contain" />
-                            </div>
-                            <div class="text-white">
-                                <h3 class="font-bold font-sans text-xl uppercase">Ndwandwa</h3>
-                                <p class="font-sans text-[11px]">family foundation</p>
-                            </div>
-                        </div>
-                        <div class="w-[1px] h-16 bg-custom-tertiary">
-
-                        </div>
-                        <div class="hidden md:flex items-center justify-center w-fit h-16 ">
-                            <form method="GET">
-                                <div class="relative text-gray-600 focus-within:text-gray-400">
-                                    <span class="absolute inset-y-0 left-0 flex items-center pl-2">
-                                        <button type="submit" class="p-1 focus:outline-none focus:shadow-outline">
-                                            <svg fill="none" stroke="currentColor" stroke-linecap="round"
-                                                stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24"
-                                                class="w-6 h-6">
-                                                <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-                                            </svg>
-                                        </button>
-                                    </span>
-                                    <input type="search" name="q"
-                                        class="py-2 text-sm text-custom-tertiary bg-white rounded-md pl-10 focus:outline-none focus:bg-white focus:text-gray-900"
-                                        placeholder="Search..." autocomplete="off">
-                                </div>
-                            </form>
-                        </div>
-
-                    </div>
-
-                    <div class="hidden text-white  md:flex items-center space-x-16">
-                        <div class="flex items-start space-x-3 justify-center">
-                            <div class="mx-auto my-auto text-center">
-                                <i class="fa fa-phone text-3xl" aria-hidden="true"></i>
-                            </div>
-                            <div>
-                                <p class="font-sans text-sm font-regular">CALL US</p>
-                                <a href="" class="text-xs phone_number block font-sans font-bold">+27765591525</a>
-                                <a href="" class="text-xs phone_number_2 block font-sans font-bold">+27812528412</a>
-                            </div>
-                        </div>
-
-                        <div class="flex items-start space-x-3">
-                            <div class="mx-auto my-auto text-center">
-                                <i class="fa fa-envelope text-3xl" aria-hidden="true"></i>
-                            </div>
-                            <div>
-                                <p class="font-sans text-sm font-regular">EMAIL US</p>
-                                <a hreflang="en" class="contact_email block font-bold font-sans text-xs" href=""
-                                    id="">info@ndwandwafam.co.za</a>
-                                <a hreflang="en" class="contact_email_2 block font-bold font-sans text-xs" href=""
-                                    id="">ndwandwafam@gmail.com</a>
-                            </div>
-                        </div>
-                    </div>
-                </nav>
-                <div id="navbar" class="px-3 flex items-center justify-between w-full h-16 navbar_not_scroll bg-white">
-                    <div id="menu" class="md:hidden text-custom-primary">
+    <header class="w-full fixed z-[600] shadow-xl top-0 bg-white left-0">
+        <div class="">
+            <nav class="flex items-center bg-white p-4 justify-between w-full">
+                <div class="flex items-center">
+                    <div id="menu" class="md:hidden text-black pr-7">
                         <i class="fa-solid fa-bars text-4xl" aria-hidden="true"></i>
                     </div>
-                    <div id="navbar_items"
-                        class="absolute md:relative duration-500 p-8 md:mt-0 md:p-0 dont-show-mobile-navbar md:show-mobile-navbar z-50 md:block md:left-auto w-full md:w-fit top-full md:bg-transparent md:top-auto bg-white">
+                    <div class="logo flex items-center pr-7 space-x-2">
+                        <div class="w-10 h-10">
+                            <img src="{% static 'imgs/logo (2).png' %}" alt="Ndwandwa LOGO" class="object-contain" />
+                        </div>
+                        <div class="text-black">
+                            <h3 class="font-bold font-sans text-base text-custom-primary uppercase">Ndwandwa</h3>
+                            <p class="font-sans text-[11px]">family foundation</p>
+                        </div>
+                    </div>
+                    <div id="navbar_items" class="">
                         <ul class="space-y-5 md:space-y-0 md:flex items-center md:space-x-10">
                             <li><a id="" href="{% url 'home' %}"
-                                    class="font-normal navbar_item font-sans text-base text-custom-tertiary hover:text-custom-primary duration-500 uppercase md:text-lg">Home</a>
+                                    class="font-normal navbar_item font-sans text-base text-gray-500 hover:text-custom-primary duration-500">Home</a>
                             </li>
-                            <li><a id="" href=""
-                                    class="font-normal navbar_item font-sans text-base text-custom-tertiary hover:text-custom-primary duration-500 md:text-lg uppercase">ABOUT</a>
-                            </li>
+
                             <li><a id="" href="{% url 'campaign:campaign_list' %}"
-                                    class="font-normal navbar_item font-sans text-base text-custom-tertiary hover:text-custom-primary duration-500 md:text-lg uppercase">CAMPAIGNS</a>
+                                    class="font-normal navbar_item font-sans text-base text-gray-500 hover:text-custom-primary duration-500">Campaigns</a>
                             </li>
                             <li><a id="" href="{% url 'event:event_list' %}"
-                                    class="font-normal navbar_item font-sans text-base text-custom-tertiary hover:text-custom-primary duration-500 md:text-lg uppercase">EVENTS</a>
+                                    class="font-normal navbar_item font-sans text-base text-gray-500 hover:text-custom-primary duration-500">Events</a>
                             </li>
                             <li><a id="" href=""
-                                    class="font-normal navbar_item font-sans text-base text-custom-tertiary hover:text-custom-primary duration-500 md:text-lg uppercase">NEWS</a>
+                                    class="font-normal navbar_item font-sans text-base text-gray-500 hover:text-custom-primary duration-500">News</a>
                             </li>
                             <li><a id="" href=""
-                                    class="font-normal navbar_item font-sans text-base text-custom-tertiary hover:text-custom-primary duration-500 md:text-lg uppercase">Contact</a>
+                                    class="font-normal navbar_item font-sans text-base text-gray-500 hover:text-custom-primary duration-500">Accounts</a>
                             </li>
                         </ul>
                     </div>
-                    <div class="flex items-center space-x-5 text-custom-tertiary font-sans">
-                        <div class="flex items-center space-x-2">
-                            <div>
-                                <i class="fa fa-user-circle text-xl" aria-hidden="true"></i>
-                            </div>
-                            {% if request.user.is_authenticated %}
-                            <div class="relative group duration-500">
-
-                                <p id="profile_button" aria-haspopup="true" aria-expanded="true"
-                                    class="text-sm cursor-pointer  text-custom-tertiary">{{request.user.username}}</p>
-                                <div id="profile_menu" role="menu" aria-orientation="vertical"
-                                    aria-labelledby="menu-button"
-                                    class="absolute hidden right-0 z-20 mt-2 duration-500 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                                    <div class="py-1">
-                                        <a href="{% url 'accounts:account_details' username=request.user.username pk=request.user.pk %}"
-                                            role="menuitem" tabindex="-1"
-                                            class="text-gray-700 block px-4 py-2 text-sm">account</a>
-                                        <a href="http://" role="menuitem" tabindex="-1"
-                                            class="text-gray-700 block px-4 py-2 text-sm">compaigns</a>
-                                        <a href="http://" role="menuitem" tabindex="-1"
-                                            class="text-gray-700 block px-4 py-2 text-sm">plegdes</a>
-                                        <a href="{% url 'accounts:logout' %}" role="menuitem" tabindex="-1"
-                                            class="text-gray-700 block px-4 py-2 text-sm">logout</a>
-                                    </div>
-                                </div>
-                            </div>
-
+                </div>
+                <div class="flex items-center space-x-5">
+                    <div class="cursor-pointer">
+                        <a href="{% url 'actions:search_results' %}">
+                            <i class="fa-solid text-custom-primary fa-search text-3xl"></i>
+                        </a>
+                        
+                    </div>
+                    <div class="w-[1px] h-10 bg-gray-500"></div>
+                    <div class="relative cursor-pointer w-fit h-fit">
+                        <div id="profile_button" class="w-11 h-11 rounded-full overflow-hidden bg-gray-400">
+                            {% if request.user.photo %}
+                            <img src="{{request.user.photo.url}}" alt="{{request.user.first_name}}" class="w-full h-full object-cover object-center"/>
                             {% else %}
-                            <div>
-                                <a href="{% url 'accounts:login' %}"
-                                    class="text-sm text-custom-tertiary hover:text-custom-primary duration-500">Login</a>
-                                / <a href="{% url 'accounts:signup' %}"
-                                    class="text-sm text-custom-tertiary hover:text-custom-primary duration-500">Register</a>
-                            </div>
+                            <img src="{% static 'imgs/home.jpg' %}" alt="{{request.user.first_name}}" class="w-full h-full object-cover object-center"/>
                             {% endif %}
-
                         </div>
-                        <div>
-                            <a id="navbar-button" href="{% url 'campaign:create_campaign' %}"
-                                class="bg-custom-primary hidden md:grid border-custom-primary hover:bg-white hover:text-custom-primary text-white duration-500 h-10 w-28 md:h-12 md:w-32  items-center justify-center text-center font-sans font-normal text-xs md:text-sm ">Add
-                                campaign</a>
+                        <div id="profile_menu" role="menu" aria-orientation="vertical" aria-labelledby="menu-button"
+                            class="absolute hidden right-0 z-20 mt-2 duration-500 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                            <div class="py-1">
+                                {% if request.user.is_authenticated %}
+                                <a href="{% url 'accounts:account_details' username=request.user.username pk=request.user.pk %}"
+                                    role="menuitem" tabindex="-1"
+                                    class="text-gray-700 block px-4 py-2 text-sm">account</a>
+                                {% endif %}
+                                <a href="{% url 'campaign:create_campaign' %}" role="menuitem" tabindex="-1"
+                                    class="text-gray-700 block px-4 py-2 text-sm">add campaign</a>
+                                <a href="{% url 'event:create_event' %}" role="menuitem" tabindex="-1"
+                                    class="text-gray-700 block px-4 py-2 text-sm">add event</a>
+                                <a href="{% url 'accounts:account_list' %}" role="menuitem" tabindex="-1"
+                                    class="text-gray-700 block px-4 py-2 text-sm">add event</a>
+                                <a href="{% url 'accounts:logout' %}" role="menuitem" tabindex="-1"
+                                    class="text-gray-700 block px-4 py-2 text-sm">logout</a>
+                            </div>
                         </div>
+                        
                     </div>
 
                 </div>
-            </div>
+            </nav>
         </div>
-
     </header>
+    
     <main class="">
         {% block content %}
 
         {% endblock content %}
     </main>
+    <div id="modal_search" class="w-full hidden h-screen z-[700] fixed top-0 left-0 bg-[#00000090]">
+        <div id="inner_model_search" class="w-80 md:w-96 h-fit bg-transparent grid items-center justify-center absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[600]  p-4 rounded-lg">
+            <form action="">
+                {% csrf_token %}
+                <div class="w-full flex items-center">
+                    <select class="py-2 text-sm text-custom-tertiary bg-white rounded-l-md pr-10 focus:outline-none focus:bg-white focus:text-gray-900">
+                        <option>Accounts</option>
+                        <option>Campaigns</option>
+                        <option>Events</option>
+                        <option>Posts</option>
+                    </select>
+                    <div class="relative overflow-hidden text-gray-600 focus-within:text-gray-400">
+                        
+                        <input type="search" name="q"
+                            class="py-2 text-sm text-custom-tertiary bg-white rounded-r-md pr-10 focus:outline-none focus:bg-white focus:text-gray-900"
+                            placeholder="Search..." autocomplete="off">
+                            <span class="absolute text-white rounded-r-md bg-custom-primary inset-y-0 right-0 flex items-center pl-2">
+                                <button type="submit" class="p-1 focus:outline-none focus:shadow-outline">
+                                    <svg fill="none" stroke="currentColor" stroke-linecap="round"
+                                        stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24"
+                                        class="w-6 h-6">
+                                        <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                                    </svg>
+                                </button>
+                            </span>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
 
 
 
@@ -217,7 +186,7 @@
             $("#alert").remove()
         })
     </script>
-    <script src="{% static 'js/script.js' %}"></script>
+    <!-- <script src="{% static 'js/script.js' %}"></script> -->
 
 
 </body>

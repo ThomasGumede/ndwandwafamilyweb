@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block content %}
-<section class="w-full mt-7 md:mt-20 overflow-hidden h-screen mb-20">
+<section class="w-full mt-7 overflow-hidden h-screen mb-20">
     <div class="relative">
 
         <img src="{% static 'imgs/home.jpg' %}" alt="ML GEO Consulting team working on foundation excavations" srcset=""
@@ -221,6 +221,134 @@ dreams
 
                 <a href="{% url 'campaign:create_campaign' %}"
                     class=" font-bold text-xs md:text-sm text-custom-primary self-center justify-self-center border-2 border-custom-primary group hover:bg-custom-primary hover:border-custom-primary duration-500 border-solid h-10 w-28 md:h-12 md:w-32 grid items-center justify-center text-center hover:text-white">Add compaign</a>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="w-full mb-20 bg-white">
+    <div>
+        <div class="space-y-6 md:space-y-9">
+            <div class="text-center space-y-3 font-sans">
+                <span class="text-custom-primary font-normal uppercase text-base md:text-lg">LATEST EEVENTS</span>
+                <h2 class="text-black text-2xl md:text-4xl font-bold">
+                    Family is ready to assist you and your 
+dreams
+                </h2>
+            </div>
+            <div class="">
+                <div class="grid items-center justify-center md:grid-cols-3 gap-5 p-5">
+                    <div class="relative md:w-96 md:h-80">
+                        <div class="bg-custom-primary z-30 text-white absolute top-4 left-4 py-2 px-4 text-center">
+                            <p class="text-xs">Technology</p>
+                        </div>
+                        <img src="{% static 'imgs/home.jpg' %}" alt="" srcset=""
+                            class="object-cover block h-full w-full">
+                        <div class="w-full h-full bg-black opacity-70 absolute top-0 left-0"></div>
+                        <div
+                            class="absolute group text-white duration-500 bg-transparent hover:bg-white bottom-4 left-1/2 -translate-x-1/2 w-[calc(100%_-_16px)] h-fit p-3">
+                            <div class="font-sans space-y-3">
+                                <span class="group-hover:text-custom-tertiary duration-500 text-sm font-normal">
+                                    <i class="fa fa-times-circle text-base" aria-hidden="true"></i>
+                                    689 days remaining
+                                </span>
+                                <h4 class="group-hover:text-black duration-500 font-bold text-2xl">
+                                    Mama luna's birthday celebration and more
+                                </h4>
+                                <div class="space-y-7 w-full">
+                                    <p class="text-sm duration-500 group-hover:text-custom-tertiary font-normal">
+                                        <span class="group-hover:text-custom-primary">R5000</span> raised of <span
+                                            class="group-hover:text-red-500">R10000</span>
+                                    </p>
+                                    <div
+                                        class="bg-black duration-500 group-hover:bg-gray-400 relative h-2 w-full rounded-2xl">
+                                        <div id="campaign_percentage_w"
+                                            class="bg-custom-primary absolute top-0 left-0 w-[50%] h-full rounded-2xl">
+                                            <span id="compaign_percentage_v"
+                                                class="bg-custom-primary absolute -right-4 bottom-full mb-2 rounded-sm py-1 px-2 text-xs font-semibold text-white">
+                                                <span
+                                                    class="bg-custom-primary absolute bottom-[-2px] left-1/2 -z-10 h-2 w-2 rotate-45 rounded-sm -translate-x-1/2"></span>
+                                                50%
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="relative md:w-96 md:h-80">
+                        <img src="{% static 'imgs/home.jpg' %}" alt="" srcset=""
+                            class="object-cover block h-full w-full">
+                        <div class="w-full h-full bg-black opacity-70 absolute top-0 left-0"></div>
+                        <div
+                            class="absolute group text-white duration-500 bg-transparent hover:bg-white bottom-4 left-1/2 -translate-x-1/2 w-[calc(100%_-_16px)] h-fit p-3">
+                            <div class="font-sans space-y-3">
+                                <span class="group-hover:text-custom-tertiary duration-500 text-sm font-normal">
+                                    <i class="fa fa-times-circle text-base" aria-hidden="true"></i>
+                                    689 days remaining
+                                </span>
+                                <h4 class="group-hover:text-black duration-500 font-bold text-2xl">
+                                    Mama luna's birthday celebration and more
+                                </h4>
+                                <div class="space-y-7 w-full">
+                                    <p class="text-sm duration-500 group-hover:text-custom-tertiary font-normal">
+                                        <span class="group-hover:text-custom-primary">R1000</span> raised of <span
+                                            class="group-hover:text-red-500">R11000</span>
+                                    </p>
+                                    <div
+                                        class="bg-black duration-500 group-hover:bg-gray-400 relative h-2 w-full rounded-2xl">
+                                        <div id="campaign_percentage_w"
+                                            class="bg-custom-primary absolute top-0 left-0 w-[9.1%] h-full rounded-2xl">
+                                            <span id="compaign_percentage_v"
+                                                class="bg-custom-primary absolute -right-4 bottom-full mb-2 rounded-sm py-1 px-2 text-xs font-semibold text-white">
+                                                <span
+                                                    class="bg-custom-primary absolute bottom-[-2px] left-1/2 -z-10 h-2 w-2 rotate-45 rounded-sm -translate-x-1/2"></span>
+                                                9.1%
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="relative md:w-96 md:h-80">
+                        <img src="{% static 'imgs/home.jpg' %}" alt="" srcset=""
+                            class="object-cover block h-full w-full">
+                        <div class="w-full h-full bg-black opacity-70 absolute top-0 left-0"></div>
+                        <div
+                            class="absolute group text-white duration-500 bg-transparent hover:bg-white bottom-4 left-1/2 -translate-x-1/2 w-[calc(100%_-_16px)] h-fit p-3">
+                            <div class="font-sans space-y-3">
+                                <span class="group-hover:text-custom-tertiary duration-500 text-sm font-normal">
+                                    <i class="fa fa-times-circle text-base" aria-hidden="true"></i>
+                                    689 days remaining
+                                </span>
+                                <h4 class="group-hover:text-black duration-500 font-bold text-2xl">
+                                    Mama luna's birthday celebration and more
+                                </h4>
+                                <div class="space-y-7 w-full">
+                                    <p class="text-sm duration-500 group-hover:text-custom-tertiary font-normal">
+                                        <span class="group-hover:text-custom-primary">R5000</span> raised of <span
+                                            class="group-hover:text-red-500">R10000</span>
+                                    </p>
+                                    <div
+                                        class="bg-black duration-500 group-hover:bg-gray-400 relative h-2 w-full rounded-2xl">
+                                        <div id="campaign_percentage_w"
+                                            class="bg-custom-primary absolute top-0 left-0 w-[50%] h-full rounded-2xl">
+                                            <span id="compaign_percentage_v"
+                                                class="bg-custom-primary absolute -right-4 bottom-full mb-2 rounded-sm py-1 px-2 text-xs font-semibold text-white">
+                                                <span
+                                                    class="bg-custom-primary absolute bottom-[-2px] left-1/2 -z-10 h-2 w-2 rotate-45 rounded-sm -translate-x-1/2"></span>
+                                                50%
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

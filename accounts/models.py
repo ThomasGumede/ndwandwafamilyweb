@@ -61,7 +61,7 @@ class CustomUser(AbstractUser):
     title = models.CharField(max_length=10, choices=Title.choices, default=Title.OTHER)
     
     photo = models.ImageField(_("Upload profile image"), upload_to="profile/", null=True, blank=True)
-    tel = models.CharField(_("Enter your cellphone number"), max_length=15, validators=[PHONE_REGEX])
+    tel = models.CharField(_("Enter your cellphone number"), max_length=15, validators=[PHONE_REGEX], unique=True)
     address = models.ForeignKey(Address, on_delete=models.SET_NULL, null=True, blank=True, related_name="users")
     id_number = models.CharField(help_text=_("Enter your 13 digits ID number"), max_length=13, blank=True, null=True)
     biography = models.TextField(blank=True)

@@ -10,6 +10,7 @@ from django.dispatch import receiver
 from django.db.models.signals import pre_delete
 from django.core.exceptions import ValidationError
 from django.core.validators import MaxValueValidator, MinValueValidator
+from taggit.models import  GenericUUIDTaggedItemBase, TaggedItemBase
 from django.utils.translation import gettext as _
 from taggit.managers import TaggableManager
 from django.contrib.auth import get_user_model
@@ -19,6 +20,13 @@ User = get_user_model()
 
 def in_fourteen_days():
     return timezone.now() + timedelta(days=14)
+
+
+
+class UUIDTaggedItem(GenericUUIDTaggedItemBase, TaggedItemBase):
+    class Meta:
+        verbose_name = _("Tag")
+        verbose_name_plural = _("Tags")
 
 class Category(models.Model):
     id = models.UUIDField(default=uuid.uuid4, primary_key=True, unique=True, editable=False, db_index=True)
@@ -46,16 +54,20 @@ class Campaign(models.Model):
     is_featured = models.BooleanField(default=False)
     creator = models.ForeignKey(User, on_delete=models.CASCADE, default=None, related_name="campaigns")
     category = models.ForeignKey(Category, on_delete=models.PROTECT)
-    tags = TaggableManager(blank=True)
+    tags = TaggableManager(blank=True, through=UUIDTaggedItem)
     
 
     def get_days(self):
         date = self.end_date - self.start_date
-        return date.days
+        print(date.seconds)
+        if date.days == 0:
+            return f"{date} hours"
+        return f"{date.days} days"
 
     def get_percentage_of_donated_fund(self):
         val = self.current_amount / self.target
-        return val * 100
+        perc = val * 100
+        return round(perc, 2)
     
 
     def __str__(self):

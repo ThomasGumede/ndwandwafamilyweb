@@ -1,0 +1,146 @@
+{% load static %}
+{% load static tailwind_tags %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {% tailwind_preload_css %}
+    {% tailwind_css %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/all.min.css' %}" />
+    <link rel="stylesheet" href="{% static 'fonts/stylesheet.css' %}">
+    <title>Document</title>
+</head>
+
+<body>
+    <header class="absolute top-0 z-50 left-0 w-full bg-custom-secondary">
+        <div class="container font-sans bg-custom-secondary">
+            <div class="relative w-full">
+                <nav class="flex flex-col mb-5 md:flex-row items-center min-w-full justify-between">
+                    <div class="flex items-center space-x-9 ">
+                        <div class="logo flex items-center  space-x-2">
+                            <div class="w-11 h-11">
+                                <img src="{% static 'imgs/logo.png' %}" alt="Ndwandwa LOGO" class="object-contain" />
+                            </div>
+                            <div class="text-white">
+                                <h3 class="font-bold font-sans text-xl uppercase">Ndwandwa</h3>
+                                <p class="font-sans text-[11px]">family foundation</p>
+                            </div>
+                        </div>
+                        <div class="w-[1px] h-16 bg-custom-tertiary">
+
+                        </div>
+                        <div class="hidden md:flex items-center justify-center w-fit h-16 ">
+                            <form action="" method="GET">
+                                
+                            </form>
+                        </div>
+
+                    </div>
+
+                    <div class="hidden text-white  md:flex items-center space-x-16">
+                        <div class="flex items-start space-x-3 justify-center">
+                            <div class="mx-auto my-auto text-center">
+                                <i class="fa fa-phone text-3xl" aria-hidden="true"></i>
+                            </div>
+                            <div>
+                                <p class="font-sans text-sm font-regular">CALL US</p>
+                                <a href="" class="text-xs phone_number block font-sans font-bold">+27765591525</a>
+                                <a href="" class="text-xs phone_number_2 block font-sans font-bold">+27812528412</a>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start space-x-3">
+                            <div class="mx-auto my-auto text-center">
+                                <i class="fa fa-envelope text-3xl" aria-hidden="true"></i>
+                            </div>
+                            <div>
+                                <p class="font-sans text-sm font-regular">EMAIL US</p>
+                                <a hreflang="en" class="contact_email block font-bold font-sans text-xs" href=""
+                                    id="">info@ndwandwafam.co.za</a>
+                                <a hreflang="en" class="contact_email_2 block font-bold font-sans text-xs" href=""
+                                    id="">ndwandwafam@gmail.com</a>
+                            </div>
+                        </div>
+                    </div>
+                </nav>
+                <div id="navbar" class="px-3 flex items-center justify-between w-full h-16 navbar_not_scroll bg-white">
+                    <div id="menu" class="md:hidden text-custom-primary">
+                        <i class="fa-solid fa-bars text-4xl" aria-hidden="true"></i>
+                    </div>
+                    <div id="navbar_items"
+                        class="absolute md:relative duration-500 p-8 md:mt-0 md:p-0 dont-show-mobile-navbar md:show-mobile-navbar z-50 md:block md:left-auto w-full md:w-fit top-full md:bg-transparent md:top-auto bg-white">
+                        <ul class="space-y-5 md:space-y-0 md:flex items-center md:space-x-10">
+                            <li><a id="" href="{% url 'home' %}"
+                                    class="font-normal navbar_item font-sans text-base text-custom-tertiary hover:text-custom-primary duration-500 uppercase md:text-lg">Home</a>
+                            </li>
+                            <li><a id="" href=""
+                                    class="font-normal navbar_item font-sans text-base text-custom-tertiary hover:text-custom-primary duration-500 md:text-lg uppercase">ABOUT</a>
+                            </li>
+                            <li><a id="" href="{% url 'campaign:campaign_list' %}"
+                                    class="font-normal navbar_item font-sans text-base text-custom-tertiary hover:text-custom-primary duration-500 md:text-lg uppercase">CAMPAIGNS</a>
+                            </li>
+                            <li><a id="" href="{% url 'event:event_list' %}"
+                                    class="font-normal navbar_item font-sans text-base text-custom-tertiary hover:text-custom-primary duration-500 md:text-lg uppercase">EVENTS</a>
+                            </li>
+                            <li><a id="" href=""
+                                    class="font-normal navbar_item font-sans text-base text-custom-tertiary hover:text-custom-primary duration-500 md:text-lg uppercase">NEWS</a>
+                            </li>
+                            <li><a id="" href=""
+                                    class="font-normal navbar_item font-sans text-base text-custom-tertiary hover:text-custom-primary duration-500 md:text-lg uppercase">Contact</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="flex items-center space-x-5 text-custom-tertiary font-sans">
+                        <div class="flex items-center space-x-2">
+                            <div>
+                                <i class="fa fa-user-circle text-xl" aria-hidden="true"></i>
+                            </div>
+                            {% if request.user.is_authenticated %}
+                            <div class="relative group duration-500">
+
+                                <p id="profile_button" aria-haspopup="true" aria-expanded="true"
+                                    class="text-sm cursor-pointer  text-custom-tertiary">{{request.user.username}}</p>
+                                <div id="profile_menu" role="menu" aria-orientation="vertical"
+                                    aria-labelledby="menu-button"
+                                    class="absolute hidden right-0 z-20 mt-2 duration-500 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                                    <div class="py-1">
+                                        <a href="{% url 'accounts:account_details' username=request.user.username pk=request.user.pk %}"
+                                            role="menuitem" tabindex="-1"
+                                            class="text-gray-700 block px-4 py-2 text-sm">account</a>
+                                        <a href="{% url 'campaign:create_campaign' %}" role="menuitem" tabindex="-1" class="text-gray-700 block px-4 py-2 text-sm">add campaign</a>
+                                        <a href="{% url 'event:create_event' %}" role="menuitem" tabindex="-1" class="text-gray-700 block px-4 py-2 text-sm">add event</a>
+                                        <a href="{% url 'accounts:account_list' %}" role="menuitem" tabindex="-1" class="text-gray-700 block px-4 py-2 text-sm">add event</a>
+                                        <a href="{% url 'accounts:logout' %}" role="menuitem" tabindex="-1" class="text-gray-700 block px-4 py-2 text-sm">logout</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {% else %}
+                            <div>
+                                <a href="{% url 'accounts:login' %}"
+                                    class="text-sm text-custom-tertiary hover:text-custom-primary duration-500">Login</a>
+                                / <a href="{% url 'accounts:signup' %}"
+                                    class="text-sm text-custom-tertiary hover:text-custom-primary duration-500">Register</a>
+                            </div>
+                            {% endif %}
+
+                        </div>
+                        <div>
+                            <a id="navbar-button" href="{% url 'campaign:create_campaign' %}"
+                                class="bg-custom-primary hidden md:grid border-custom-primary hover:bg-white hover:text-custom-primary text-white duration-500 h-10 w-28 md:h-12 md:w-32  items-center justify-center text-center font-sans font-normal text-xs md:text-sm ">Add
+                                campaign</a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </header>
+    <script src="{% static 'js/all.min.js' %}"></script>
+</body>
+
+</html>

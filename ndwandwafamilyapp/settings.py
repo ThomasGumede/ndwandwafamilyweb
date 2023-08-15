@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'accounts.apps.AccountsConfig',
     'campaign.apps.CampaignConfig',
     'event.apps.EventConfig',
+    'actions.apps.ActionsConfig',
 
     # 3rd party
     'tailwind',

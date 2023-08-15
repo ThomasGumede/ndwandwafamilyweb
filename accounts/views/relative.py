@@ -3,9 +3,10 @@ from accounts.forms import NextOfKinForm
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import View, UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib import messages
 
 class NextOfKinCreateView(LoginRequiredMixin, View):
-    template_name = 'accounts/manage/user/nextofkinform.html'
+    template_name = 'accounts/manage/nextofkin/create_form.html'
     form_class = NextOfKinForm
     
 
@@ -23,11 +24,14 @@ class NextOfKinCreateView(LoginRequiredMixin, View):
             instance = form.save(commit=False)
             instance.relative = request.user
             instance.save()
+            messages.success(request, "Relative  created successfully")
             return redirect("accounts:addnextofkin", username=request.user.username)
         else:
+            messages.success(request, "Relative not created successfully")
             return render(request, self.template_name, {"form": form})
+        
 class NextOfKinUpdateView(LoginRequiredMixin, View):
-    template_name = 'accounts/manage/user/nextofkinform.html'
+    template_name = 'accounts/manage/nextofkin/update_form.html'
     form_class = NextOfKinForm
     model = None
 
@@ -45,6 +49,8 @@ class NextOfKinUpdateView(LoginRequiredMixin, View):
         if form.is_valid():
             instance = form.save()
             instance.save()
+            messages.success(request, f"Relative {instance.full_name} updated successfully")
             return redirect("accounts:updatenextofkin", username=request.user.username, next_of_kin_id = self.model.id)
         else:
+            messages.success(request, "Relative not updated successfully")
             return render(self, request, self.template_name, {"form": form})
