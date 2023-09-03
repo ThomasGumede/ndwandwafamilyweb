@@ -3,14 +3,6 @@
 
 {% block content %}
 <section class="w-full mt-48 overflow-hidden mb-20">
-    {% if messages %}
-            {% for message in messages %}
-                <div id="alert" class="cursor-pointer rounded-lg py-5 flex items-center justify-between w-full px-6 text-base bg-blue-100 text-blue-700 mb-3" role="alert">
-                    {{message}}
-                    <button id="cancel_alert" class="cursor-pointer text-black border-none outline-none text-xl">x</button>
-                </div>
-            {% endfor %}
-        {% endif %}
     <div class="container">
         <div class="lg:w-11/12 mx-auto bg-white">
             <div class="space-y-4 border-0 bg-white w-full relative">

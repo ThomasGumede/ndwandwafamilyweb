@@ -4,79 +4,166 @@
 {% block title %}Campaigns{% endblock title %}
 
 {% block content %}
+<section class="w-full bg-custom-h pt-36 mt-16 relative block pb-32 overflow-hidden border-2">
+    <div id="header-bg"
+        class="absolute top-0 h-fit  border-2 border-custom-primary left-0 bottom-0 right-0 overflow-hidden bg-center opacity-50 bg-no-repeat bg-cover mix-blend-luminosity">
+        <img src="{% static 'imgs/home.jpg' %}" alt="" class="w-full h-96 object-cover">
+    </div>
+    <div class="container">
+        <div class="relative block z-40">
+            <ul class="relative block">
+                <li class="inline-block text-base text-white font-medium opacity-60 relative">
+                    <a href="" class="text-white inline-block text-base font-medium">Home</a>
+                </li>
+                <li class="inline-block text-base text-white font-medium opacity-60 relative">
+                    <span>/</span>
+                </li>
+                <li class="inline-block text-base text-white font-medium opacity-60 relative">
+                    <a href="{% url 'campaign:campaign_list' %}" class="text-white inline-block text-base font-medium">Campaigns</a>
+                </li>
+                
+            </ul>
+            <h2 class="text-white text-2xl md:text-5xl font-bold m-0">Post details</h2>
+        </div>
+    </div>
+</section>
+<section class="w-full h-fit mb-9">
+    <div class="w-full p-10">
+        <div class="w-full">
+            <div class="relative mb-2 flex items-center w-full justify-between">
+                <div class="shadow-xl rounded-md w-fit h-fit bg-white">
+                    <div class="px-4 py-1 w-full relative text-black">
+                        <div>
+                            <form action="{% url 'campaign:campaign_list' %}" method="get" class="">
+                                <div class="flex items-center space-x-4 justify-between">
+                                    <div class="flex items-center space-x-3">
+                                        <div class="p-1">
+                                            <i class="fa-solid text-gray-500 fa-search text-2xl"></i>
+                                        </div>
+                                        {% if query %}
+                                        <input value="{{query}}" id="id_q" type="search" name="q" placeholder="search"
+                                            class="border-none  outline-none focus-within:outline-none focus:border-none focus-within:border-none focus:outline-none text-gray-600 placeholder:text-gray-500 h-11" />
+                                        {% else %}
+                                        <input value="" id="id_q" type="search" name="q" placeholder="search"
+                                            class="border-none  outline-none focus-within:outline-none focus:border-none focus-within:border-none focus:outline-none text-gray-600 placeholder:text-gray-500 h-11" />
 
-<section class="w-full mt-48 bg-white mb-20">
-    <div class="w-full font-sans">
-        <div class="space-y-2 w-full p-10">
-            <div class="w-full flex justify-between items-center">
-                <div class="text-custom-tertiary text-base font-normal">
-                    <p>Phan</p>
+                                        {% endif %}
+                                    </div>
+                                    <select value="{{query_by}}" name="search_by" id="id_search_by"
+                                        class="border-none outline-none text-sm px-2 text-gray-500">
+                                        <option value="other" class="shadow-none" {% if query_by == "other" %} selected {% endif %}>Search by</option>
+                                        <option value="title" class="shadow-none" {% if query_by == "title" %} selected {% endif %}>Title</option>
+                                        <option value="author" class="shadow-none" {% if query_by == "author" %} selected {% endif %}>Author</option>
+                                    </select>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
                 </div>
                 <div id class="relative bg-custom-primary z-40 py-2 px-3">
-                    <p id="category_button" aria-haspopup="true" aria-expanded="true" class="text-white text-sm cursor-pointer">Category</p>
-                    <div id="category_menu" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" class="absolute  hidden right-0 z-20 mt-2 duration-500 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                    <p id="category_button" aria-haspopup="true" aria-expanded="true"
+                        class="text-white text-sm cursor-pointer">Category</p>
+                    <div id="category_menu" role="menu" aria-orientation="vertical" aria-labelledby="menu-button"
+                        class="absolute  hidden right-0 z-20 mt-2 duration-500 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                         <div class="py-1 z-40">
-                            <a href="{% url 'campaign:campaign_list' %}" role="menuitem" tabindex="-1" class="text-gray-700 block px-4 py-2 text-sm">All</a>
+                            <a href="{% url 'campaign:campaign_list' %}" role="menuitem" tabindex="-1"
+                                class="text-gray-700 block px-4 py-2 text-sm">All</a>
                             {% for category in categories %}
-                                <a href="{% url 'campaign:campaign_list_by_category' category_id=category.id %}" role="menuitem" tabindex="-1" class="text-gray-700 block px-4 py-2 text-sm">{{category.label}}</a>
-                            {% endfor %}   
+                            <a href="{% url 'campaign:campaign_list_by_category' category_id=category.id %}"
+                                role="menuitem" tabindex="-1"
+                                class="text-gray-700 block px-4 py-2 text-sm">{{category.label}}</a>
+                            {% endfor %}
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="grid md:grid-cols-3 mt-4 gap-3 w-full">
+        </div>
+
+    </div>
+
+</section>
+<section class="w-full relative block bg-white mb-20">
+    <div class="container font-sans">
+        <div class="space-y-2 w-full p-10">
+            <div class="flex flex-wrap mx-[calc(30px_/_-2)]">
                 {% if campaigns.count != 0 %}
-                    {% for campaign in campaigns %}
-                        <div class="relative md:w-96 h-80">
-                            <div class="bg-custom-primary  z-20 text-white absolute top-4 left-4 py-1 md:py-2 px-2 md:px-4 text-center">
-                                <p class="text-xs">{{campaign.category.label}}</p>
+                {% for campaign in campaigns %}
+                <div
+                    class="max-w-full w-full group flex-shrink-0 px-[calc(30px_/_2)] lg:w-1/3 lg:flex-[0_0_auto] sm:w-1/2 sm:flex-[0_0_auto]">
+                    <div class="relative mb-7 block">
+                        <div class="img_box relative block">
+                            <div class="overflow-hidden h-64 bg-custom-h relative block transition-all duration-500 ease-in">
+                                {% if campaign.image %}
+                                <img src="{{campaign.image.url}}" alt="" class="w-full transition-all duration-500 ease-in group-hover:scale-105 group-hover:opacity-50 h-full object-cover">
+                                {% else %}
+                                {% endif %}
                             </div>
-                            
-                            
-                            <img src="{{campaign.image.url}}" alt="" srcset=""
-                                class="object-cover block h-full w-full">
-                            
-                            
-                            <div class="w-full h-full bg-black opacity-70 absolute top-0 left-0"></div>
-                            <div
-                                class="absolute group text-white duration-500 bg-transparent hover:bg-white bottom-4 left-1/2 -translate-x-1/2 w-[calc(100%_-_16px)] h-fit p-3">
-                                <div class="font-sans space-y-3">
-                                    <span class="group-hover:text-custom-tertiary duration-500 text-sm font-normal">
-                                        <i class="fa-solid fa-clock text-xs md:text-base"></i>
-                                        {{campaign.get_days}} remaining
-                                    </span>
-                                    <a href="{% url 'campaign:campaign_details' id=campaign.id %}" class="block group-hover:text-black duration-500 font-bold text-lg md:text-2xl">
-                                        {{campaign.title}}
-                                    </a>
-                                    <div class="space-y-7 w-full">
-                                        <p class="text-xs md:text-sm duration-500 group-hover:text-custom-tertiary font-normal">
-                                            <span class="group-hover:text-custom-primary">R{{campaign.current_amount}}</span> raised of <span
-                                                class="group-hover:text-red-500">R{{campaign.target}}</span>
-                                        </p>
-                                        <div
-                                            class="bg-black duration-500 group-hover:bg-gray-400 relative h-2 w-full rounded-2xl">
-                                            <div id="campaign_percentage_w" data-style="{{campaign.get_percentage_of_donated_fund|floatformat:2}}"
-                                                class="bg-custom-primary absolute top-0 left-0 h-full rounded-2xl">
-                                                <span id="compaign_percentage_v"
-                                                    class="bg-custom-primary absolute -right-4 bottom-full mb-2 rounded-sm py-1 px-2 text-[11px] md:text-xs font-semibold text-white">
-                                                    <span
-                                                        class="bg-custom-primary absolute bottom-[-2px] left-1/2 -z-10 h-2 w-2 rotate-45 rounded-sm -translate-x-1/2"></span>
-                                                    {{campaign.get_percentage_of_donated_fund}}%
-                                                </span>
+                        </div>
+                        <div
+                            class="block text-center bg-white p-[26px_30px_20px] shadow-[0px_10px_30px_0px_rgba(0,_0,_0,_0.07)]">
+                            <div class="inline-block relative text-center bg-custom-primary p-[7px_19px_8px]">
+                                <p class="font-bold text-white text-xs leading-3">
+                                    {{campaign.category.label}}
+                                </p>
+                            </div>
+                            <h3
+                                class="text-custom-h m-0 transition-all duration-500 text-xl md:text-2xl font-bold mt-4 mb-2">
+                                <a href="{{campaign.get_absolute_url}}" class="text-custom-h transition-all duration-500 ease-in group-hover:text-custom-primary">{{campaign.title|truncatewords:5}}</a>
+                            </h3>
+                            <div class="relative flex justify-center items-center">
+                                <div class="text-sm text-custom-primary">
+                                    <i class="fa-solid fa-clock font-bold"></i>
+                                </div>
+                                <div class="ml-1">
+                                    <p class="text-xs font-normal">{{campaign.get_days}} remaining</p>
+                                </div>
+                            </div>
+                                <div class="relative block mt-4 mb-1">
+                                    <div class="relative bg-[#f2f7f7] py-3 px-2 block w-full">
+                                        <div class="relative flex items-center justify-between space-x-2 w-full">
+                                            <div
+                                                class="text-sm font-bold text-custom-h leading-4">
+                                                Raised</div>
+                                            <div class="relative block w-full">
+                                                <div class="w-full relative h-[3px] bg-white rounded-none">
+                                                    <div data-style="{{campaign.get_percentage_of_donated_fund}}" id="" class=" bg-custom-primary campaign_percentage_w h-[3px] rounded-none relative before:absolute before:content-[''] before:h-3 before:w-3 before:right-0 before:-top-1 before:bg-custom-primary before:rounded-full"></div>
+                                                </div>
+                                            </div>
+                                            <div class="text-center p-0 w-10 h-5 flex items-center">
+                                                <span class="text-gray-500 relative leading-3 font-medium float-none inline-block text-sm">{{campaign.get_percentage_of_donated_fund}}</span>
+                                                <span class="text-sm ml-[-2px] float-none font-medium text-gray-500 leading-3">%</span>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-
-                            </div>
+                                <div class="relative flex items-center justify-between">
+                                    <p class="text-xs text-gray-500 font-semibold">Achieved: <span class="font-bold text-custom-h">R{{campaign.target}}</span></p>
+                                    <p class="text-xs text-gray-500 font-semibold">Goal: <span class="font-bold text-custom-h">R{{campaign.current_amount}}</span></p>
+                                </div>
+                            
                         </div>
-                    {% endfor %}
+                    </div>
+                </div>
+                {% endfor %}
                 {% else %}
-                        <div class="self-center justify-self-center w-fit">
-                            <p class="mx-auto">Not campaigns available on this category</p>
-                        </div>
+                <div class="self-center justify-self-center w-fit">
+                    <p class="mx-auto">Not campaigns available on this category</p>
+                </div>
                 {% endif %}
             </div>
+            <!-- <div class="pagination">
+                <div class="flex items-center space-x-5">
+                    <div class="border py-3 px-4 text-center rounded-lg font-medium">
+                        <p>1</p>
+                    </div>
+                    <div class="border py-3 px-4 text-center rounded-lg font-medium">
+                        <p>2</p>
+                    </div>
+                    <div class="border py-3 px-4 text-center rounded-lg font-medium">
+                        <p>>></p>
+                    </div>
+                </div>
+            </div> -->
         </div>
     </div>
 </section>
@@ -85,21 +172,25 @@
 
 {% block javascripts %}
 <script>
-    var campaign_percentage_w = document.querySelector("#campaign_percentage_w");
+    var campaign_percentage_w = document.getElementsByClassName("campaign_percentage_w");
     const categoryBtn = document.getElementById("category_button");
     const categoryMenu = document.getElementById("category_menu");
     window.onload = () => {
-        campaign_percentage_w.style.width = `${campaign_percentage_w.getAttribute("data-style")}%`
+        for (let index = 0; index < campaign_percentage_w.length; index++) {
+            const element = campaign_percentage_w[index];
+            element.style.width = `${element.getAttribute("data-style")}%`
+
+        }
+
     }
 
-    categoryBtn.addEventListener("click", function(){
-        if(categoryMenu.classList.contains("hidden"))
-        {
+    categoryBtn.addEventListener("click", function () {
+        if (categoryMenu.classList.contains("hidden")) {
             categoryMenu.classList.remove("hidden")
             categoryMenu.classList.add("block")
-        }else {
+        } else {
             categoryMenu.classList.remove("block")
-            categoryMenu.classList.add("hidden") 
+            categoryMenu.classList.add("hidden")
         }
     })
 </script>

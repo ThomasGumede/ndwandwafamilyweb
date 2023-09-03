@@ -1,0 +1,144 @@
+{% extends '_base.html' %}
+{% load static %}
+{% block title %}{% endblock title %}
+
+{% block content %}
+<section class="w-full bg-custom-h pt-36 mt-16 relative block pb-32 overflow-hidden border-2">
+    <div id="header-bg"
+        class="absolute top-0 h-fit  border-2 border-custom-primary left-0 bottom-0 right-0 overflow-hidden bg-center opacity-50 bg-no-repeat bg-cover mix-blend-luminosity">
+        <img src="{% static 'imgs/home.jpg' %}" alt="" class="w-full h-96 object-cover">
+    </div>
+    <div class="container">
+        <div class="relative block z-40">
+            <ul class="relative block">
+                <li class="inline-block text-base text-white font-medium opacity-60 relative">
+                    <a href="" class="text-white inline-block text-base font-medium">Home</a>
+                </li>
+                <li class="inline-block text-base text-white font-medium opacity-60 relative">
+                    <span>/</span>
+                </li>
+                <li class="inline-block text-base text-white font-medium opacity-60 relative">
+                    <a href="{% url 'home:home' %}" class="text-white inline-block text-base font-medium">Accounts</a>
+                </li>
+                
+            </ul>
+            <h2 class="text-white text-2xl md:text-5xl font-bold m-0">Account activate</h2>
+        </div>
+    </div>
+</section>
+
+<section class="w-fullp-[120px_0_120px] bg-white mb-20">
+    <div class="container">
+        <div class="relative font-sans flex flex-col items-center sm:py-12 justify-cover overflow-hidden py-6 bg-white">
+            <div class="max-w-xl px-5 text-center">
+                <h3 class="mb-2 font-bold text-4xl text-custom-h">
+                    Check your inbox
+                </h3>
+                <p class="mb-2 text-lg text-gray-500">
+                    We are glad, that you're with us. We've sent you a verification link to your registration email
+                </p>
+                <a href="" class="mt-3 inline-block w-96 rounded-lg bg-custom-h px-5 py-3 font-medium text-white shadow-md shadow-custom-h">
+                    Home
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+{% endblock content %}
+
+{% block javascripts %}
+<script>
+    const navToggler = document.querySelectorAll(".user_nav_item");
+    const navbarList = document.querySelectorAll(".user_nav_list");
+    
+
+    navToggler.forEach(ele => {
+        ele.addEventListener("click", function () {
+            for (let i = 0; i < navToggler.length; i++) {
+                navToggler[i].classList.remove("active");
+                navToggler[i].classList.remove("bg-gray-300");
+                navToggler[i].classList.remove("text-gray-900");
+                navToggler[i].classList.add("bg-custom-primary");
+                navToggler[i].classList.add("text-white");
+
+            }
+            let dataAttrib = ele.getAttribute("data-category");
+            
+
+            loadData(dataAttrib);
+
+            ele.classList.add("active");
+            ele.classList.add("bg-gray-300");
+            ele.classList.add("text-gray-900");
+            ele.classList.remove("bg-custom-primary");
+            ele.classList.remove("text-white");
+            
+        })
+    })
+
+    function loadData(idAttrib) {
+        let data = document.getElementById(idAttrib);
+        for (let i = 0; i < navbarList.length; i++) {
+            if (navbarList[i].classList.contains("block")) {
+                navbarList[i].classList.remove("block");
+                navbarList[i].classList.add("hidden");
+            }
+
+        }
+        if (data.classList.contains("hidden")) {
+            data.classList.remove("hidden");
+            data.classList.add("block");
+        }
+
+    }
+
+
+
+
+</script>
+{% if request.user.is_authenticated %}
+    <script>
+
+
+
+        // FOLLOW SHOT OWNER
+        $("#follow-btn").on("click", function(e){
+            e.preventDefault();
+            $.ajax({
+            type: "POST",
+            url: "{% url 'actions:follow_user' %}",
+            data: {
+                user_id: $(this).data("user_id"),
+                action: $(this).data('action'),
+                username: $(this).data('username')
+            },
+            dataType: "json",
+            success: function(data){
+                if(data.success){
+                var $follow_btn = $("#follow-btn")
+                var $prev_action = $("#follow-btn").attr('data-action');
+                if($prev_action === 'follow'){
+                    $follow_btn.removeClass("text-black")
+                    $follow_btn.addClass("text-custom-primary border-custom-primary")
+
+                    $follow_btn.attr("data-action", "unfollow")
+                    $follow_btn.text("- Unfollow")
+                }else{
+                    $follow_btn.addClass("text-black")
+                    $follow_btn.removeClass("text-custom-primary border-custom-primary")
+
+                    $follow_btn.attr("data-action", "follow")
+                    $follow_btn.text("+ Follow")
+                }
+                }else{
+                alert("Something went wrong!")
+                }
+            }
+            })
+        })
+    
+    </script>
+{% endif %}
+{% endblock javascripts %}

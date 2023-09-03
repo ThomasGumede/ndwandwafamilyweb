@@ -1,7 +1,12 @@
 env
+/.env
 theme
 media_root
 /__pycache__
 __pycache__
 migrations
 .vscode
+/.env
+/env
+.env
+./component.html

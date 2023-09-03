@@ -7,7 +7,7 @@
 <head>
     {% tailwind_preload_css %}
     {% tailwind_css %}
-
+    {{form.media}}
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -17,122 +17,19 @@
 </head>
 
 <body>
-    <header class="w-full fixed z-[600] shadow-xl top-0 bg-white left-0">
-        <div class="">
-            <nav class="flex items-center bg-white p-4 justify-between w-full">
-                <div class="flex items-center">
-                    <div id="menu" class="md:hidden text-black pr-7">
-                        <i class="fa-solid fa-bars text-4xl" aria-hidden="true"></i>
-                    </div>
-                    <div class="logo flex items-center pr-7 space-x-2">
-                        <div class="w-10 h-10">
-                            <img src="{% static 'imgs/logo (2).png' %}" alt="Ndwandwa LOGO" class="object-contain" />
-                        </div>
-                        <div class="text-black">
-                            <h3 class="font-bold font-sans text-base text-custom-primary uppercase">Ndwandwa</h3>
-                            <p class="font-sans text-[11px]">family foundation</p>
-                        </div>
-                    </div>
-                    <div id="navbar_items" class="">
-                        <ul class="space-y-5 md:space-y-0 md:flex items-center md:space-x-10">
-                            <li><a id="" href="{% url 'home' %}"
-                                    class="font-normal navbar_item font-sans text-base text-gray-500 hover:text-custom-primary duration-500">Home</a>
-                            </li>
-
-                            <li><a id="" href="{% url 'campaign:campaign_list' %}"
-                                    class="font-normal navbar_item font-sans text-base text-gray-500 hover:text-custom-primary duration-500">Campaigns</a>
-                            </li>
-                            <li><a id="" href="{% url 'event:event_list' %}"
-                                    class="font-normal navbar_item font-sans text-base text-gray-500 hover:text-custom-primary duration-500">Events</a>
-                            </li>
-                            <li><a id="" href=""
-                                    class="font-normal navbar_item font-sans text-base text-gray-500 hover:text-custom-primary duration-500">News</a>
-                            </li>
-                            <li><a id="" href=""
-                                    class="font-normal navbar_item font-sans text-base text-gray-500 hover:text-custom-primary duration-500">Accounts</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="flex items-center space-x-5">
-                    <div class="cursor-pointer">
-                        <a href="{% url 'actions:search_results' %}">
-                            <i class="fa-solid text-custom-primary fa-search text-3xl"></i>
-                        </a>
-                        
-                    </div>
-                    <div class="w-[1px] h-10 bg-gray-500"></div>
-                    <div class="relative cursor-pointer w-fit h-fit">
-                        <div id="profile_button" class="w-11 h-11 rounded-full overflow-hidden bg-gray-400">
-                            {% if request.user.photo %}
-                            <img src="{{request.user.photo.url}}" alt="{{request.user.first_name}}" class="w-full h-full object-cover object-center"/>
-                            {% else %}
-                            <img src="{% static 'imgs/home.jpg' %}" alt="{{request.user.first_name}}" class="w-full h-full object-cover object-center"/>
-                            {% endif %}
-                        </div>
-                        <div id="profile_menu" role="menu" aria-orientation="vertical" aria-labelledby="menu-button"
-                            class="absolute hidden right-0 z-20 mt-2 duration-500 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                            <div class="py-1">
-                                {% if request.user.is_authenticated %}
-                                <a href="{% url 'accounts:account_details' username=request.user.username pk=request.user.pk %}"
-                                    role="menuitem" tabindex="-1"
-                                    class="text-gray-700 block px-4 py-2 text-sm">account</a>
-                                {% endif %}
-                                <a href="{% url 'campaign:create_campaign' %}" role="menuitem" tabindex="-1"
-                                    class="text-gray-700 block px-4 py-2 text-sm">add campaign</a>
-                                <a href="{% url 'event:create_event' %}" role="menuitem" tabindex="-1"
-                                    class="text-gray-700 block px-4 py-2 text-sm">add event</a>
-                                <a href="{% url 'accounts:account_list' %}" role="menuitem" tabindex="-1"
-                                    class="text-gray-700 block px-4 py-2 text-sm">add event</a>
-                                <a href="{% url 'accounts:logout' %}" role="menuitem" tabindex="-1"
-                                    class="text-gray-700 block px-4 py-2 text-sm">logout</a>
-                            </div>
-                        </div>
-                        
-                    </div>
-
-                </div>
-            </nav>
-        </div>
-    </header>
+   {% include "includes/header.html" %}
     
     <main class="">
+        {% include "includes/message.html" %}
+
+
+        
         {% block content %}
 
         {% endblock content %}
     </main>
-    <div id="modal_search" class="w-full hidden h-screen z-[700] fixed top-0 left-0 bg-[#00000090]">
-        <div id="inner_model_search" class="w-80 md:w-96 h-fit bg-transparent grid items-center justify-center absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[600]  p-4 rounded-lg">
-            <form action="">
-                {% csrf_token %}
-                <div class="w-full flex items-center">
-                    <select class="py-2 text-sm text-custom-tertiary bg-white rounded-l-md pr-10 focus:outline-none focus:bg-white focus:text-gray-900">
-                        <option>Accounts</option>
-                        <option>Campaigns</option>
-                        <option>Events</option>
-                        <option>Posts</option>
-                    </select>
-                    <div class="relative overflow-hidden text-gray-600 focus-within:text-gray-400">
-                        
-                        <input type="search" name="q"
-                            class="py-2 text-sm text-custom-tertiary bg-white rounded-r-md pr-10 focus:outline-none focus:bg-white focus:text-gray-900"
-                            placeholder="Search..." autocomplete="off">
-                            <span class="absolute text-white rounded-r-md bg-custom-primary inset-y-0 right-0 flex items-center pl-2">
-                                <button type="submit" class="p-1 focus:outline-none focus:shadow-outline">
-                                    <svg fill="none" stroke="currentColor" stroke-linecap="round"
-                                        stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24"
-                                        class="w-6 h-6">
-                                        <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-                                    </svg>
-                                </button>
-                            </span>
-                    </div>
-                </div>
-            </form>
-        </div>
-    </div>
 
-
+    {% comment %} {% include "includes/footer.html" %} {% endcomment %}
 
     <script src="{% static 'js/all.min.js' %}"></script>
     <script src="{% static 'js/jquery.min.js' %}"></script>
@@ -142,8 +39,6 @@
 
     {% endblock javascripts %}
     <script>
-        {% if request.user.is_authenticated %}
-
         const profileBtn = document.getElementById("profile_button");
         const profileMenu = document.getElementById("profile_menu");
         profileBtn.addEventListener("click", function () {
@@ -155,38 +50,33 @@
                 profileMenu.classList.add("hidden")
             }
         })
-        
-        var csrftoken = Cookies.get("csrftoken");
-        function csrfSafeMethod(method) {
-            // these HTTP methods do not require CSRF protection
-            return /^(GET|HEAD|OPTIONS|TRACE)$/.test(method);
+        {% if request.user.is_authenticated %}
+
+            var csrftoken = Cookies.get("csrftoken");
+            function csrfSafeMethod(method) {
+                // these HTTP methods do not require CSRF protection
+                return /^(GET|HEAD|OPTIONS|TRACE)$/.test(method);
+            }
+            $.ajaxSetup({
+                beforeSend: function (xhr, settings) {
+                    if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                        xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                        xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
+                    }
+                },
+            })
+
+        {% endif %}
+    </script>
+    <script>
+
+        function remove_alert(clc){
+            document.querySelectorAll(`.${clc}`).forEach(ele => {
+                ele.remove()
+            })
         }
-        $.ajaxSetup({
-            beforeSend: function (xhr, settings) {
-                if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
-                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
-                    xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
-                }
-            },
-        })
-
-        $("#cancel_alert").on("click", function (e) {
-            e.preventDefault();
-
-            $("#alert").remove()
-        })
-    
-
-
-    {% endif %}
     </script>
-    <script>$("#cancel_alert").on("click", function (e) {
-            e.preventDefault();
 
-            $("#alert").remove()
-        })
-    </script>
-    <!-- <script src="{% static 'js/script.js' %}"></script> -->
 
 
 </body>

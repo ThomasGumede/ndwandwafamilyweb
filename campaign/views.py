@@ -1,4 +1,5 @@
 from django.http import HttpResponseServerError, HttpResponseForbidden,  JsonResponse
+from django.urls import reverse_lazy
 from campaign.models import Campaign, Category
 from campaign.forms import CampaignForm
 from django.shortcuts import redirect, render, get_object_or_404
@@ -11,20 +12,40 @@ class CampaignListView(View):
     template_name = "campaign/campaigns.html"
 
     def get(self, request, category_id=None, *args, **kwargs):
+
+        query = request.GET.get("q", None)
+        query_by = request.GET.get("search_by", None)
+
         if category_id:
             category = get_object_or_404(Category, id = category_id )
-            queryset = Campaign.objects.filter(category = category).order_by("-creation_date").select_related("creator", "category")
+
+        if query and query_by and category_id:
+            
+            match query_by:
+                case "title":
+                    queryset = Campaign.objects.filter(category=category).filter(title__icontains = query).order_by("-creation_date").select_related("creator", "category")
+                case _:
+                    queryset = Campaign.objects.filter(category=category).filter(title__icontains = query).order_by("-creation_date").select_related("creator", "category")
+        elif query and query_by:
+            match query_by:
+                case "title":
+                    queryset = Campaign.objects.filter(title__icontains = query).order_by("-creation_date").select_related("creator", "category")
+                case _:
+                    queryset = Campaign.objects.filter(title__icontains = query).order_by("-creation_date").select_related("creator", "category")
+        elif category_id:
+            queryset = Campaign.objects.filter(category=category).order_by("-creation_date").select_related("creator", "category")
         else:
-            queryset = Campaign.objects.order_by("-creation_date").select_related("creator", "category")
+            queryset = Campaign.objects.all().order_by("-creation_date").select_related("creator", "category")
 
-        return render(request, self.template_name, {"campaigns": queryset})
-
+        return render(request, self.template_name, {"campaigns": queryset, "query": query, "query_by": query_by})
+    
 
 class CampaignDetailView(DetailView):
-    queryset = Campaign.objects.select_related("creator", "category").prefetch_related("ratings", "donations")
+    queryset = Campaign.objects.select_related("creator", "category").prefetch_related("contribution_orders")
     template_name = "campaign/campaign.html"
     context_object_name = "campaign"
-    pk_url_kwarg = "id"
+    slug_field = 'slug'
+    slug_url_kwarg = 'campaign_slug'
 
 class CampaignCreateView(LoginRequiredMixin, View):
     template_name = "campaign/manage/create.html"
@@ -42,7 +63,7 @@ class CampaignCreateView(LoginRequiredMixin, View):
                 campaign.creator = request.user
                 campaign.save()
                 messages.success(request, "Campaign was created successfully")
-                return redirect("campaign:campaign_details", id=campaign.id)
+                return redirect("campaign:campaign_details", campaign_slug=campaign.slug)
         else:
             print(form.errors)
             return render(request, self.template_name, {"form": form, "categories": self.categories})
@@ -68,7 +89,8 @@ class CampaignUpdateView(LoginRequiredMixin, View):
         form = self.form_class(request.POST, request.FILES, instance=self.model)
         if form.is_valid:
             instance = form.save()
-            return redirect("campaign:campaign_details", id=instance.id)
+            instance.save()
+            return redirect("campaign:campaign_details", campaign_slug=instance.slug)
         else:
             return render(request, self.template_name, {"form": form, "categories": self.categories})
             
@@ -88,13 +110,7 @@ class CampaignDeleteView(LoginRequiredMixin, View):
     def post(self, request, campaign_uuid, *args, **kwargs):
         if self.model != None:
             self.model.delete()
-            return JsonResponse(data = {'success': True, "message": "Campaign deleted successfully"}, status=200)
+            return JsonResponse(data = {'success': True, "message": "Campaign deleted successfully", "url": reverse_lazy("campaign:campaign_list")}, status=200)
         else:
-            return JsonResponse(data={"success": False, "message": "Something went wrong on our side, campaign was not removed"}, status=500)
-    
-class CategoryCreateView(LoginRequiredMixin, View):
-    
-    def post(self, request, *args, **kwargs):
-        data = request.POST.get("label")
-        
+            return JsonResponse(data={"success": False, "message": "Something went wrong on our side, campaign was not removed", "url": reverse_lazy("campaign:campaign_list")}, status=500)
     

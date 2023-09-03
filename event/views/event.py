@@ -19,15 +19,25 @@ class EventListView(View):
     model = Event
     template_name = "event/events.html"
 
-    def get(self, request, category_id=None,*args, **kwargs):
+    def get(self, request,*args, **kwargs):
         days = datetime.timedelta(days=14) + timezone.now()
-        if category_id:
-            category = get_object_or_404(Category, id=category_id)
-            queryset = self.model.objects.filter(category = category).order_by("-created").select_related("author")
-        else:
-            queryset = self.model.objects.filter(event_startdate__range=[timezone.now(), days]).order_by("-created").select_related("author")
+        query = request.GET.get("q", None)
+        query_by = request.GET.get("search_by", None)
+        
 
-        return render(request, self.template_name, {"events": queryset})
+        if query and query_by:
+            
+            match query_by:
+                case "title":
+                    queryset = self.model.objects.filter(title__icontains = query).order_by("-created").select_related("author")
+                    
+                case _:
+                    queryset = self.model.objects.filter(title__icontains = query).order_by("-created").select_related("author")
+        else:
+            
+            queryset = self.model.objects.all().order_by("-created").select_related("author")
+
+        return render(request, self.template_name, {"events": queryset, "query": query, "query_by": query_by})
     
 class EventDetailView(DetailView):
     
@@ -76,12 +86,12 @@ class EventCreateView(LoginRequiredMixin, View):
         else:
             messages.error(request, "Error while trying to create event")
             return render(request, self.template_name, {"form" : form, "form2": form2})
-    
 
 class EventUpdateView(LoginRequiredMixin, View):
     model = None
     template_name = "event/update_form.html"
     form_class = EventForm
+    extra_form_class = AddressForm
 
     def dispatch(self, request, event_id, *args, **kwargs):
         self.model = get_object_or_404(Event, id=event_id)
@@ -90,14 +100,30 @@ class EventUpdateView(LoginRequiredMixin, View):
         return super().dispatch(request, event_id,*args, **kwargs)
     
     def get(self, request, event_id, *args, **kwargs):
-        return render(request, self.template_name, {"form": self.form_class(instance=self.model)})
+        return render(request, self.template_name, {"form": self.form_class(instance=self.model), "form2": self.extra_form_class(instance=self.model.event_address)})
     
     def post(self, request, event_id, *args, **kwargs):
-        form = self.form_class(request.POST, request.FILE, instance=self.model)
-        if form.is_valid() and form.is_multipart():
-            form.save()
-            return redirect("event:event_details", slug = self.model.slug)
-        return render(request, self.template_name, {"form": self.form_class(instance=self.model)})
+        form = self.form_class(request.POST, request.FILES, instance=self.model)
+        form2 = self.extra_form_class(request.POST, instance=self.model.event_address)
+
+        if form.is_valid() and form.is_multipart() and form2.is_valid():
+            cd = form.cleaned_data
+            event = form.save()
+            if cd["event_address"]:
+                address = Address.objects.get(id=cd["event_address"])
+            else:
+                address = None
+
+            if address != None:
+                address.events.remove(event)
+                address.events.add(event)
+                address.save()
+            else:
+                form2.save()
+
+            return redirect("event:event_details", event_slug = self.model.slug)
+        
+        return render(request, self.template_name, {"form": form, "form2": form2})
 
 class EventDeleteView(LoginRequiredMixin, View):
     model = None
@@ -117,4 +143,12 @@ class EventDeleteView(LoginRequiredMixin, View):
         else:
             return JsonResponse(data={"success": False, "message": "Something went wrong on our side, event was not removed", "url": reverse_lazy("event:event_list")}, status=500)
     
+class TicketBuyView(LoginRequiredMixin, View):
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
+    
+    def get(self, request, *args, **kwargs):
+        pass
 
+    def post(self, request, *args, **kwargs):
+        pass

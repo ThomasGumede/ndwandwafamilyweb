@@ -12,6 +12,9 @@ class QualificationAdmin(admin.ModelAdmin):
 @admin.register(Address)
 class AddressAdmin(admin.ModelAdmin):
     pass
+@admin.register(MailingGroup)
+class MailingAdmin(admin.ModelAdmin):
+    pass
 
 
 @admin.register(NextOfKin)

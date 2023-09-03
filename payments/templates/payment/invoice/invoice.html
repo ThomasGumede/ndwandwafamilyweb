@@ -1,0 +1,161 @@
+<html>
+    <body>
+        <div class="max-w-xl relative block bg-white">
+            <div class="px-6 py-10 w-full">
+                <div class="space-y-7">
+                    
+                    <div class=" pb-4 border-b-4 border-b-custom-h">
+                        <div class="flex items-start w-fit space-x-5">
+                            <div class="h-20 w-20  overflow-hidden rounded-md">
+                                <img src="{% static 'imgs/logo (2).png' %}" alt="Ndwandwa Family Foundation"
+                                    class="w-full object-contain h-full">
+                            </div>
+                            <div class="space-y-2">
+                                <h3 class="text-custom-h font-bold text-base uppercase">Ndwandwa Family
+                                    Foundation</h3>
+                                <div class="border-t border-t-gray-500">
+                                    <p class="text-gray-500 text-xs font-light">CK: 12345 /45600</p>
+                                    <p class="text-gray-500 text-xs font-light">VAT NO: 789883 23423</p>
+                                </div>
+                                <div class="border-t border-t-gray-500">
+                                    <p class="text-gray-500 text-xs font-light">Tel: +27 78 910 1112</p>
+                                    <p class="text-gray-500 text-xs font-light">Email: info@ndwandwafamfoun.co.za</p>
+                                    <p class="text-gray-500 text-xs font-light">1234 Street Home, Office 1234 HillBuilding, Cape Town, Around Jozi, 3915,
+                                        RSA</p>
+                                </div>
+        
+                            </div>
+                        </div>
+                    </div>
+        
+                    <div class="w-fit">
+                        <div class="">
+                            <h3 class="text-custom-h font-bold text-base">Invoice {{donation.donateid}}</h3>
+                            <p class="text-gray-500 text-xs font-light">Issued date: {{donation.created.date}}</p>
+                            <p class="text-gray-500 text-xs font-light"></p>
+                            <p class="text-gray-500 text-xs font-light">Due date: {{donation.created.date}}</p>
+                            <p class="text-gray-500 text-xs font-light">Terms: Due on Receipts</p>
+                        </div>
+                    </div>
+
+                    <div class="w-full">
+                        <div class="flex items-start flex-">
+                            <div class="w-full max-w-full pt-5 border-t border-t-gray-500 px-4 md:w-6/12 ">
+                                <div class="space-y-2">
+                                    <h4 class="font-medium text-base text-custom-h uppercase">bill to</h4>
+                                    <div class="w-full text-gray-500 text-xs font-normal">
+                                        <p class="m-0 p-0">{{donation.donator.first_name}}
+                                            {{donation.donator.last_name}}</p>
+                                        <p class="m-0 p-0">{{donation.donator.email}}</p>
+                                        <p class="m-0 p-0">{{donation.donator.tel}}</p>
+                                        <p class="m-0 p-0">{{donation.donator.address.address_one}}</p>
+                                        <p class="m-0 p-0">{{donation.donator.address.city}},
+                                            {{donation.donator.address.zipcode}},{{donation.donator.address.state}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="w-full max-w-full pt-5 border-t border-t-gray-500 px-4 md:w-6/12 ">
+                                <div class="space-y-2">
+                                    <h4 class="font-medium text-base text-custom-h uppercase">EFT Bank Details</h4>
+                                    <div class="w-full text-gray-500 text-xs font-normal">
+                                        <p class="m-0 p-0">Absa Bank</p>
+                                        <p class="m-0 p-0">Account No: 123456789</p>
+                                        <p class="m-0 p-0">Branch Code: 1234</p>
+                                        <p class="m-0 p-0 text-black font-bold">Payment reference: {{donation.donateid}}</p>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+
+                    <div class="w-full">
+                        <div class="bg-white relative block">
+                            <table class="w-full">
+                                <thead>
+                                    <tr
+                                        class="text-sm font-semibold tracking-wide text-left text-gray-900 bg-gray-100 uppercase border-b border-gray-600">
+                                        <th class="px-4 py-3">Description</th>
+                                        <th class="px-4 py-3"></th>
+                                        <th class="px-4 py-3">Amount</th>
+                                        
+                                    </tr>
+                                </thead>
+                                <tbody class="bg-white">
+                                    
+                                    
+                                    <tr class="text-gray-700">
+                                        
+                                        <td class="px-4 py-3 border">
+                                            <p class="text-xs text-gray-500">Contribution to {{donation.campaign.title}} campaign</p>
+                                        </td>
+                                        <td class="px-4 py-3 border">
+                                            
+                                        </td>
+                                        <td class="px-4 py-3 border">
+                                            <p class="text-xs text-gray-500">R{{donation.amount}}</p>
+                                        </td>
+                                    </tr>
+                                    <tr class="text-gray-700">
+                                        <td class="px-4 py-3 border">
+                                            
+                                        </td>
+                                        
+                                        <td class="px-4 py-3 border">
+                                            <p class="text-xs text-gray-500">Subtotal</p>
+                                        </td>
+        
+                                        <td class="px-4 py-3 border">
+                                            <p class="text-xs text-gray-500">R{{donation.amount}}</p>
+                                        </td>
+                                    </tr>
+                                    <tr class="text-gray-700">
+                                        <td class="px-4 py-3 border">
+                                            
+                                        </td>
+                                        
+                                        <td class="px-4 py-3 border">
+                                            <p class="text-xs text-gray-500">Donation Tax</p>
+                                        </td>
+                                        <td class="px-4 py-3 border">
+                                            <p class="text-xs text-gray-500">20% -(R10)</p>
+                                        </td>
+                                    </tr>
+                                    <tr class="text-gray-700">
+                                        <td class="px-4 py-3 border">
+                                            
+                                        </td>
+                                        
+                                        <td class="px-4 py-3 border">
+                                            <p class="text-xs text-gray-500">Total</p>
+                                        </td>
+                                        <td class="px-4 py-3 border">
+                                            <p class="text-xs text-gray-500">R40</p>
+                                        </td>
+                                    </tr>
+        
+                                    
+                                    
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="text-sm text-black mx-auto w-fit">
+                        <p>Thank you for your contribution</p>
+                    </div>
+
+                </div>
+            </div>
+            <div class="absolute top-0 right-0 h-12 {% if donation.paid == 'NOT_PAID' %} bg-red-500 {% else %} bg-blue-500 {% endif %}">
+                <div class="">
+                    <div class="text-white font-bold py-3 px-4 text-xl text-center">
+                        <h3 class="uppercase">{{donation.paid}}</h3>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </body>
+</html>

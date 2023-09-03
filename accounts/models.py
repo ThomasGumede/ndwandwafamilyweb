@@ -47,6 +47,23 @@ class Wallet(models.Model):
     def get_absolute_url(self):
         return reverse("accounts:wallet", kwargs={"id": self.id})
 
+class MailingGroup(models.Model):
+   id = models.UUIDField(default=uuid.uuid4, primary_key=True, unique=True, editable=False, db_index=True)
+   title = models.CharField(max_length=300, unique=True, db_index=True)
+   description = models.CharField(help_text="Describe mailing list", max_length=500)
+
+   def __str__(self):
+       return self.title
+   
+
+   def send_email(self, message, subject, attachments=None):
+      pass
+
+# class Verification(models.Model):
+#     id = models.UUIDField(default=uuid.uuid4, primary_key=True, unique=True, editable=False, db_index=True)
+#     id_selfie =  models.ImageField(_("Upload profile image"), upload_to="profile/id_selfie/", null=False, help_text=_("Please take a selfie while holding an official identification document(ID Card, Passport, drivers license, etc)"))
+#     user = models.OneToOneField(CustomUser, verbose_name=_("user"), related_name="verification", on_delete=models.CASCADE)
+
 class CustomUser(AbstractUser):
     class Title(models.TextChoices):
         MR = ("MR", "Mr")
@@ -59,7 +76,6 @@ class CustomUser(AbstractUser):
         OTHER = ("OTHER", "Other")
         
     title = models.CharField(max_length=10, choices=Title.choices, default=Title.OTHER)
-    
     photo = models.ImageField(_("Upload profile image"), upload_to="profile/", null=True, blank=True)
     tel = models.CharField(_("Enter your cellphone number"), max_length=15, validators=[PHONE_REGEX], unique=True)
     address = models.ForeignKey(Address, on_delete=models.SET_NULL, null=True, blank=True, related_name="users")
@@ -68,7 +84,10 @@ class CustomUser(AbstractUser):
     occupation = models.CharField(_("Enter your current employment"), max_length=500, blank=True, null=True)
     professional_affiliations = models.CharField(_("Enter your professional affiliations"), max_length=700, blank=True, null=True)
     following = models.ManyToManyField('self', through='Contact', symmetrical=False, related_name='followers', blank=True)
+    subscriptions = models.ManyToManyField(MailingGroup, through="Subscribe", related_name="subscribers", blank=True)
     created = models.DateTimeField(auto_now_add=True)
+
+
 
 
 
@@ -79,6 +98,7 @@ class CustomUser(AbstractUser):
     
     def email_user(self, subject: str, message: str, sender: str, **kwargs: Any) -> None:
         return super().email_user(subject, message, sender, **kwargs)
+    
     
     def get_absolute_url(self):
         return reverse("accounts:account_details", kwargs={"username": self.username, "pk": self.pk})
@@ -114,7 +134,6 @@ class NextOfKin(models.Model):
     def __str__(self):
         return self.full_name
     
-
 class Qualification(models.Model):
     class QualificationType(models.TextChoices):
         BACHELOR = ("BACHELOR", "Bachelor's Degree")
@@ -146,7 +165,6 @@ class Qualification(models.Model):
     def get_absolute_url(self):
         return reverse("accounts:qualification", kwargs={"id": self.id})
 
-
 class Contact(models.Model):
     user_from = models.ForeignKey(CustomUser, related_name='rel_from_set', on_delete=models.CASCADE)
     user_to = models.ForeignKey(CustomUser, related_name='rel_to_set', on_delete=models.CASCADE)
@@ -158,6 +176,10 @@ class Contact(models.Model):
     def __str__(self):
         return f'{self.user_from} follows {self.user_to}'
 
+class Subscribe(models.Model):
+    user = models.ForeignKey(CustomUser, related_name="subscriber", on_delete=models.CASCADE)
+    mailinggroup = models.ForeignKey(MailingGroup, related_name="subscribe_to", on_delete=models.CASCADE)
+    created = models.DateTimeField(auto_now_add=True, db_index=True)
 # Signals for deleting object file from memory disk
 @receiver(pre_delete, sender=CustomUser)
 def delete_content_files_hook(sender, instance, using, **kwargs):

@@ -1,0 +1,95 @@
+{% load static %}
+<header class="w-full fixed z-[600] shadow-xl top-0 bg-white left-0">
+    <div class="">
+        <nav class="flex items-center bg-white p-4 justify-between w-full">
+            <div class="flex items-center">
+                <div id="menu" class="md:hidden text-black pr-7">
+                    <i class="fa-solid fa-bars text-4xl" aria-hidden="true"></i>
+                </div>
+                <a href="{% url 'home:home' %}" class="logo flex items-center pr-7 space-x-2">
+                    <div class="w-10 h-10">
+                        <img src="{% static 'imgs/logo (2).png' %}" alt="Ndwandwa LOGO" class="object-contain" />
+                    </div>
+                    <div class="text-black">
+                        <h3 class="font-bold font-sans text-base text-custom-primary uppercase">Ndwandwa</h3>
+                        <p class="font-sans text-[11px]">family foundation</p>
+                    </div>
+                </a>
+                <div id="navbar_items" class="absolute -left-full top-full md:left-auto md:top-auto p-4 bg-custom-primary md:p-0 md:bg-transparent w-full md:w-fit md:relative  ">
+                    <ul class="space-y-5 md:space-y-0 md:flex items-center md:space-x-10">
+                        <li><a id="" href="{% url 'home:home' %}"
+                                class="font-normal navbar_item font-sans text-xl text-white md:text-base md:text-gray-500 md:hover:text-custom-primary duration-500">Home</a>
+                        </li>
+
+                        <li><a id="" href="{% url 'campaign:campaign_list' %}"
+                                class="font-normal navbar_item font-sans text-xl text-white md:text-base md:text-gray-500 md:hover:text-custom-primary duration-500">Campaigns</a>
+                        </li>
+                        <li><a id="" href="{% url 'event:event_list' %}"
+                                class="font-normal navbar_item font-sans text-xl text-white md:text-base md:text-gray-500 md:hover:text-custom-primary duration-500">Events</a>
+                        </li>
+                        <li><a id="" href="{% url 'event:post_list' %}"
+                                class="font-normal navbar_item font-sans text-lg text-white md:text-base md:text-gray-500 md:hover:text-custom-primary duration-500">News</a>
+                        </li>
+                        <li><a id="" href="{% url 'actions:search_results' %}"
+                                class="font-normal xsm:hidden navbar_item font-sans text-lg text-white md:text-base md:text-gray-500 md:hover:text-custom-primary duration-500">Search</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="flex items-center space-x-5">
+                <div class="cursor-pointer hidden xsm:block">
+                    <a href="{% url 'actions:search_results' %}">
+                        <i class="fa-solid text-custom-primary fa-search text-3xl"></i>
+                    </a>
+
+                </div>
+                <div class="w-[1px] h-10 bg-gray-500 hidden sm:block"></div>
+                <div class="relative cursor-pointer w-fit h-fit">
+                    <div id="profile_button" class="w-11 h-11 rounded-full overflow-hidden bg-gray-400">
+                        {% if request.user.is_authenticated %}
+                            {% if request.user.photo %}
+                            <img src="{{request.user.photo.url}}" alt="{{request.user.first_name}}"
+                                class="w-full h-full object-cover object-center" />
+                            {% else %}
+                            <img src="{% static 'imgs/home.jpg' %}" alt="{{request.user.first_name}}"
+                                class="w-full h-full object-cover object-center" />
+                            {% endif %}
+                        {% else %}
+                        <img src="{% static 'imgs/home.jpg' %}" alt="{{request.user.first_name}}"
+                                class="w-full h-full object-cover object-center" />
+                        {% endif %}
+                    </div>
+                    <div id="profile_menu" role="menu" aria-orientation="vertical" aria-labelledby="menu-button"
+                        class="absolute hidden right-0 z-20 mt-2 duration-500 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                        <div class="py-1">
+                            {% if request.user.is_authenticated %}
+                                <a href="{% url 'accounts:account_details' username=request.user.username pk=request.user.pk %}"
+                                    role="menuitem" tabindex="-1"
+                                    class="text-gray-700 block px-4 py-2 text-sm">account</a>
+                                <a href="{% url 'accounts:general_edit' username=request.user.username pk=request.user.pk %}"
+                                    role="menuitem" tabindex="-1"
+                                    class="text-gray-700 block px-4 py-2 text-sm">account settings</a>
+
+                                <a href="{% url 'campaign:create_campaign' %}" role="menuitem" tabindex="-1"
+                                    class="text-gray-700 block px-4 py-2 text-sm">add campaign</a>
+                                <a href="{% url 'event:create_event' %}" role="menuitem" tabindex="-1"
+                                    class="text-gray-700 block px-4 py-2 text-sm">add event</a>
+                                <a href="{% url 'accounts:account_list' %}" role="menuitem" tabindex="-1"
+                                    class="text-gray-700 block px-4 py-2 text-sm">Accounts</a>
+                                <a href="{% url 'accounts:logout' %}" role="menuitem" tabindex="-1"
+                                class="text-gray-700 block px-4 py-2 text-sm">logout</a>
+                            {% else %}
+                                <a href="{% url 'accounts:login' %}" role="menuitem" tabindex="-1"
+                                    class="text-gray-700 block px-4 py-2 text-sm">Login</a>
+                                <a href="{% url 'accounts:signup' %}" role="menuitem" tabindex="-1"
+                                    class="text-gray-700 block px-4 py-2 text-sm">Sign in</a>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </nav>
+    </div>
+</header>

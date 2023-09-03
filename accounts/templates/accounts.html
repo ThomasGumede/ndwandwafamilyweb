@@ -4,9 +4,9 @@
 
 
 {% block content %}
-<section class="w-full mt-36 h-fit mb-20">
+<section class="w-full mt-36 h-fit mb-9">
     <div class="relative grid items-center justify-center">
-        <div class="shadow-xl rounded-md w-[450px] h-fit bg-white">
+        <div class="shadow-xl rounded-md w-fit h-fit bg-white">
             <div class="px-4 py-1 w-full relative text-black">
                 <div>
                     <form action="{% url 'accounts:account_list' %}" method="get" class="">
@@ -26,7 +26,6 @@
                                 <option value="username" class="shadow-none">Username</option>
                                 <option value="occupation" class="shadow-none">Occupation</option>
                                 <option value="professional_affiliations" class="shadow-none">professional aff</option>
-                                <option value="address" class="shadow-none">Address</option>
                                 <option value="city" class="shadow-none">City</option>
                                 <option value="province" class="shadow-none">Province</option>
                                 <option value="zipcode" class="shadow-none">Zipcode</option>
@@ -34,48 +33,7 @@
                         </div>
                     </form>
                 </div>
-                <div id="search_results_modal"
-                    class="absolute hidden top-full mt-2 shadow-xl rounded-md left-0 w-full z-[700] h-fit overflow-y-auto overflow-hidden max-h-60 p-4 bg-white">
-                    <div id="search_results_container" class="space-y-3 z-[600]">
-                        <div class="bg-white">
-                            <div class="flex items-center w-full space-x-2">
-                                <div class="h-8 w-8 overflow-hidden rounded-full">
-                                    <img src="{% static 'imgs/home.jpg' %}"
-                                        class="w-full h-full object-cover object-center" />
-                                </div>
-                                <div class="space-y">
-                                    <h6 class="text-lg font-bold text-black">Thomas Gumede</h6>
-                                    <p class="text-sm text-gray-500 font-normal">Software engineer</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="bg-white">
-                            <div class="flex items-center w-full space-x-2">
-                                <div class="h-8 w-8 overflow-hidden rounded-full">
-                                    <img src="{% static 'imgs/home.jpg' %}"
-                                        class="w-full h-full object-cover object-center" />
-                                </div>
-                                <div class="space-y">
-                                    <h6 class="text-lg font-bold text-black">Thomas Gumede</h6>
-                                    <p class="text-sm text-gray-500 font-normal">Software engineer</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="bg-white">
-                            <div class="flex items-center w-full space-x-2">
-                                <div class="h-8 w-8 overflow-hidden rounded-full">
-                                    <img src="{% static 'imgs/home.jpg' %}"
-                                        class="w-full h-full object-cover object-center" />
-                                </div>
-                                <div class="space-y">
-                                    <h6 class="text-lg font-bold text-black">Thomas Gumede</h6>
-                                    <p class="text-sm text-gray-500 font-normal">Software engineer</p>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
+                
             </div>
         </div>
     </div>

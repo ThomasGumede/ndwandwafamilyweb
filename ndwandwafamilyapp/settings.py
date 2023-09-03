@@ -12,9 +12,14 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 from pathlib import Path
 from django.contrib.messages import constants as messages
+import environ
+import os
+
+env = environ.Env()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
 
 MESSAGE_TAGS = {
     messages.DEBUG: 'bg-gray-300 text-gray-800',
@@ -28,12 +33,12 @@ MESSAGE_TAGS = {
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-y@^u0=p5&a^*b%avo11!stpfwhgh609fqap1ai#3mjg^(2=6^4'
+SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = str(env('DEBUG')) == '1'
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1']
 
 
 # Application definition
@@ -48,14 +53,43 @@ INSTALLED_APPS = [
     'accounts.apps.AccountsConfig',
     'campaign.apps.CampaignConfig',
     'event.apps.EventConfig',
+    'orders.apps.OrdersConfig',
     'actions.apps.ActionsConfig',
+    'payments.apps.PaymentsConfig',
+    'home.apps.HomeConfig',
 
     # 3rd party
     'tailwind',
     'taggit',
+    'tinymce',
     'theme'
     # 'django_browser_reload'
 ]
+
+PASSWORD_RESET_TIMEOUT = 14400
+
+DATA_UPLOAD_MAX_MEMORY_SIZE = 5242880 # 5MB
+
+TINYMCE_DEFAULT_CONFIG = {
+    'custom_undo_redo_levels': 100,
+    'selector': 'textarea',
+    "menubar": "file edit view insert format tools table help",
+    'plugins': 'preview contextmenu table lists fullscreen',
+    'toolbar1': 'undo redo | backcolor casechange permanentpen formatpainter removeformat formatselect fontselect fontsizeselect',
+    'toolbar2': 'bold italic underline blockquote | alignleft aligncenter alignright alignjustify '
+               '| bullist numlist | outdent indent | table',
+    'contextmenu': 'formats',
+    'block_formats': 'Paragraph=p; Header 1=h1; Header 2=h2',
+    'fontsize_formats': "8pt 10pt 12pt 14pt 16pt 18pt",
+    'content_style': "body { font-family: Lexend Deca; background: white; color: black; font-size: 12pt}",
+    # 'image_class_list': [{'title': 'Fluid', 'value': 'img-fluid', 'style': {} }],
+    'width': '',
+    "height": "400px",
+    # 'image_caption': True,
+    # "images_upload_url": "upload_image",
+}
+
+
 
 
 # Tailwind css
@@ -77,8 +111,8 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'ndwandwafamilyapp.urls'
 
-LOGIN_REDIRECT_URL = '/'
-LOGOUT_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = 'home:home'
+LOGOUT_REDIRECT_URL = 'home:home'
 LOGIN_URL = 'accounts:login'
 
 
@@ -108,9 +142,9 @@ WSGI_APPLICATION = 'ndwandwafamilyapp.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'ndwandwafamdb',
-        'USER': 'postgres',
-        'PASSWORD': 'Safe&Sound2',
+        'NAME': env('DATABASE_NAME'),
+        'USER': env('DATABASE_USER'),
+        'PASSWORD': env('DATABASE_PASSWORD'),
         'HOST': 'localhost',
         'PORT': ''
     }
@@ -159,7 +193,7 @@ STATICFILES_FINDERS = [
 ]
 
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     BASE_DIR / 'static'
 ]
@@ -168,6 +202,13 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media_root'
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_HOST = 'smtp.gmail.com'
+# EMAIL_FROM = 'gumedembalenhle92@gmail.com'
+# EMAIL_HOST_USER = 'gumedembalenhle92@gmail.com'
+# EMAIL_HOST_PASSWORD = 'tizb vfli wqfr tlli'
+# EMAIL_PORT = 587
+# EMAIL_USE_TLS = True
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field

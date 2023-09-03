@@ -1,4 +1,4 @@
-from accounts.models import CustomUser, Wallet
+from accounts.models import CustomUser, Wallet, Contact
 from accounts.forms import AccountUpdateForm, GeneralEditForm, RegistrationForm
 from django.http import JsonResponse, HttpResponseForbidden
 from django.core import serializers
@@ -8,9 +8,35 @@ from django.views.generic import ListView, View, DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
 from django.contrib.auth import update_session_auth_hash, get_user_model
+from django.template.loader import render_to_string
+from django.contrib.sites.shortcuts import get_current_site
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.utils.encoding import force_bytes, force_str
+from django.core.mail import EmailMessage
+from accounts.tokens import account_activation_token
+from accounts.backends import EmailBackend
 
 
 User = get_user_model()
+
+
+def activateEmail(request, user, to_email):
+    mail_subject = "Activate your user account."
+    message = render_to_string("template_activate_account.html", {
+        'user': user.username,
+        'domain': get_current_site(request).domain,
+        'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+        'token': account_activation_token.make_token(user),
+        "protocol": 'https' if request.is_secure() else 'http'
+    })
+    email = EmailMessage(mail_subject, message, to=[to_email])
+    email.content_subtype = 'html'
+    if email.send():
+        messages.success(request, f'Dear <b>{user}</b>, please go to you email \n<b>{to_email}</b> inbox and click on \
+                received activation link to confirm and complete the registration. \n<b>Note:</b> Check your spam folder.')
+    else:
+        messages.error(request, f'Problem sending email to {to_email}, check if you typed it correctly.')
+
 
 class AccountsView(LoginRequiredMixin, View):
     
@@ -33,29 +59,14 @@ class AccountsView(LoginRequiredMixin, View):
                     queryset = User.objects.filter(occupation__icontains = query)
                 case "professional_affiliations":
                     queryset = User.objects.filter(professional_affiliations__icontains = query)
-                case "address":
-                    queryset = User.objects.filter(address__address_one__icontains = query)
+                case "province":
+                    queryset = User.objects.filter(address__state__icontains = query)
+                case "zipcode":
+                    queryset = User.objects.filter(address__zipcode__icontains = query)
                 case "city":
                     queryset = User.objects.filter(address__city__icontains = query)
                 case _:
                     queryset = User.objects.filter(first_name__icontains = query)
-
-            # if query_by == "first_name":
-            #     queryset = User.objects.filter(first_name__icontains = query)
-            # elif query_by == "last_name":
-            #     queryset = User.objects.filter(last_name__icontains = query)
-            # elif query_by == "username":
-            #     queryset = User.objects.filter(username__icontains = query)
-            # elif query_by == "occupation":
-            #     queryset = User.objects.filter(occupation__icontains = query)
-            # elif query_by == "professional_affiliations":
-            #     queryset = User.objects.filter(professional_affiliations__icontains = query)
-            # elif query_by == "address":
-            #     queryset = User.objects.filter(address__address_one__icontains = query)
-            # elif query_by == "city":
-            #     queryset = User.objects.filter(address__city__icontains = query)
-            # else:
-            #     queryset = User.objects.filter(first_name__icontains = query)
         
         return render(request, self.template_name, {"users": queryset.only("first_name", "last_name", "username","occupation", "address__state", "photo")})
 
@@ -76,7 +87,7 @@ class AccountCreateView(View):
 
     def dispatch(self, request, *args, **kwargs):
         if request.user.is_authenticated:
-            return redirect("home")
+            return redirect("home:home")
         return super().dispatch(request, *args, **kwargs)
     
     def get(self, request, *args, **kwargs):
@@ -85,15 +96,42 @@ class AccountCreateView(View):
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST, request.FILES)
         if form.is_valid() and form.is_multipart():
-            instance = form.save()
-            Wallet.objects.create(name=f"{instance.username}-wallet", owner=instance)
+            instance = form.save(commit=False)
+            instance.is_active = False
             instance.save()
-            cd = form.cleaned_data
-            user = authenticate(username=cd['username'], password=cd['password1'])
-            login(self.request, user)
-            return redirect("accounts:createaddress", user.username, user.pk)
+            Wallet.objects.create(name=f"{form.cleaned_data.get('first_name')}-wallet", owner=instance)
+            activateEmail(request, instance, form.cleaned_data.get('email'))
+            return redirect('accounts:activate_confirmation')
         else:
             return render(request, self.template_name, {"form": form})
+
+class ActivateAccountView(View):
+    def dispatch(self, request, uidb64, token, *args, **kwargs):
+        if request.user.is_authenticated:
+            return redirect("home")
+        return super().dispatch(request, uidb64, token, *args, **kwargs)
+
+    def get(self, request, uidb64, token, *args, **kwargs):
+        try:
+            uid = force_str(urlsafe_base64_decode(uidb64))
+            user = User.objects.get(pk=uid)
+        except:
+            user = None
+
+        if user is not None and account_activation_token.check_token(user, token):
+            user.is_active = True
+            user.save()
+
+            messages.success(request, "Thank you for your email confirmation. Now you can login your account.")
+            return redirect('accounts:login')
+        else:
+            messages.error(request, "Activation link is invalid!")
+
+        return redirect('home:home')
+
+class ActivationSentView(View):
+    def get(self, request, *args, **kwargs):
+        return render(request, "email_confirmation_sent.html")
 
 # User update views
 class GeneralView(LoginRequiredMixin, View):
@@ -168,29 +206,3 @@ class AccountUpdateView(LoginRequiredMixin, View):
         else:
             messages.error(request, "Something isn\'t right, please fix below errors")
             return render(request, self.template_name, {"form": form})
-
-
-class AccountSearchView(LoginRequiredMixin, View):
-    model = None
-    def dispatch(self, request, *args, **kwargs):
-        if request.headers['X-Requested-With'] !=  'XMLHttpRequest':
-            return JsonResponse({"success": False, "message": "This request is not allowed"}, safe=True, status=500)
-        return super().dispatch(request, *args, **kwargs)
-    
-    def get(self, request, *args, **kwargs):
-        key = request.GET.get("key")
-        users_by_username = User.objects.filter(username__icontains = key)
-        users_by_firstname = User.objects.filter(first_name__icontains = key)
-        users_by_lastname = User.objects.filter(last_name__icontains=key)
-
-        users_by_username_sr = serializers.serialize("json", users_by_username)
-        users_by_firstname_sr = serializers.serialize("json", users_by_firstname)
-        users_by_lastname_sr = serializers.serialize("json", users_by_lastname)
-        data = {
-            "users_by_username_sr" : users_by_username_sr,
-            "users_by_firstname_sr" : users_by_firstname_sr,
-            "users_by_lastname_sr" : users_by_lastname_sr
-        }
-        return JsonResponse({"success": True, "data": data}, status=200)
-
-    

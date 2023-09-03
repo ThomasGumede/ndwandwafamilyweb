@@ -1,11 +1,8 @@
-from typing import Any, Dict, Mapping, Optional, Type, Union
+
 from django import forms
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import (AuthenticationForm, PasswordResetForm,
                                        SetPasswordForm, UserCreationForm)
-from django.core.files.base import File
-from django.db.models.base import Model
-from django.forms.utils import ErrorList
 
 
 from accounts.models import Address, NextOfKin, Qualification
@@ -104,5 +101,10 @@ class QualificationForm(forms.ModelForm):
         #     'qualification_type': forms.DateTimeInput(attrs={"class": "border-0 px-3 py-3 {% if form.qualification_type.errors %} border-2 border-red-500{% endif %} placeholder-blueGray-300 text-gray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"}),
         #     }
 
+
+class SubscribeForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ("subscriptions",)
 
 

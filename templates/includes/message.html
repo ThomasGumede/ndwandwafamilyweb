@@ -1,0 +1,56 @@
+{% if messages %}
+{% for message in messages %}
+    {% if message.tags == 'SUCCESS' %}
+        <div class="fixed top-0 left-0 w-full z-[700]">
+            <div
+                class="cursor-pointer mt-32 alert py-5 mx-auto shadow-xl rounded-md flex items-center justify-between w-full max-w-6xl px-6 text-base bg-green-100 text-green-700"
+                role="alert">
+                {{ message|safe|escape }}
+
+                <button id="" onclick="remove_alert('alert')" class="cursor-pointer text-black border-none outline-none text-xl">x</button>
+            </div>
+        </div>
+    {% elif message.tags == 'ERROR' %}
+    <div class="fixed top-0 left-0 w-full z-[700]">
+        <div
+            class="cursor-pointer mt-32 alert py-5 mx-auto shadow-xl rounded-md flex items-center justify-between w-full max-w-6xl px-6 text-base bg-red-100 text-red-700"
+            role="alert">
+            {{ message|safe|escape }}
+
+            <button id="" onclick="remove_alert('alert')" class="cursor-pointer text-black border-none outline-none text-xl">x</button>
+        </div>
+    </div>
+    {% elif message.tags == 'INFO' %}
+    <div class="fixed top-0 left-0 w-full z-[700]">
+        <div
+            class="cursor-pointer mt-32 alert py-5 mx-auto shadow-xl rounded-md flex items-center justify-between w-full max-w-6xl px-6 text-base bg-blue-100 text-blue-700"
+            role="alert">
+            {{ message|safe|escape }}
+
+            <button id="" onclick="remove_alert('alert')" class="cursor-pointer text-black border-none outline-none text-xl">x</button>
+        </div>
+    </div>
+    {% elif message.tags == 'WARNING' %}
+    <div class="fixed top-0 left-0 w-full z-[700]">
+        <div
+            class="cursor-pointer mt-32 alert py-5 mx-auto shadow-xl rounded-md flex items-center justify-between w-full max-w-6xl px-6 text-base bg-yellow-100 text-yellow-700"
+            role="alert">
+            {{ message|safe|escape }}
+
+            <button id="" onclick="remove_alert('alert')" class="cursor-pointer text-black border-none outline-none text-xl">x</button>
+        </div>
+    </div>
+    {% else %}
+    <div class="fixed top-0 left-0 w-full z-[700]">
+        <div
+            class="cursor-pointer mt-32 alert py-5 mx-auto shadow-xl rounded-md flex items-center justify-between w-full max-w-6xl px-6 text-base bg-green-100 text-green-700"
+            role="alert">
+            {{ message|safe|escape }}
+
+            <button id="" onclick="remove_alert('alert')" class="cursor-pointer text-black border-none outline-none text-xl">x</button>
+        </div>
+    </div>
+        
+    {% endif %}
+{% endfor %}
+{% endif %}

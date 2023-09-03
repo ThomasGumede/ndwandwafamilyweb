@@ -2,17 +2,36 @@
 {% load static %}
 
 {% block content %}
-<section class="w-full mt-48 overflow-hidden mb-20">
-    {% if messages %}
-    {% for message in messages %}
-    <div id="alert"
-        class="cursor-pointer rounded-lg py-5 flex items-center justify-between w-full px-6 text-base bg-blue-100 text-blue-700 mb-3"
-        role="alert">
-        {{message}}
-        <button id="cancel_alert" class="cursor-pointer text-black border-none outline-none text-xl">x</button>
+<section class="w-full bg-custom-h pt-36 mt-16 relative block pb-32 overflow-hidden border-2">
+    <div id="header-bg"
+        class="absolute top-0 h-fit  border-2 border-custom-primary left-0 bottom-0 right-0 overflow-hidden bg-center opacity-50 bg-no-repeat bg-cover mix-blend-luminosity">
+        <img src="{% static 'imgs/home.jpg' %}" alt="" class="w-full h-96 object-cover">
     </div>
-    {% endfor %}
-    {% endif %}
+    <div class="container">
+        <div class="relative block z-40">
+            <ul class="relative block">
+                <li class="inline-block text-base text-white font-medium opacity-60 relative">
+                    <a href="" class="text-white inline-block text-base font-medium">Home</a>
+                </li>
+                <li class="inline-block text-base text-white font-medium opacity-60 relative">
+                    <span>/</span>
+                </li>
+                <li class="inline-block text-base text-white font-medium opacity-60 relative">
+                    <a href="{% url 'event:event_list' %}"
+                        class="text-white inline-block text-base font-medium">Event</a>
+                </li>
+                <li class="inline-block text-base text-white font-medium opacity-60 relative">
+                    <span>/</span>
+                </li>
+                <li class="inline-block text-base text-white font-medium opacity-60 relative">
+                    <a href="" class="text-white inline-block text-base font-medium">Create</a>
+                </li>
+            </ul>
+            <h2 class="text-white text-2xl md:text-5xl font-bold m-0">Create event</h2>
+        </div>
+    </div>
+</section>
+<section class="w-full p-[120px_0_120px] overflow-hidden mb-20">
     <div class="container">
         <div class="w-full mx-auto bg-white">
             <div class="">
@@ -28,12 +47,12 @@
                             {% csrf_token %}
 
                             <div class="flex items-start flex-col md:flex-row w-full gap-7">
-                                <div class="bg-white w-full md:w-[calc(100%_-_500px)]">
+                                <div class="bg-white w-full md:w-5/12">
                                     <h6 class="text-blueGray-400 text-sm mt-3 mb-6 font-bold uppercase">
                                         Event Information
                                     </h6>
                                     <div class="flex flex-wrap gap-4">
-                                        <div class="w-full">
+                                        <div class="w-full lg:w-12/12">
                                             <div class="relative w-full mb-3">
                                                 <label for="id_title"
                                                     class="block uppercase {% if form.title.errors %}text-red-500 {% else %} text-gray-600 {% endif %} text-xs font-bold mb-2"
@@ -109,90 +128,8 @@
 
                                             </div>
                                         </div>
-                                        <div class="w-full lg:w-12/12">
-                                            <div class="relative w-full mb-3">
-                                                <label for="id_content"
-                                                    class="block uppercase {% if form.content.errors %}text-red-500 {% else %} text-gray-600 {% endif %} text-xs font-bold mb-2"
-                                                    htmlfor="grid-password">
-                                                    event details*
-                                                </label>
-
-                                                <textarea placeholder="The clearer and shorter the better"
-                                                    name="content" id="id_content"
-                                                    class="border-0 px-3 py-3 {% if form.content.errors %} h-44 border-2 border-red-500{% endif %} placeholder-gray-300 text-gray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                                                    rows="8"> </textarea>
-                                                <span
-                                                    class="text-[11px] text-custom-tertiary block font-normal lowercase">{{form.content.help_text}}</span>
-                                                {% if form.content.errors %}
-                                                <span
-                                                    class="text-[11px] text-red-500 block font-normal lowercase">{{form.content.errors.as_text}}</span>
-                                                {% endif %}
-                                            </div>
-                                        </div>
-                                        <div class="w-full">
-                                            <div class="relative w-full mb-3">
-                                                <label for="id_image"
-                                                    class="block uppercase {% if form.image.errors %}text-red-500 {% else %} text-gray-600 {% endif %} text-xs font-bold mb-2"
-                                                    htmlfor="grid-password">
-                                                    event picture*
-                                                </label>
-                                                <input type="file" name="image" accept="image/*" id="id_image"
-                                                    class="w-[0.1px] h-[0.1px] opacity-0 overflow-hidden absolute -z-[1]" />
-                                                <div class="w-full border rounded-md bg-white border-dotted p-6">
-                                                    <div
-                                                        class="flex items-center flex-col md:flex-row gap-4 w-full justify-between">
-                                                        <div class="flex items-center space-x-4">
-                                                            <div id="img_container"
-                                                                class="h-16 w-20 overflow-hidden rounded bg-gray-300">
-                                                                <div id="no_image"></div>
-                                                            </div>
-                                                            <div class="space-y-1">
-                                                                <p class="text-xs font-bold text-gray-500">Upload image
-                                                                    to illustrate your event</p>
-                                                                <p class="text-xs font-light text-gray-500">SVG, PNG,
-                                                                    JPG, JPEG or GIF</p>
-                                                            </div>
-                                                        </div>
-                                                        <div id="pick_image"
-                                                            class="border p-2 cursor-pointer text-center text-black">
-                                                            <p class="text-sm">Browser</p>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <span
-                                                    class="text-[11px] text-custom-tertiary block font-normal lowercase">{{form.image.help_text}}</span>
-                                                {% if form.image.errors %}
-                                                <span
-                                                    class="text-[11px] text-red-500 block font-normal lowercase">{{form.image.errors.as_text}}</span>
-                                                {% endif %}
-                                            </div>
-                                        </div>
-                                        <div class="w-full">
-                                            <div class="relative w-full mb-3">
-
-                                                <label for="id_tags"
-                                                    class="block uppercase {% if form.email.errors %}text-red-500 {% else %} text-gray-600 {% endif %} text-xs font-bold mb-2"
-                                                    htmlfor="grid-password">
-                                                    tags*
-                                                </label>
-
-                                                <input id="id_tags" name="tags" type="text"
-                                                    placeholder="e.g. Family, gathering, etc"
-                                                    class="border-0 px-3 py-3 {% if form.tags.errors %} border-2 border-red-500{% endif %} placeholder-gray-300 text-gray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                                                    value="">
-                                                <span
-                                                    class="text-[11px] text-custom-tertiary block font-normal lowercase">{{form.tags.help_text}}</span>
-                                                {% if form.tags.errors %}
-                                                <span
-                                                    class="text-[11px] text-red-500 block font-normal lowercase">{{form.tags.errors.as_text}}</span>
-                                                {% endif %}
-                                            </div>
-                                        </div>
+                                        
                                     </div>
-
-                                </div>
-                                <div class="bg-white w-full md:w-[450px] relative">
                                     <h6 class="text-blueGray-400 text-sm mt-3 mb-6 font-bold uppercase">
                                         Event Address
                                     </h6>
@@ -300,10 +237,96 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="bg-white w-full md:w-7/12 relative">
+                                    <h6 class="text-blueGray-400 text-sm mt-3 mb-6 font-bold uppercase">
+                                        Event Details
+                                    </h6>
+                                    <div class="flex flex-wrap gap-4">
+                                        <div class="w-full lg:w-12/12">
+                                            <div class="relative w-full mb-3">
+                                                <label for="id_content"
+                                                    class="block uppercase {% if form.content.errors %}text-red-500 {% else %} text-gray-600 {% endif %} text-xs font-bold mb-2"
+                                                    htmlfor="grid-password">
+                                                    event details*
+                                                </label>
+
+                                                {{form.content}}
+                                                <span
+                                                    class="text-[11px] text-custom-tertiary block font-normal lowercase">{{form.content.help_text}}</span>
+                                                {% if form.content.errors %}
+                                                <span
+                                                    class="text-[11px] text-red-500 block font-normal lowercase">{{form.content.errors.as_text}}</span>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                        <div class="w-full">
+                                            <div class="relative w-full mb-3">
+                                                <label for="id_image"
+                                                    class="block uppercase {% if form.image.errors %}text-red-500 {% else %} text-gray-600 {% endif %} text-xs font-bold mb-2"
+                                                    htmlfor="grid-password">
+                                                    event picture*
+                                                </label>
+                                                <input type="file" name="image" accept="image/*" id="id_image"
+                                                    class="w-[0.1px] h-[0.1px] opacity-0 overflow-hidden absolute -z-[1]" />
+                                                <div class="w-full border rounded-md bg-white border-dotted p-6">
+                                                    <div
+                                                        class="flex items-center flex-col md:flex-row gap-4 w-full justify-between">
+                                                        <div class="flex items-center space-x-4">
+                                                            <div id="img_container"
+                                                                class="h-16 w-20 overflow-hidden rounded bg-gray-300">
+                                                                <div id="no_image"></div>
+                                                            </div>
+                                                            <div class="space-y-1">
+                                                                <p class="text-xs font-bold text-gray-500">Upload image
+                                                                    to illustrate your event</p>
+                                                                <p class="text-xs font-light text-gray-500">SVG, PNG,
+                                                                    JPG, JPEG or GIF</p>
+                                                            </div>
+                                                        </div>
+                                                        <div id="pick_image"
+                                                            class="border p-2 cursor-pointer text-center text-black">
+                                                            <p class="text-sm">Browser</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <span
+                                                    class="text-[11px] text-custom-tertiary block font-normal lowercase">{{form.image.help_text}}</span>
+                                                {% if form.image.errors %}
+                                                <span
+                                                    class="text-[11px] text-red-500 block font-normal lowercase">{{form.image.errors.as_text}}</span>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                        <div class="w-full">
+                                            <div class="relative w-full mb-3">
+
+                                                <label for="id_tags"
+                                                    class="block uppercase {% if form.email.errors %}text-red-500 {% else %} text-gray-600 {% endif %} text-xs font-bold mb-2"
+                                                    htmlfor="grid-password">
+                                                    tags*
+                                                </label>
+
+                                                <input id="id_tags" name="tags" type="text"
+                                                    placeholder="e.g. Family, gathering, etc"
+                                                    class="border-0 px-3 py-3 {% if form.tags.errors %} border-2 border-red-500{% endif %} placeholder-gray-300 text-gray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                                                    value="">
+                                                <span
+                                                    class="text-[11px] text-custom-tertiary block font-normal lowercase">{{form.tags.help_text}}</span>
+                                                {% if form.tags.errors %}
+                                                <span
+                                                    class="text-[11px] text-red-500 block font-normal lowercase">{{form.tags.errors.as_text}}</span>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                             <input type="hidden" id="id_event_address" name="event_address" />
                             <hr class="mt-6 border-b-1 border-blueGray-300">
-
+                            <p class="text-sm text-custom-h font-medium">
+                                By click add submit, you are agreeing to our event <span class="text-custom-primary">terms and conditions</span>
+                            </p>
 
                             <div class="space-x-7 mt-3">
                                 <div

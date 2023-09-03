@@ -1,7 +1,9 @@
 from accounts.models import Qualification
 from accounts.forms import QualificationForm
+from django.http import HttpResponseForbidden
 from django.shortcuts import render, redirect, get_object_or_404
-from django.views.generic import View, UpdateView
+from django.views.generic import View
+from django.http import JsonResponse
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
 
@@ -33,11 +35,9 @@ class QualificationUpdateView(LoginRequiredMixin, View):
 
     def dispatch(self, request, pk, id, *args, **kwargs):
         if request.user.pk != pk:
-            return redirect("accounts:account_list")
-        
+            return HttpResponseForbidden()
         self.qualification = get_object_or_404(self.model, id=id)
         return super().dispatch(request, pk, id, *args, **kwargs)
-    
     
     def get(self, request, pk, id, *args, **kwargs):
         form = self.form_class(instance=self.qualification)
@@ -53,3 +53,20 @@ class QualificationUpdateView(LoginRequiredMixin, View):
             messages.success(request, "Qualification not updated successfully")
             return render(request, self.template_name, {"form": form})  
     
+class QualificationDeleteView(LoginRequiredMixin, View):
+    model = None
+    def dispatch(self, request, qual_id,*args, **kwargs):
+        if request.headers['X-Requested-With'] !=  'XMLHttpRequest':
+            return JsonResponse({"success": False, "message": "This request is not allowed"}, status=500)
+        try:
+            self.model = Qualification.objects.get(id = qual_id)
+        except Qualification.DoesNotExist:
+            return JsonResponse({"success": False, "message": "This qualification is already deleted or does not exists"}, status=200)
+        
+        return super().dispatch(request, qual_id,*args, **kwargs)
+    
+    def post(self, request, qual_id, *args, **kwargs):
+        
+        self.model.delete()
+            
+        return JsonResponse({"success": True, "message": "Qualification deleted"})

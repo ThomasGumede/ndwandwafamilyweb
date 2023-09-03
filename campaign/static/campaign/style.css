@@ -1,0 +1,25 @@
+.img:before {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    content: "";
+    background-color: rgba(var(--qrowd-primary-rgb), .90);
+    transition: opacity 500ms ease, visibility 500ms ease, transform 500ms ease;
+    visibility: hidden;
+    opacity: 0;
+    transform: translateY(-30%);
+    z-index: 1;
+}
+
+.img:after {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    content: "";
+    background: rgb(24, 46, 46);
+    background: linear-gradient(180deg, rgba(24, 46, 46, 0) 0%, rgba(24, 46, 46, 1) 87%);
+}

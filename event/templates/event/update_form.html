@@ -1,0 +1,478 @@
+{% extends '_base.html' %}
+{% load static %}
+
+{% block content %}
+<section class="w-full bg-custom-h pt-36 mt-16 relative block pb-32 overflow-hidden border-2">
+    <div id="header-bg"
+        class="absolute top-0 h-fit  border-2 border-custom-primary left-0 bottom-0 right-0 overflow-hidden bg-center opacity-50 bg-no-repeat bg-cover mix-blend-luminosity">
+        <img src="{% static 'imgs/home.jpg' %}" alt="" class="w-full h-96 object-cover">
+    </div>
+    <div class="container">
+        <div class="relative block z-40">
+            <ul class="relative block">
+                <li class="inline-block text-base text-white font-medium opacity-60 relative">
+                    <a href="" class="text-white inline-block text-base font-medium">Home</a>
+                </li>
+                <li class="inline-block text-base text-white font-medium opacity-60 relative">
+                    <span>/</span>
+                </li>
+                <li class="inline-block text-base text-white font-medium opacity-60 relative">
+                    <a href="{% url 'event:event_list' %}" class="text-white inline-block text-base font-medium">Event</a>
+                </li>
+                <li class="inline-block text-base text-white font-medium opacity-60 relative">
+                    <span>/</span>
+                </li>
+                <li class="inline-block text-base text-white font-medium opacity-60 relative">
+                    <a href="" class="text-white inline-block text-base font-medium">{{form.title.value}}</a>
+                </li>
+            </ul>
+            <h2 class="text-white text-2xl md:text-5xl font-bold m-0">Update event</h2>
+        </div>
+    </div>
+</section>
+
+<section class="w-full p-[120px_0_120px] overflow-hidden mb-20">
+    <div class="container">
+        <div class="w-full mx-auto bg-white">
+            <div class="">
+                <div class="space-y-4  border-0 bg-white w-full relative">
+                    {% if form.non_field_errors %}
+                    <div class="w-fit space-y-1 mx-auto text-sm text-red-500 font-normal">
+                        <p class="">{{form.non_field_errors}}</p>
+                    </div>
+
+                    {% endif %}
+                    <div class="">
+                        <form method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+
+                            <div class="flex items-start flex-col md:flex-row w-full gap-7">
+                                <div class="bg-white w-full md:w-5/12">
+                                    <h6 class="text-blueGray-400 text-sm mt-3 mb-6 font-bold uppercase">
+                                        Event Information
+                                    </h6>
+                                    <div class="flex flex-wrap gap-4">
+                                        <div class="w-full">
+                                            <div class="relative w-full mb-3">
+                                                <label for="id_title"
+                                                    class="block uppercase {% if form.title.errors %}text-red-500 {% else %} text-gray-600 {% endif %} text-xs font-bold mb-2"
+                                                    htmlfor="grid-password">
+                                                    Title*
+                                                </label>
+                                                <input id="id_title" required name="title" type="text"
+                                                    class="border-0 px-3 py-3 {% if form.title.errors %} border-2 border-red-500{% endif %} placeholder-blueGray-300 text-gray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                                                    value="{{form.title.value}}">
+                                                <span
+                                                    class="text-[11px] text-custom-tertiary block font-normal lowercase">{{form.title.help_text}}</span>
+                                                {% if form.title.errors %}
+                                                <span
+                                                    class="text-[11px] text-red-500 block font-normal lowercase">{{form.title.errors.as_text}}</span>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                        <div class="w-full lg:w-1/3">
+                                            <div class="relative w-full mb-3">
+                                                <label for="id_event_startdate"
+                                                    class="block uppercase {% if form.event_startdate.errors %}text-red-500 {% else %} text-gray-600 {% endif %} text-xs font-bold mb-2"
+                                                    htmlfor="grid-password">
+                                                    start date*
+                                                </label>
+                                                {{form.event_startdate}}
+                                                <span
+                                                    class="text-[11px] text-custom-tertiary block font-normal lowercase">{{form.event_startdate.help_text}}</span>
+                                                {% if form.event_startdate.errors %}
+                                                <span
+                                                    class="text-[11px] text-red-500 block font-normal lowercase">{{form.event_startdate.errors.as_text}}</span>
+                                                {% endif %}
+
+                                            </div>
+                                        </div>
+                                        <div class="w-full lg:w-1/3">
+                                            <div class="relative w-full mb-3">
+                                                <label for="id_event_enddate"
+                                                    class="block uppercase {% if form.event_enddate.errors %}text-red-500 {% else %} text-gray-600 {% endif %} text-xs font-bold mb-2"
+                                                    htmlfor="grid-password">
+                                                    End date*
+                                                </label>
+                                                {{form.event_enddate}}
+                                            <span
+                                                    class="text-[11px] text-custom-tertiary block font-normal lowercase">{{form.event_enddate.help_text}}</span>
+                                                {% if form.event_enddate.errors %}
+                                                <span
+                                                    class="text-[11px] text-red-500 block font-normal lowercase">{{form.event_enddate.errors.as_text}}</span>
+                                                {% endif %}
+
+                                            </div>
+                                        </div>
+                                        <div class="w-full lg:w-1/4">
+                                            <div class="relative w-full mb-3">
+                                                <label for="id_ticket_price"
+                                                    class="block uppercase {% if form.ticket_price.errors %}text-red-500 {% else %} text-gray-600 {% endif %} text-xs font-bold mb-2"
+                                                    htmlfor="grid-password">
+                                                    Ticket price (R)*
+                                                </label>
+                                                <input  id="id_ticket_price" name="ticket_price" required type="number"
+                                                    step="0.01" min="0"
+                                                    class="border-0 px-3 py-3 {% if form.ticket_price.errors %} border-2 border-red-500{% endif %} placeholder-blueGray-300 text-gray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                                                    value="{{form.ticket_price.value}}">
+                                                <span
+                                                    class="text-[11px] text-custom-tertiary block font-normal lowercase">{{form.ticket_price.help_text}}</span>
+                                                {% if form.ticket_price.errors %}
+                                                <span
+                                                    class="text-[11px] text-red-500 block font-normal lowercase">{{form.ticket_price.errors.as_text}}</span>
+                                                {% endif %}
+
+                                            </div>
+                                        </div>
+                                        
+                                    </div>
+                                    <h6 class="text-blueGray-400 text-sm mt-3 mb-6 font-bold uppercase">
+                                        Event Address
+                                    </h6>
+                                    <div class="flex flex-wrap gap-4">
+                                        <div class="w-full relative">
+                                            <div class="relative w-full  mb-3">
+                                                <label for="id_address_one"
+                                                    class="block uppercase {% if form2.address_one.errors %}text-red-500 {% else %} text-gray-600 {% endif %} text-xs font-bold mb-2"
+                                                    htmlfor="grid-password">
+                                                    address line 1*
+                                                </label>
+                                                <input id="id_address_one" required name="address_one" type="text"
+                                                    placeholder=""
+                                                    class="border-0 px-3 py-3 {% if form2.address_one.errors %} border-2 border-red-500{% endif %} placeholder-blueGray-300 text-gray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                                                    value="{{form2.address_one.value}}">
+                                                <span
+                                                    class="text-[11px] text-custom-tertiary block font-normal lowercase">{{form2.address_one.help_text}}</span>
+                                                {% if form2.address_one.errors %}
+                                                <span
+                                                    class="text-[11px] text-red-500 block font-normal lowercase">{{form2.address_one.errors.as_text}}</span>
+                                                {% endif %}
+                                            </div>
+                                            <div id="search_results_modal"
+                                                class="absolute hidden top-full z-50 shadow-xl rounded-md right-1/2 translate-x-1/2 w-full h-fit overflow-y-auto overflow-hidden max-h-60 p-4 bg-white">
+                                                <div id="search_results_container" class="space-y-3">
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="w-full">
+                                            <div class="relative w-full mb-3">
+                                                <label for="id_city"
+                                                    class="block uppercase {% if form2.city.errors %}text-red-500 {% else %} text-gray-600 {% endif %} text-xs font-bold mb-2"
+                                                    htmlfor="grid-password">
+                                                    city*
+                                                </label>
+                                                <input value="{{form2.city.value}}" id="id_city" name="city" required
+                                                    type="text"
+                                                    class="border-0 px-3 py-3 {% if form1.city.errors %} border-2 border-red-500{% endif %} placeholder-blueGray-300 text-gray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150">
+                                                <span
+                                                    class="text-[11px] text-custom-tertiary block font-normal lowercase">{{form2.city.help_text}}</span>
+                                                {% if form2.city.errors %}
+                                                <span
+                                                    class="text-[11px] text-red-500 block font-normal lowercase">{{form2.city.errors.as_text}}</span>
+                                                {% endif %}
+
+                                            </div>
+                                        </div>
+                                        <div class="w-full lg:w-1/3">
+                                            <div class="relative w-full mb-3">
+                                                <label for="id_state"
+                                                    class="block uppercase {% if form2.state.errors %}text-red-500 {% else %} text-gray-600 {% endif %} text-xs font-bold mb-2"
+                                                    htmlfor="grid-password">
+                                                    State*
+                                                </label>
+                                                <input value="{{form2.state.value}}" id="id_state" name="state" required
+                                                    type="text" placeholder="e.g. KZN, GP, WC, EC, etc"
+                                                    class="border-0 px-3 py-3 {% if form2.state.errors %} border-2 border-red-500{% endif %} placeholder-gray-300 text-gray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150">
+                                                <span
+                                                    class="text-[11px] text-custom-tertiary block font-normal lowercase">{{form2.state.help_text}}</span>
+                                                {% if form2.state.errors %}
+                                                <span
+                                                    class="text-[11px] text-red-500 block font-normal lowercase">{{form2.state.errors.as_text}}</span>
+                                                {% endif %}
+
+                                            </div>
+                                        </div>
+                                        <div class="w-full lg:w-1/3">
+                                            <div class="relative w-full mb-3">
+                                                <label for="id_zipcode"
+                                                    class="block uppercase {% if form2.zipcode.errors %}text-red-500 {% else %} text-gray-600 {% endif %} text-xs font-bold mb-2"
+                                                    htmlfor="grid-password">
+                                                    zipcode*
+                                                </label>
+                                                <input value="{{form2.zipcode.value}}" id="id_zipcode" name="zipcode"
+                                                    required type="number" placeholder="e.g. 3915"
+                                                    class="border-0 px-3 py-3 {% if form2.zipcode.errors %} border-2 border-red-500{% endif %} placeholder-gray-300 text-gray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150">
+                                                <span
+                                                    class="text-[11px] text-custom-tertiary block font-normal lowercase">{{form2.zipcode.help_text}}</span>
+                                                {% if form2.zipcode.errors %}
+                                                <span
+                                                    class="text-[11px] text-red-500 block font-normal lowercase">{{form2.zipcode.errors.as_text}}</span>
+                                                {% endif %}
+
+                                            </div>
+                                        </div>
+                                        <div class="w-full lg:w-1/4">
+                                            <div class="relative w-full mb-3">
+                                                <label for="id_country"
+                                                    class="block uppercase {% if form2.country.errors %}text-red-500 {% else %} text-gray-600 {% endif %} text-xs font-bold mb-2"
+                                                    htmlfor="grid-password">
+                                                    Country*
+                                                </label>
+                                                <input value="{{form2.country.value}}" id="id_country" name="country" readonly type="text"
+                                                    class="border-0 px-3 py-3 {% if form2.country.errors %} border-2 border-red-500{% endif %} placeholder-blueGray-300 text-gray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                                                    value="South Africa">
+                                                <span
+                                                    class="text-[11px] text-custom-tertiary block font-normal lowercase">{{form2.country.help_text}}</span>
+                                                {% if form2.country.errors %}
+                                                <span
+                                                    class="text-[11px] text-red-500 block font-normal lowercase">{{form2.country.errors.as_text}}</span>
+                                                {% endif %}
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="bg-white w-full md:w-7/12 relative">
+                                    <h6 class="text-blueGray-400 text-sm mt-3 mb-6 font-bold uppercase">
+                                        Event Details
+                                    </h6>
+                                    <div class="flex flex-wrap gap-4">
+                                        <div class="w-full lg:w-12/12">
+                                            <div class="relative w-full mb-3">
+                                                <label for="id_image"
+                                                    class="block uppercase {% if form.image.errors %}text-red-500 {% else %} text-gray-600 {% endif %} text-xs font-bold mb-2"
+                                                    htmlfor="grid-password">
+                                                    event picture*
+                                                </label>
+                                                <input value="{{form.image.value}}" type="file" name="image" accept="image/*" id="id_image"
+                                                    class="w-[0.1px] h-[0.1px] opacity-0 overflow-hidden absolute -z-[1]" />
+                                                    <div class="w-full border rounded-md bg-white border-dotted p-6">
+                                                        <div
+                                                            class="flex items-center flex-col md:flex-row gap-4 w-full justify-between">
+                                                            <div class="flex items-center space-x-4">
+                                                                <div id="img_container"
+                                                                    class="h-16 w-20 overflow-hidden rounded bg-gray-300">
+                                                                    {% if form.image.value %}
+                                                                    <img
+                                                                        src="{{form.image.value.url}}"
+                                                                        alt="{{form.title.value}} campaign"
+                                                                        class="w-full h-full object-cover"
+                                                                        id="img"
+                                                                    />
+                                                                    {% else %}
+                                                                    <div id="no_image"></div>
+                                                                    {% endif %}
+                                                                </div>
+                                                                <div class="space-y-1">
+                                                                    <p class="text-xs font-bold text-gray-500">Upload image
+                                                                        to illustrate your event</p>
+                                                                    <p class="text-xs font-light text-gray-500">SVG, PNG,
+                                                                        JPG, JPEG or GIF</p>
+                                                                </div>
+                                                            </div>
+                                                            <div id="pick_image"
+                                                                class="border p-2 cursor-pointer text-center text-black">
+                                                                <p class="text-sm">Browser</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                <span
+                                                    class="text-[11px] text-custom-tertiary block font-normal lowercase">{{form.image.help_text}}</span>
+                                                {% if form.image.errors %}
+                                                <span
+                                                    class="text-[11px] text-red-500 block font-normal lowercase">{{form.image.errors.as_text}}</span>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                        <div class="w-full lg:w-12/12">
+                                            <div class="relative w-full mb-3">
+                                                <label for="id_content"
+                                                    class="block uppercase {% if form.content.errors %}text-red-500 {% else %} text-gray-600 {% endif %} text-xs font-bold mb-2"
+                                                    htmlfor="grid-password">
+                                                    event details*
+                                                </label>
+
+                                               {{form.content}}
+                                                <span
+                                                    class="text-[11px] text-custom-tertiary block font-normal lowercase">{{form.content.help_text}}</span>
+                                                {% if form.content.errors %}
+                                                <span
+                                                    class="text-[11px] text-red-500 block font-normal lowercase">{{form.content.errors.as_text}}</span>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="w-full lg:w-12/12">
+                                            <div class="relative w-full mb-3">
+
+                                                <label for="id_tags"
+                                                    class="block uppercase {% if form.email.errors %}text-red-500 {% else %} text-gray-600 {% endif %} text-xs font-bold mb-2"
+                                                    htmlfor="grid-password">
+                                                    tags*
+                                                </label>
+
+                                                {{form.tags}}
+                                                <span
+                                                    class="text-[11px] text-custom-tertiary block font-normal lowercase">{{form.tags.help_text}}</span>
+                                                {% if form.tags.errors %}
+                                                <span
+                                                    class="text-[11px] text-red-500 block font-normal lowercase">{{form.tags.errors.as_text}}</span>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                            <input type="hidden" id="id_event_address" name="event_address" />
+                            <hr class="mt-6 border-b-1 border-blueGray-300">
+                            <div class="space-x-7 mt-3">
+                                <div
+                                    class="text-center inline-block h-12 bg-custom-primary w-[150px] rounded-md cursor-pointer">
+                                    <input type="submit" value="submit"
+                                        class="text-white w-full h-full cursor-pointer text-sm font-semibold" />
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock content %}
+{% block javascripts %}
+<script>
+    let file_picker = document.querySelector("#id_image"),
+        pick_image = document.querySelector("#pick_image")
+
+    pick_image.addEventListener('click', () => {
+        file_picker.click()
+    })
+
+    file_picker.onchange = ({target}) => {
+        var no_image = document.querySelector("#no_image");
+        var img_container = document.querySelector("#img_container")
+        var img = document.querySelector("#img")
+        var file = target.files[0]
+        if (file) {
+            console.log(no_image)
+            if (no_image) {
+                console.log(img_container)
+
+                img_container.removeChild(no_image);
+                img_container.innerHTML += `
+                    <img
+                        src="${window.URL.createObjectURL(file)}"
+                        alt="{{request.user.first_name}}"
+                        class="w-full h-full object-cover"
+                        id="img"
+                    />
+                `
+            } else {
+                img.src = window.URL.createObjectURL(file)
+            }
+
+        } else {
+            alert("no file selected")
+        }
+
+    };
+
+    // Word count
+
+    var max_words = 250;
+
+    $("textarea[name=content]").on("keyup", function () {
+        var str = $(this).val();
+        if (str.split(/[\s]+/).length > max_words) {
+            alert("You cannot put more than" + max_words + " words in this text area.")
+            var new_str = str.split(/[\s]+/).splice(0, max_words).join(' ');
+            $(this).val(new_str);
+        }
+    })
+
+    $("#id_address_one").on("keyup", function (e) {
+        var $val = $("#search_results_modal");
+        var $results_container = $("#search_results_container")
+        if ($val.hasClass("hidden")) {
+            $("#search_results_modal").removeClass("hidden")
+            $("#search_results_modal").addClass("block")
+        }
+
+        $.ajax({
+            url: "{% url 'accounts:address_search' %}",
+            data: {
+                search_value: $(this).val()
+            },
+            dataType: "json",
+            success: function (data) {
+                var data_objects = JSON.parse(data.data)
+                if (data.success) {
+                    $results_container.empty();
+                    if (data_objects.length == 0) {
+                        if ($val.hasClass("block")) {
+                            $("#search_results_modal").removeClass("block")
+                            $("#search_results_modal").addClass("hidden")
+                        }
+                    } else {
+                        data_objects.forEach(element => {
+                            $results_container.append(
+
+                                `<div data-id="${element.pk}" data-address="Cinci KwaMthethwa R456" id="address_${element.pk}" onClick="select_address(this.id)" class="address_one cursor-pointer">
+                                    <h6 class="font-bold  text-base text-black" id="address">${element.fields.address_one}</h6>
+                                    <p class="text-sm text-gray-500 font-normal"><span id="city">${element.fields.city}</span> <span id="zipcode">${element.fields.zipcode}</span>, <span id="state">${element.fields.state}</span>, South Africa</p>
+                                </div>`
+                            );
+                        });
+                    }
+
+
+                } else {
+                    if ($val.hasClass("block")) {
+                        $("#search_results_modal").removeClass("block")
+                        $("#search_results_modal").addClass("hidden")
+                    }
+                    alert("Error trying to search for address")
+                }
+            },
+            error: function (error) {
+                if ($val.hasClass("block")) {
+                    $("#search_results_modal").removeClass("block")
+                    $("#search_results_modal").addClass("hidden")
+                }
+                alert("Something went wrong, contact the administrator")
+            }
+        })
+
+
+    })
+
+    function select_address(obj_id) {
+        var $val = $("#search_results_modal");
+        if ($val.hasClass("block")) {
+            $("#search_results_modal").removeClass("block")
+            $("#search_results_modal").addClass("hidden")
+        }
+        $("#id_event_address").val($(`#${obj_id}`).data("id"))
+        var address_val = $(`#${obj_id} h6`).text()
+        var city_val = $(`#${obj_id} p #city`).text()
+        var zipcode_val = $(`#${obj_id} p #zipcode`).text()
+        var state_val = $(`#${obj_id} p #state`).text()
+
+        $("#id_address_one").val(address_val)
+        $("#id_city").val(city_val)
+        $("#id_zipcode").val(zipcode_val)
+        $("#id_state").val(state_val)
+    }
+
+
+
+</script>
+
+{% endblock javascripts %}

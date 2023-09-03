@@ -3,75 +3,126 @@
 {% block title %}Events{% endblock title %}
 
 {% block content %}
+<section class="w-full bg-custom-h pt-36 mt-16 relative block pb-32 overflow-hidden border-2">
+    <div id="header-bg"
+        class="absolute top-0 h-fit  border-2 border-custom-primary left-0 bottom-0 right-0 overflow-hidden bg-center opacity-50 bg-no-repeat bg-cover mix-blend-luminosity">
+        <img src="{% static 'imgs/home.jpg' %}" alt="" class="w-full h-96 object-cover">
+    </div>
+    <div class="container">
+        <div class="relative block z-40">
+            <ul class="relative block">
+                <li class="inline-block text-base text-white font-medium opacity-60 relative">
+                    <a href="" class="text-white inline-block text-base font-medium">Home</a>
+                </li>
+                <li class="inline-block text-base text-white font-medium opacity-60 relative">
+                    <span>/</span>
+                </li>
+                <li class="inline-block text-base text-white font-medium opacity-60 relative">
+                    <a href="{% url 'event:event_list' %}"
+                        class="text-white inline-block text-base font-medium">Events</a>
+                </li>
 
-<section class="w-full mt-36 bg-white mb-20">
-    {% if messages %}
-        {% for message in messages %}
-        <div id="alert"
-            class="cursor-pointer rounded-lg py-5 flex items-center justify-between w-full px-6 text-base bg-blue-100 text-blue-700 mb-3"
-            role="alert">
-            {{message}}
-            <button id="cancel_alert" class="cursor-pointer text-black border-none outline-none text-xl">x</button>
+            </ul>
+            <h2 class="text-white text-2xl md:text-5xl font-bold m-0">All events</h2>
         </div>
-        {% endfor %}
-    {% endif %}
-    <div class="w-full font-sans">
-        <div class="space-y-2 w-full p-10">
-            <div class="w-full flex justify-between items-center">
-                <div class="text-custom-tertiary text-base font-normal">
-                    <p>Phan</p>
+    </div>
+</section>
+<section class="w-full h-fit mb-9">
+    <div class="w-full">
+        <div class="w-full p-10">
+            <div class="relative mb-2 flex items-center w-full justify-between">
+                <div class="shadow-xl rounded-md w-fit h-fit bg-white">
+                    <div class="px-4 py-1 w-full relative text-black">
+                        <div>
+                            <form method="get" class="">
+                                <div class="flex items-center space-x-4 justify-between">
+                                    <div class="flex items-center space-x-3">
+                                        <div class="p-1">
+                                            <i class="fa-solid text-gray-500 fa-search text-2xl"></i>
+                                        </div>
+                                        {% if query %}
+                                        <input value="{{query}}" id="id_q" type="search" name="q" placeholder="search"
+                                            class="border-none  outline-none focus-within:outline-none focus:border-none focus-within:border-none focus:outline-none text-gray-600 placeholder:text-gray-500 h-11" />
+                                        {% else %}
+                                        <input value="" id="id_q" type="search" name="q" placeholder="search"
+                                            class="border-none  outline-none focus-within:outline-none focus:border-none focus-within:border-none focus:outline-none text-gray-600 placeholder:text-gray-500 h-11" />
+
+                                        {% endif %}
+                                    </div>
+                                    <select value="{{query_by}}" name="search_by" id="id_search_by"
+                                        class="border-none outline-none text-sm px-2 text-gray-500">
+                                        <option value="other" class="shadow-none" {% if query_by == "other" %} selected {% endif %}>Search by</option>
+                                        <option value="title" class="shadow-none" {% if query_by == "title" %} selected {% endif %}>Title</option>
+                                        <option value="author" class="shadow-none" {% if query_by == "author" %} selected {% endif %}>Author</option>
+                                    </select>
+
+
+                                </div>
+                            </form>
+                        </div>
+                    </div>
                 </div>
                 <div id class="relative bg-custom-primary z-40 py-2 px-3">
-                    <p id="category_button" aria-haspopup="true" aria-expanded="true" class="text-white text-sm cursor-pointer">Filter</p>
-                    <div id="category_menu" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" class="absolute  hidden right-0 z-20 mt-2 duration-500 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                    <p id="category_button" aria-haspopup="true" aria-expanded="true"
+                        class="text-white text-sm cursor-pointer">Category</p>
+                    <div id="category_menu" role="menu" aria-orientation="vertical" aria-labelledby="menu-button"
+                        class="absolute  hidden right-0 z-20 mt-2 duration-500 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                         <div class="py-1 z-40">
-                            <a href="{% url 'event:event_list' %}" role="menuitem" tabindex="-1" class="text-gray-700 block px-4 py-2 text-sm">All</a>
-                            <a href="{% url 'event:event_list' %}" role="menuitem" tabindex="-1" class="text-gray-700 block px-4 py-2 text-sm">Today's events</a>
-                            <a href="{% url 'event:event_list' %}" role="menuitem" tabindex="-1" class="text-gray-700 block px-4 py-2 text-sm">Today's events</a>
-                               
+                            <a href="{% url 'event:event_list' %}" role="menuitem" tabindex="-1"
+                                class="text-gray-700 block px-4 py-2 text-sm">All</a>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="grid md:grid-cols-3 mt-4 gap-3 w-full">
-                {% if events.count != 0 %}
-                    {% for event in events %}
-                        <div class="relative md:w-96 h-80">
-                            <div class="bg-custom-primary  z-20 text-white absolute top-4 left-4 py-1 md:py-2 px-2 md:px-4 text-center">
-                                <p class="text-xs">{{event.event_startdate.date}}</p>
-                            </div>
-                            
-                            {% if event.image %}
-                            <img src="{{event.image.url}}" alt="" srcset=""
-                                class="object-cover block h-full w-full">
-                            {% else %}
-                            <img src="{% static 'imgs/home.jpg' %}" alt="" srcset=""
-                                class="object-cover block h-full w-full">
-                            {% endif %}
-                            
-                            
-                            <div class="w-full h-full bg-black opacity-40 absolute top-0 left-0"></div>
-                            <div
-                                class="absolute group text-white duration-500 bg-[#00000075] bottom-0 left-0 w-[calc(100%_-_16px)] h-fit p-4">
-                                <div class="font-sans space-y-3">
-                                    <span class="duration-500 text-sm font-normal">
-                                        <i class="fa-solid fa-clock text-xs md:text-base"></i>
-                                        {{event.event_startdate}}
-                                    </span>
-                                    <a href="{% url 'event:event_details' event_slug=event.slug %}" class="block  duration-500 font-bold text-lg md:text-2xl">
-                                        {{event.title}}
-                                    </a>
-                                    <div class="space-y-7 w-full">
-                                    </div>
-                                </div>
+        </div>
+    </div>
+</section>
 
+<section class="w-full bg-white mb-20">
+    <div class="container font-sans">
+        <div class="space-y-2 w-full p-10">
+            <div class="flex flex-wrap -mx-4">
+                {% if events.count != 0 %}
+                {% for event in events %}
+                <div class="relative w-full max-w-full sm:w-1/2 md:w-4/12 px-4 overflow-hidden">
+                    <div class="relative block bg-custom-h w-full h-80 group overflow-hidden">
+                        <div class="bg-custom-primary  z-20 text-white absolute top-4 left-4 py-1 md:py-2 px-2 md:px-4 text-center">
+                            <p class="text-xs">{{event.event_startdate.date}}</p>
+                        </div>
+                        
+                        {% if event.image %}
+                        <img src="{{event.image.url}}" alt="" srcset=""
+                            class="object-cover block h-full w-full duration-500 group-hover:scale-105">
+                        {% else %}
+                        <img src="{% static 'imgs/home.jpg' %}" alt="" srcset=""
+                            class="object-cover block h-full w-full">
+                        {% endif %}
+                        
+                        
+                        <div class="w-full h-full bg-custom-h opacity-50 absolute top-0 left-0"></div>
+                        <div
+                            class="absolute group text-white duration-500 bg-[#00000075] bottom-0 left-0 w-11/12 h-fit p-2">
+                            <div class="font-sans space-y-3">
+                                <span class="duration-500 text-sm font-normal">
+                                    <i class="fa-solid fa-clock text-xs md:text-sm"></i>
+                                    {{event.event_startdate}}
+                                </span>
+                                <a href="{% url 'event:event_details' event_slug=event.slug %}" class="block  duration-500 font-bold text-base md:text-xl">
+                                    {{event.title}}
+                                </a>
+                                <div class="space-y-7 w-full">
+                                </div>
                             </div>
+    
                         </div>
-                    {% endfor %}
+
+                    </div>
+                </div>
+                {% endfor %}
                 {% else %}
-                        <div class="self-center justify-self-center w-fit">
-                            <p class="mx-auto">Not events available on this category</p>
-                        </div>
+                <div class="self-center justify-self-center w-fit">
+                    <p class="mx-auto">Not events available on this category</p>
+                </div>
                 {% endif %}
             </div>
         </div>
@@ -83,18 +134,17 @@
 
 {% block javascripts %}
 <script>
-    
+
     const categoryBtn = document.getElementById("category_button");
     const categoryMenu = document.getElementById("category_menu");
 
-    categoryBtn.addEventListener("click", function(){
-        if(categoryMenu.classList.contains("hidden"))
-        {
+    categoryBtn.addEventListener("click", function () {
+        if (categoryMenu.classList.contains("hidden")) {
             categoryMenu.classList.remove("hidden")
             categoryMenu.classList.add("block")
-        }else {
+        } else {
             categoryMenu.classList.remove("block")
-            categoryMenu.classList.add("hidden") 
+            categoryMenu.classList.add("hidden")
         }
     })
 </script>

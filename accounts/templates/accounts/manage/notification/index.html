@@ -1,0 +1,64 @@
+{% extends '_user_base.html' %}
+{% load static %}
+
+{% block edit_title %}Edit Profile{% endblock edit_title %}
+
+{% block text_title %}first name, last name{% endblock text_title %}
+
+{% block accountblock %}
+<div class='w-full h-full'>
+
+    <form method='post'>
+        {% csrf_token %}
+        <div class="w-full mx-auto bg-white">
+            <div class="space-y-4 border-0 bg-white  w-full relative">
+                {% if form.errors.non_form_errors %}
+
+                <div class="w-fit space-y-1 mx-auto text-sm text-red-500 font-normal">
+
+                    <p>{{form.errors.non_form_errors.as_text}}</p>
+                </div>
+                {% endif %}
+                <div class="space-y-5">
+                    <div class="w-full flex items-center border-b border-b-gray-500 justify-between py-3">
+                        <p class="text-custom-h text-base font-bold">
+                            Alerts & Notifications
+                        </p>
+                        <button class="border-none outline-none text-custom-h text-base font-normal">
+                            Toggle all
+                        </button>
+                    </div>
+                    <div class="w-full space-y-2">
+                        {% for group in mailinggroups %}
+                        <div class="border-b border-b-gray-500 py-3 space-y-3">
+                            <label class="flex text-custom-h text-base font-medium items-center space-x-2">
+                                <input type="checkbox" value="{{group.id}}"
+                                    class="text-base w-5 mr-3 h-5 flex items-center relative !checked:bg-custom-primary checked:text-white text-white bg-custom-primary border-custom-primary">
+                                {{group.title}}
+                            </label>
+                            <p class="text-custom-h text-sm font-normal">
+                                {{group.description}}
+                            </p>
+                        </div>
+                        {% endfor %}
+
+                    </div>
+                </div>
+                <div class="text-center inline-block h-12 bg-custom-primary w-fit px-3 rounded-md cursor-pointer">
+                    <input type="submit" value="update email notifications"
+                        class="text-white w-full h-full cursor-pointer text-sm font-semibold" />
+                </div>
+
+            </div>
+        </div>
+
+    </form>
+</div>
+{% endblock accountblock %}
+
+{% block javascript %}
+<script>
+
+</script>
+
+{% endblock javascript %}

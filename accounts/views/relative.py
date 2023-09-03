@@ -1,7 +1,8 @@
 from accounts.models import NextOfKin
 from accounts.forms import NextOfKinForm
 from django.shortcuts import render, redirect, get_object_or_404
-from django.views.generic import View, UpdateView
+from django.views.generic import View
+from django.http import JsonResponse
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
 
@@ -54,3 +55,22 @@ class NextOfKinUpdateView(LoginRequiredMixin, View):
         else:
             messages.success(request, "Relative not updated successfully")
             return render(self, request, self.template_name, {"form": form})
+
+
+class NextOfKinDeleteView(LoginRequiredMixin, View):
+    model = None
+    def dispatch(self, request, next_id,*args, **kwargs):
+        if request.headers['X-Requested-With'] !=  'XMLHttpRequest':
+            return JsonResponse({"success": False, "message": "This request is not allowed"}, status=500)
+        try:
+            self.model = NextOfKin.objects.get(id = next_id)
+        except NextOfKin.DoesNotExist:
+            return JsonResponse({"success": False, "message": "This request is not allowed"}, status=500)
+
+        
+        return super().dispatch(request, next_id,*args, **kwargs)
+    
+    def post(self, request, next_id, *args, **kwargs):
+        if self.model != None:
+            self.model.delete()
+        return JsonResponse({"success": True, "message": "Relative deleted"})

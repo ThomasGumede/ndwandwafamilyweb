@@ -1,0 +1,242 @@
+{% extends '_base.html' %}
+{% load static %}
+
+{% block content %}
+<section class="w-full bg-custom-h pt-36 mt-16 relative block pb-32 overflow-hidden border-2">
+    <div id="header-bg"
+        class="absolute top-0 h-fit  border-2 border-custom-primary left-0 bottom-0 right-0 overflow-hidden bg-center opacity-50 bg-no-repeat bg-cover mix-blend-luminosity">
+        <img src="{% static 'imgs/home.jpg' %}" alt="" class="w-full h-screen object-cover">
+    </div>
+    <div class="container">
+        <div class="relative block z-40">
+            <ul class="relative block">
+                <li class="inline-block text-base text-white font-medium opacity-60 relative">
+                    <a href="" class="text-white inline-block text-base font-medium">Home</a>
+                </li>
+
+            </ul>
+            <h2 class="text-white text-2xl md:text-5xl font-bold m-0">Welcome to Ndwandwa Family</h2>
+        </div>
+    </div>
+</section>
+<section class="w-full pt-16 mb-36 bg-white">
+    <div data-aos="fade-up" data-aos-duration="1000" class="container ">
+        <div class="flex flex-col md:flex-row-reverse w-full items-center py-8 justify-between">
+            <div class="space-y-5 w-80 mb-20 md:mb-0 overflow-hidden md:space-y-6 md:w-[34rem]">
+                <h2 class="text-custom-primary font-bold text-base md:text-base font-sans">Ready to help</h2>
+
+                <div class="space-y-4">
+                    <h3 class="text-black font-bold text-[40px] font-sans">
+                        Family is ready to assist you and your dreams
+                    </h3>
+                    <h3 class="text-custom-primary pl-6 font-bold text-3xl font-sans">
+                        This where family comes first all the time.
+                    </h3>
+                    <p class="text-custom-tertiary font-normal text-sm font-sans">
+                        The power is in lorem text with no meaning or what so ever. The meaning will be addedThe power
+                        is in lorem text with no meaning or what so ever. The meaning will be addedThe power is in lorem
+                        text with no meaning or what so ever. The meaning will be addedThe power is in lorem text with
+                        no meaning or what so ever. The meaning will be addedThe power is in lorem text with no meaning
+                        or what so ever. The meaning will be addedThe power is in lorem text with no meaning or what so
+                        ever. The meaning will be addedThe power is in lorem text with no meaning or what so ever. The
+                        meaning will be addedThe power is in lorem text with no meaning or what so ever.
+                    </p>
+                    <a href=""
+                        class="font-roboto border-2 border-custom-primary bg-custom-primary group hover:bg-transparent duration-500 border-solid h-10 w-28 md:h-12 md:w-32 grid items-center justify-center text-center font-bold text-xs md:text-sm text-white hover:text-custom-primary">ABOUT
+                        US</a>
+                </div>
+
+            </div>
+            <div class="h-full md:w-[500px] xl:w-[600px] md:h-[600px] xl:h-[700px] relative">
+
+                <img src="{% static 'imgs/about.jpg' %}"
+                    alt="one of the employeees of ml geo consultation Engineers doing field work" srcset=""
+                    class="object-cover h-full w-full" />
+                <div class="w-full h-full absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-[#14155692]">
+
+                </div>
+
+                <div
+                    class="hidden md:block md:w-60 h-40 absolute -bottom-16 -right-16 border-4 border-solid border-white">
+                    <img src="{% static 'imgs/about-2.jpg' %}" alt="excavations" class="w-full h-full" srcset="">
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="w-full mb-20 bg-white">
+    <div class="container">
+        <div class="space-y-6 md:space-y-9">
+            <div class="text-center space-y-3 font-sans">
+                <span class="text-custom-primary font-normal uppercase text-base md:text-lg">LATEST CAMPAIGNS</span>
+                <h2 class="text-black text-2xl md:text-4xl font-bold">
+                    Family is ready to assist you and your
+                    dreams
+                </h2>
+            </div>
+            <div class="">
+                <div class="flex flex-wrap -mx-4">
+                    {% for campaign in campaigns %}
+                    <div
+                        class="max-w-full w-full group flex-shrink-0 px-[calc(30px_/_2)] lg:w-1/3 lg:flex-[0_0_auto] sm:w-1/2 sm:flex-[0_0_auto]">
+                        <div class="relative mb-7 block">
+                            <div class="img_box relative block">
+                                <div
+                                    class="overflow-hidden h-64 bg-custom-h relative block transition-all duration-500 ease-in">
+                                    {% if campaign.image %}
+                                    <img src="{{campaign.image.url}}" alt=""
+                                        class="w-full transition-all duration-500 ease-in group-hover:scale-105 group-hover:opacity-50 h-full object-cover">
+                                    {% else %}
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div
+                                class="block text-center bg-white p-[26px_30px_20px] shadow-[0px_10px_30px_0px_rgba(0,_0,_0,_0.07)]">
+                                <div class="inline-block relative text-center bg-custom-primary p-[7px_19px_8px]">
+                                    <p class="font-bold text-white text-xs leading-3">
+                                        {{campaign.category.label}}
+                                    </p>
+                                </div>
+                                <h3
+                                    class="text-custom-h m-0 transition-all duration-500 text-xl md:text-2xl font-bold mt-4 mb-2">
+                                    <a href="{{campaign.get_absolute_url}}"
+                                        class="text-custom-h transition-all duration-500 ease-in group-hover:text-custom-primary">{{campaign.title|truncatewords:5}}</a>
+                                </h3>
+                                <div class="relative flex justify-center items-center">
+                                    <div class="text-sm text-custom-primary">
+                                        <i class="fa-solid fa-clock font-bold"></i>
+                                    </div>
+                                    <div class="ml-1">
+                                        <p class="text-xs font-normal">{{campaign.get_days}} remaining</p>
+                                    </div>
+                                </div>
+                                <div class="relative block mt-4 mb-1">
+                                    <div class="relative bg-[#f2f7f7] py-3 px-2 block w-full">
+                                        <div class="relative flex items-center justify-between space-x-2 w-full">
+                                            <div class="text-sm font-bold text-custom-h leading-4">
+                                                Raised</div>
+                                            <div class="relative block w-full">
+                                                <div class="w-full relative h-[3px] bg-white rounded-none">
+                                                    <div data-style="{{campaign.get_percentage_of_donated_fund}}" id=""
+                                                        class=" bg-custom-primary campaign_percentage_w h-[3px] rounded-none relative before:absolute before:content-[''] before:h-3 before:w-3 before:right-0 before:-top-1 before:bg-custom-primary before:rounded-full">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="text-center p-0 w-10 h-5 flex items-center">
+                                                <span
+                                                    class="text-gray-500 relative leading-3 font-medium float-none inline-block text-sm">{{campaign.get_percentage_of_donated_fund}}</span>
+                                                <span
+                                                    class="text-sm ml-[-2px] float-none font-medium text-gray-500 leading-3">%</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="relative flex items-center justify-between">
+                                    <p class="text-xs text-gray-500 font-semibold">Achieved: <span
+                                            class="font-bold text-custom-h">R{{campaign.target}}</span></p>
+                                    <p class="text-xs text-gray-500 font-semibold">Goal: <span
+                                            class="font-bold text-custom-h">R{{campaign.current_amount}}</span></p>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="w-full overflow-hidden bg-white mb-20">
+    <div class="w-full">
+        <div class="relative w-full h-80 font-sans">
+            <div class="absolute w-full h-full top-0 left-0 bg-[#0f0b3f98]"></div>
+            <img src="{% static 'imgs/home.jpg' %}" alt="ML GEO Engineers doing soil testing"
+                class="w-full h-full object-cover" srcset="" />
+            <div
+                class="absolute top-1/2 grid left-1/2 w-full p-4 -translate-y-1/2 -translate-x-1/2 text-center z-30 text-white space-y-5">
+                <h4 class=" font-normal text-sm md:text-base uppercase">GETTING FROM FAMILY HELP IS EASY NOW!!</h4>
+                <p class="font-bold text-2xl md:text-4xl">Together We can Bring More Creativity
+                    into the Family</p>
+
+                <a href="{% url 'campaign:create_campaign' %}"
+                    class=" font-bold text-xs md:text-sm text-custom-primary self-center justify-self-center border-2 border-custom-primary group hover:bg-custom-primary hover:border-custom-primary duration-500 border-solid h-10 w-28 md:h-12 md:w-32 grid items-center justify-center text-center hover:text-white">Add
+                    compaign</a>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="w-full mb-20 bg-white">
+    <div class="container">
+        <div class="space-y-6 md:space-y-9">
+            <div class="text-center space-y-3 font-sans">
+                <span class="text-custom-primary font-normal uppercase text-base md:text-lg">LATEST EEVENTS</span>
+                <h2 class="text-black text-2xl md:text-4xl font-bold">
+                    Family is ready to assist you and your
+                    dreams
+                </h2>
+            </div>
+            <div class="">
+                <div class="flex">
+                    {% for event in events %}
+                    <div class="relative w-full max-w-full sm:w-1/2 md:w-4/12 px-4 overflow-hidden">
+                        <div class="relative block bg-custom-h w-full h-80 group overflow-hidden">
+                            <div class="bg-custom-primary  z-20 text-white absolute top-4 left-4 py-1 md:py-2 px-2 md:px-4 text-center">
+                                <p class="text-xs">{{event.event_startdate.date}}</p>
+                            </div>
+                            
+                            {% if event.image %}
+                            <img src="{{event.image.url}}" alt="" srcset=""
+                                class="object-cover block h-full w-full duration-500 group-hover:scale-105">
+                            {% else %}
+                            <img src="{% static 'imgs/home.jpg' %}" alt="" srcset=""
+                                class="object-cover block h-full w-full">
+                            {% endif %}
+                            
+                            
+                            <div class="w-full h-full bg-custom-h opacity-50 absolute top-0 left-0"></div>
+                            <div
+                                class="absolute group text-white duration-500 bg-[#00000075] bottom-0 left-0 w-11/12 h-fit p-2">
+                                <div class="font-sans space-y-3">
+                                    <span class="duration-500 text-sm font-normal">
+                                        <i class="fa-solid fa-clock text-xs md:text-sm"></i>
+                                        {{event.event_startdate}}
+                                    </span>
+                                    <a href="{% url 'event:event_details' event_slug=event.slug %}" class="block  duration-500 font-bold text-base md:text-xl">
+                                        {{event.title}}
+                                    </a>
+                                    <div class="space-y-7 w-full">
+                                    </div>
+                                </div>
+        
+                            </div>
+
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+
+{% endblock content %}
+
+{% block javascripts %}
+<script>
+    var campaign_percentage_w = document.getElementsByClassName("campaign_percentage_w");
+
+    window.onload = () => {
+        for (let index = 0; index < campaign_percentage_w.length; index++) {
+            const element = campaign_percentage_w[index];
+            element.style.width = `${element.getAttribute("data-style")}%`
+
+        }
+
+    }
+
+</script>
+{% endblock javascripts %}
