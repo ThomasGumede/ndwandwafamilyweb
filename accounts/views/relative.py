@@ -1,10 +1,12 @@
-from accounts.models import NextOfKin
+from accounts.models import RelativeModel
 from accounts.forms import NextOfKinForm
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import View
 from django.http import JsonResponse
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
+
+_MODEL = RelativeModel
 
 class NextOfKinCreateView(LoginRequiredMixin, View):
     template_name = 'accounts/manage/nextofkin/create_form.html'
@@ -39,7 +41,7 @@ class NextOfKinUpdateView(LoginRequiredMixin, View):
     def dispatch(self, request, username, next_of_kin_id, *args, **kwargs):
         if request.user.username != username:
             return redirect("home")
-        self.model = get_object_or_404(NextOfKin, id=next_of_kin_id)
+        self.model = get_object_or_404(_MODEL, id=next_of_kin_id)
         return super().dispatch(request, username=request.user.username, next_of_kin_id=next_of_kin_id, *args, **kwargs)
     
     def get(self, request, *args, username, next_of_kin_id, **kwargs):
@@ -63,8 +65,8 @@ class NextOfKinDeleteView(LoginRequiredMixin, View):
         if request.headers['X-Requested-With'] !=  'XMLHttpRequest':
             return JsonResponse({"success": False, "message": "This request is not allowed"}, status=500)
         try:
-            self.model = NextOfKin.objects.get(id = next_id)
-        except NextOfKin.DoesNotExist:
+            self.model = _MODEL.objects.get(id = next_id)
+        except _MODEL.DoesNotExist:
             return JsonResponse({"success": False, "message": "This request is not allowed"}, status=500)
 
         

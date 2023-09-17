@@ -1,20 +1,18 @@
-from accounts.models import CustomUser, Wallet, Contact
+from accounts.models import WalletModel
 from accounts.forms import AccountUpdateForm, GeneralEditForm, RegistrationForm
-from django.http import JsonResponse, HttpResponseForbidden
-from django.core import serializers
+from django.http import HttpResponseForbidden
 from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth import login, authenticate
-from django.views.generic import ListView, View, DetailView
+from django.views.generic import View, DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
-from django.contrib.auth import update_session_auth_hash, get_user_model
+from django.contrib.auth import get_user_model
 from django.template.loader import render_to_string
 from django.contrib.sites.shortcuts import get_current_site
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes, force_str
 from django.core.mail import EmailMessage
 from accounts.tokens import account_activation_token
-from accounts.backends import EmailBackend
+# from accounts.backends import EmailBackend
 
 
 User = get_user_model()
@@ -32,8 +30,8 @@ def activateEmail(request, user, to_email):
     email = EmailMessage(mail_subject, message, to=[to_email])
     email.content_subtype = 'html'
     if email.send():
-        messages.success(request, f'Dear <b>{user}</b>, please go to you email \n<b>{to_email}</b> inbox and click on \
-                received activation link to confirm and complete the registration. \n<b>Note:</b> Check your spam folder.')
+        messages.success(request, f'Dear {user}, please go to you email \n{to_email} inbox and click on \
+                received activation link to confirm and complete the registration. \nNote: Check your spam folder.')
     else:
         messages.error(request, f'Problem sending email to {to_email}, check if you typed it correctly.')
 
@@ -71,7 +69,7 @@ class AccountsView(LoginRequiredMixin, View):
         return render(request, self.template_name, {"users": queryset.only("first_name", "last_name", "username","occupation", "address__state", "photo")})
 
 class AccountDetailView(LoginRequiredMixin, DetailView):
-    queryset = CustomUser.objects.select_related("address").prefetch_related("qualifications", "next_of_kins")
+    queryset = User.objects.select_related("address").prefetch_related("qualifications", "next_of_kins")
     context_object_name = "user"
     template_name = "account.html"
     slug_field = 'username'
@@ -99,7 +97,7 @@ class AccountCreateView(View):
             instance = form.save(commit=False)
             instance.is_active = False
             instance.save()
-            Wallet.objects.create(name=f"{form.cleaned_data.get('first_name')}-wallet", owner=instance)
+            WalletModel.objects.create(name=f"{form.cleaned_data.get('first_name')}-wallet", owner=instance)
             activateEmail(request, instance, form.cleaned_data.get('email'))
             return redirect('accounts:activate_confirmation')
         else:

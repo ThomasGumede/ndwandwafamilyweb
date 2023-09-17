@@ -1,0 +1,97 @@
+{% extends '_account_dashboard.html' %}
+{% load static %}
+
+{% block edit_title %}Edit Profile{% endblock edit_title %}
+
+{% block text_title %}first name, last name{% endblock text_title %}
+
+{% block accountblock %}
+<div class='w-full h-full'>
+    
+    <form method='post' enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="w-full mx-auto bg-white">
+            <div class="space-y-4 border-0 bg-white  w-full relative">
+                {% if form.errors.non_form_errors %}
+
+                <div class="w-fit space-y-1 mx-auto text-sm text-red-500 font-normal">
+                    
+                    <p>{{form.errors.non_form_errors.as_text}}</p>
+                </div>
+                {% endif %}
+                <div class="flex-auto md:px-4 pt-0">
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        
+                        <h6 class="text-blueGray-400 text-sm mt-3 mb-6 font-bold uppercase">
+                            Relatives Information
+                        </h6>
+                        <div class="flex flex-wrap space-y-3 md:space-y-0">
+                            <div class="w-full lg:w-12/12 md:px-4">
+                                <div class="relative w-full mb-3">
+                                    <label for="id_full_name" 
+                                        class="block uppercase {% if form.full_name.errors %}text-red-500 {% else %} text-gray-600 {% endif %} text-xs font-bold mb-2"
+                                        htmlfor="grid-password">
+                                        full name & surname*
+                                    </label>
+                                    <input value="{{form.full_name.value}}" id="id_full_name" name="full_name" required maxlength="300" type="text"
+                                        class="border-0 px-3 py-3 {% if form.full_name.errors %} border-2 border-red-500{% endif %} placeholder-blueGray-300 text-gray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                                        value="{{form.full_name.value}}">
+                                    <span
+                                        class="text-[11px] text-custom-tertiary block font-normal lowercase">{{form.full_name.help_text}}</span>
+                                    {% if form.full_name.errors %}
+                                    <span
+                                        class="text-[11px] text-red-500 block font-normal lowercase">{{form.full_name.errors.as_text}}</span>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="w-full lg:w-12/12 md:px-4">
+                                <div class="relative w-full mb-3">
+                                    <label for="id_tel"
+                                        class="block uppercase {% if form.tel.errors %}text-red-500 {% else %} text-gray-600 {% endif %} text-xs font-bold mb-2"
+                                        htmlfor="grid-password">
+                                        Phone*
+                                    </label>
+                                    <input value="{{form.tel.value}}" id="id_tel" name="tel" maxlength="300" type="tel"
+                                        class="border-0 px-3 {% if form.tel.errors %} border-2 border-red-500{% endif %} py-3 placeholder-blueGray-300 text-custom-tertiary -600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150">
+                                    <span
+                                        class="text-[11px] text-custom-tertiary block font-normal lowercase">{{form.tel.help_text}}</span>
+                                    {% if form.tel.errors %}
+                                    <span
+                                        class="text-[11px] text-red-500 block font-normal lowercase">{{form.tel.errors.as_text}}</span>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="w-full lg:w-12/12 md:px-4">
+                                <div class="relative w-full mb-3">
+                                    <label for="id_relationship"
+                                        class="block uppercase {% if form.relationship.errors %}text-red-500 {% else %} text-gray-600 {% endif %} text-xs font-bold mb-2"
+                                        htmlfor="grid-password">
+                                        relationship*
+                                    </label>
+                                    {{form.relationship}}
+                                    <span
+                                        class="text-[11px] text-custom-tertiary block font-normal lowercase">{{form.relationship.help_text}}</span>
+                                    {% if form.relationship.errors %}
+                                    <span
+                                        class="text-[11px] text-red-500 block font-normal lowercase">{{form.relationship.errors.as_text}}</span>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div
+                            class="text-center inline-block h-12 bg-custom-primary w-[150px] rounded-md cursor-pointer">
+                            <input type="submit" value="submit"
+                                class="text-white w-full h-full cursor-pointer text-sm font-semibold" />
+                        </div>
+
+
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </form>
+</div>
+{% endblock accountblock %}

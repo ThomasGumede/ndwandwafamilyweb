@@ -1,5 +1,5 @@
 from django import forms
-from event.models import Event, Post
+from event.models import Event
 from tinymce.widgets import TinyMCE
 
 class EventForm(forms.ModelForm):
@@ -15,9 +15,4 @@ class EventForm(forms.ModelForm):
             'content': TinyMCE(attrs={"class": "border-0 px-3 py-3 {% if form.content.errors %} h-44 border-2 border-red-500{% endif %} placeholder-gray-300 text-gray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150", "rows": 8}),
             'event_enddate': forms.DateTimeInput(attrs={"type": "datetime-local", "class": "border-0 px-3 py-3 {% if form.end_date.errors %} border-2 border-red-500{% endif %} placeholder-blueGray-300 text-gray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"})
         }
-
-class PostForm(forms.ModelForm):
-    class Meta:
-        model = Post
-        fields = ["title", "image", "content", "category", "tags"]
 

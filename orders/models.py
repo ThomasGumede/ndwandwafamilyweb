@@ -2,7 +2,7 @@ from decimal import Decimal
 import uuid
 from django.db import models
 from django.utils import timezone
-from event.models import Event
+from event.models import EventTicketTypeModel
 from campaign.models import Campaign
 from django.contrib.auth import get_user_model
 from django.utils.translation import gettext as _
@@ -17,12 +17,18 @@ class PaymentStatus(models.TextChoices):
         PAID = ("PAID", "Paid")
         PENDING = ("PENDING", "Pending")
         NOT_PAID = ("NOT PAID", "Not paid")
+class Tip(models.TextChoices):
+        TEN = ("10%", "10%")
+        TEN_FIVE = ("15%", "15%")
+        TEN_TEN = ("20%", "20%")
+        TEN_TEN_FIVE = ("25%", "25%")
 
 class ContributionOrder(models.Model):
     id = models.UUIDField(default=uuid.uuid4, primary_key=True, unique=True, editable=False, db_index=True)
     donateid = models.CharField(max_length=300, editable=False, unique=True, db_index=True)
     amount = models.DecimalField(max_digits=1000, decimal_places=2, help_text=_("Enter contribution amount"))
-    accepted_laws = models.BooleanField(null=False)
+    accepted_laws = models.BooleanField(default=True)
+    tip = models.CharField(default=Tip.TEN, max_length=25, choices=Tip.choices)
     paid = models.CharField(max_length=40, choices=PaymentStatus.choices, default=PaymentStatus.NOT_PAID)
     campaign = models.ForeignKey(Campaign, on_delete=models.CASCADE, related_name="contribution_orders")
     contributor = models.ForeignKey(User, on_delete=models.SET_DEFAULT, default=None, related_name="contribution_orders")
@@ -58,9 +64,9 @@ class TicketOrder(models.Model):
     total_price = models.DecimalField(max_digits=1000, decimal_places=2)
     accepted_laws = models.BooleanField(null=False)
     email = models.EmailField(null=False)
-    phone = models.CharField(_("Enter your cellphone number"), max_length=15, validators=[PHONE_REGEX], unique=True)
+    phone = models.CharField(_("Enter your cellphone number"), max_length=15, validators=[PHONE_REGEX])
     buyer = models.ForeignKey(get_user_model(), related_name="ticketorders", null=True, blank=True, on_delete=models.SET_NULL)
-    event = models.ForeignKey(Event, related_name="sold_tickets", on_delete=models.CASCADE)
+    tickettype = models.ForeignKey(EventTicketTypeModel, related_name="sold_tickets", on_delete=models.CASCADE)
     paid = models.CharField(max_length=300, choices=PaymentStatus.choices, default=PaymentStatus.NOT_PAID)
     created = models.DateTimeField(auto_now_add=True)
 
@@ -69,7 +75,7 @@ class TicketOrder(models.Model):
         pass
 
     def save(self, *args, **kwargs):
-        order_id_start = f'#{timezone.now().year}{timezone.now().month}'
+        order_id_start = f'NFF-{timezone.now().year}{timezone.now().month}'
         queryset = TicketOrder.objects.filter(ticketorderid__iexact=order_id_start).count()
 
         count = 1

@@ -1,4 +1,4 @@
-from accounts.models import Address
+from accounts.models import AddressModel
 from accounts.forms import AddressForm
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponseForbidden, JsonResponse
@@ -7,11 +7,13 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
 from django.core import serializers
 
+_MODEL = AddressModel
+
 class AddressListView(View):
     def get(self, request, *args, **kwargs):
         if request.headers['X-Requested-With'] ==  'XMLHttpRequest' and request.user.is_authenticated:
             search = request.GET.get("search_value")
-            addresses = Address.objects.filter(address_one__icontains=search)
+            addresses = _MODEL.objects.filter(address_one__icontains=search)
             addresses_ser = serializers.serialize('json', addresses)
             return JsonResponse({"success": True, "data": addresses_ser})
         else:
@@ -20,7 +22,7 @@ class AddressListView(View):
 class AddressCreateView(LoginRequiredMixin, View):
     template_name = 'accounts/manage/address/create_form.html'
     form_class = AddressForm
-    model = Address
+    model = _MODEL
     
     def dispatch(self, request, username, pk, *args, **kwargs):
        
@@ -57,7 +59,7 @@ class AddressCreateView(LoginRequiredMixin, View):
 class UpdateAddressView(LoginRequiredMixin, View):
     template_name = 'accounts/manage/address/update_form.html'
     form_class = AddressForm
-    model = Address
+    model = _MODEL
     address = None
 
     def dispatch(self, request, id, *args, **kwargs):

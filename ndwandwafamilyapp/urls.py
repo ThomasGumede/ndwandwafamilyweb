@@ -12,6 +12,7 @@ urlpatterns = [
     path("event/", include("event.urls", namespace="event")),
     path("orders/", include("orders.urls", namespace="orders")),
     path("payments/", include("payments.urls", namespace="payments")),
+    path("news/", include("news.urls", namespace="news")),
     path("actions/", include("actions.urls", namespace="actions")),
     path('tinymce/', include('tinymce.urls')),
     # path("__reload__/", include("django_browser_reload.urls")),

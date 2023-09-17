@@ -27,7 +27,7 @@
                         <li><a id="" href="{% url 'event:event_list' %}"
                                 class="font-normal navbar_item font-sans text-xl text-white md:text-base md:text-gray-500 md:hover:text-custom-primary duration-500">Events</a>
                         </li>
-                        <li><a id="" href="{% url 'event:post_list' %}"
+                        <li><a id="" href="{% url 'news:news' %}"
                                 class="font-normal navbar_item font-sans text-lg text-white md:text-base md:text-gray-500 md:hover:text-custom-primary duration-500">News</a>
                         </li>
                         <li><a id="" href="{% url 'actions:search_results' %}"
@@ -51,8 +51,11 @@
                             <img src="{{request.user.photo.url}}" alt="{{request.user.first_name}}"
                                 class="w-full h-full object-cover object-center" />
                             {% else %}
-                            <img src="{% static 'imgs/home.jpg' %}" alt="{{request.user.first_name}}"
-                                class="w-full h-full object-cover object-center" />
+                            <div class="h-11 w-11 bg-custom-primary rounded-full grid items-center justify-center overflow-hidden">
+                                <div class="">
+                                    <p class="text-lg md:text-xl font-bold text-white">{{request.user.first_name.0}}</p>
+                                </div>
+                            </div>
                             {% endif %}
                         {% else %}
                         <img src="{% static 'imgs/home.jpg' %}" alt="{{request.user.first_name}}"
@@ -78,6 +81,8 @@
                                     class="text-gray-700 block px-4 py-2 text-sm">Accounts</a>
                                 <a href="{% url 'accounts:logout' %}" role="menuitem" tabindex="-1"
                                 class="text-gray-700 block px-4 py-2 text-sm">logout</a>
+                                <a href="{% url 'home:email' %}" role="menuitem" tabindex="-1"
+                                class="text-gray-700 block px-4 py-2 text-sm">email</a>
                             {% else %}
                                 <a href="{% url 'accounts:login' %}" role="menuitem" tabindex="-1"
                                     class="text-gray-700 block px-4 py-2 text-sm">Login</a>
