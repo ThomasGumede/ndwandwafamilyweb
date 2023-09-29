@@ -1,27 +1,27 @@
 from django.contrib import admin
 from accounts.models import *
 
-@admin.register(CustomUser)
+@admin.register(CustomUserModel)
 class CustomUserAdmin(admin.ModelAdmin):
     pass
 
-@admin.register(Qualification)
+@admin.register(QualificationModel)
 class QualificationAdmin(admin.ModelAdmin):
     pass
 
-@admin.register(Address)
+@admin.register(AddressModel)
 class AddressAdmin(admin.ModelAdmin):
     pass
-@admin.register(MailingGroup)
+@admin.register(MailingGroupModel)
 class MailingAdmin(admin.ModelAdmin):
     pass
 
 
-@admin.register(NextOfKin)
-class NextOfKinAdmin(admin.ModelAdmin):
+@admin.register(RelativeModel)
+class RelativeAdmin(admin.ModelAdmin):
     pass
 
-@admin.register(Wallet)
+@admin.register(WalletModel)
 class WalletAdmin(admin.ModelAdmin):
     pass
 

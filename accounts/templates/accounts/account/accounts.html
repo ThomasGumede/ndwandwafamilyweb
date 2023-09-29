@@ -1,0 +1,144 @@
+{% extends '_base.html' %}
+{% load static %}
+{% block title %}Accounts {% endblock title %}
+
+
+{% block content %}
+<section class="w-full mt-36 h-fit mb-9">
+    <div class="relative grid items-center justify-center">
+        <div class="shadow-xl rounded-md w-fit h-fit bg-white">
+            <div class="px-4 py-1 w-full relative text-black">
+                <div>
+                    <form action="{% url 'accounts:account_list' %}" method="get" class="">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center space-x-3">
+                                <div class="p-1">
+                                    <i class="fa-solid text-gray-500 fa-search text-2xl"></i>
+                                </div>
+                                <input value="" id="id_q" type="search" name="q" placeholder="search"
+                                    class="border-none  outline-none focus-within:outline-none focus:border-none focus-within:border-none focus:outline-none text-gray-600 placeholder:text-gray-500 h-11" />
+                            </div>
+                            <select name="search_by" id="id_search_by"
+                                class="border-none outline-none text-sm px-2 text-gray-500">
+                                <option value="first_name" class="shadow-none" selected>Search by</option>
+                                <option value="first_name" class="shadow-none">Name</option>
+                                <option value="last_name" class="shadow-none">Surname</option>
+                                <option value="username" class="shadow-none">Username</option>
+                                <option value="occupation" class="shadow-none">Occupation</option>
+                                <option value="professional_affiliations" class="shadow-none">professional aff</option>
+                                <option value="city" class="shadow-none">City</option>
+                                <option value="province" class="shadow-none">Province</option>
+                                <option value="zipcode" class="shadow-none">Zipcode</option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</section>
+<section class="w-full -z-50 bg-white mb-20">
+    <div class="container">
+        <div class="w-full bg-white space-y-4">
+            <div class="grid md:grid-cols-4 gap-7">
+                {% for account in users %}
+                <div class="w-64 h-[350px] bg-white">
+                    <div class="w-full h-full relative">
+                        <div class="w-full h-full overflow-hidden rounded-2xl relative">
+                            {% if account.profile_image %}
+                            <img src="{{account.profile_image.url}}" alt="" class="w-full h-full object-cover bg-center" />
+                            {% else %}
+                            <img src="{% static 'imgs/contact.jpg' %}" alt=""
+                                class="w-full h-full object-cover bg-center" />
+                            {% endif %}
+                            <div class="absolute w-full h-full top-0 bottom-0 bg-[rgba(0,0,0,0.57)]"></div>
+                            <div class="absolute bottom-6 left-4 ">
+                                <div class=" text-white">
+                                    <h2 class="font-medium text-xl text-white">
+                                        {{account.first_name}} {{account.last_name}}
+                                    </h2>
+                                    <p class="text-xs text-[#ccc]">
+                                        {{account.occupation}}, {{account.address.state}}
+                                    </p>
+                                    <div class="mt-4">
+                                        <a href="{% url 'accounts:account_details' username=account.username pk=account.pk %}"
+                                            class="w-20 border text-white border-white rounded-3xl p-2 px-4 text-center cursor-pointer">See
+                                            me</a>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="w-full h-full rounded-2xl"></div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</section>
+
+
+{% endblock content %}
+
+{% block javascripts %}
+<!-- <script>
+
+    // const categoryBtn = document.getElementById("category_button");
+    // const categoryMenu = document.getElementById("category_menu");
+
+    // categoryBtn.addEventListener("click", function () {
+    //     if (categoryMenu.classList.contains("hidden")) {
+    //         categoryMenu.classList.remove("hidden")
+    //         categoryMenu.classList.add("block")
+    //     } else {
+    //         categoryMenu.classList.remove("block")
+    //         categoryMenu.classList.add("hidden")
+    //     }
+    // });
+    var val = $("#search_results_modal");
+    var cont = $("#search_results_container").empty()
+    $("#id_q").on("input", function(e){
+        if(e.currentTarget.value){
+            if(val.hasClass("hidden")){
+                val.removeClass("hidden")
+                val.addClass("block")
+            }
+
+            var data = JSON.parse(`{{json_data}}`.replace(/&quot;/g, '"'))
+            var ar;
+            var newdata = data.filter(function(ele){
+               return ele.fields.first_name.includes(e.currentTarget.value)
+            })
+            
+            newdata.forEach(element => {
+                cont.append(
+                    `
+                    <div class="bg-white">
+                            <div class="flex items-center w-full space-x-2">
+                                <div class="h-8 w-8 overflow-hidden rounded-full">
+                                    ${element.fields.phote === "" ? '<img src="{% static "imgs/home.jpg" %}" class="w-full h-full object-cover object-center" />' : `<img src="${element.photo}" class="w-full h-full object-cover object-center" />`}
+                                    
+                                </div>
+                                <div class="space-y">
+                                    <h6 class="text-lg font-bold text-black">${element.fields.first_name} ${element.fields.last_name}</h6>
+                                    <p class="text-sm text-gray-500 font-normal">${element.fields.occupation}</p>
+                                </div>
+                            </div>
+                        </div>
+                    `
+                )
+            });
+
+        }else{
+            if(val.hasClass("block")){
+                val.removeClass("block")
+                val.addClass("hidden")
+            }
+        }
+        
+    });
+</script> -->
+
+{% endblock javascripts %}

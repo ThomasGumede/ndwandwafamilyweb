@@ -1,0 +1,486 @@
+{% extends '_base.html' %}
+{% load static %}
+
+{% block content %}
+<section class="w-full bg-custom-h pt-36 mt-16 relative block pb-32 overflow-hidden border-2">
+    <div id="header-bg"
+        class="absolute top-0 h-fit  border-2 border-custom-primary left-0 bottom-0 right-0 overflow-hidden bg-center opacity-50 bg-no-repeat bg-cover mix-blend-luminosity">
+        <img src="{% static 'imgs/home.jpg' %}" alt="" class="w-full h-screen object-cover">
+    </div>
+    <div class="container">
+        <div class="relative block z-40">
+            <ul class="relative block">
+                <li class="inline-block text-base text-white font-medium opacity-60 relative">
+                    <a href="" class="text-white inline-block text-base font-medium">Home</a>
+                </li>
+
+            </ul>
+            <h2 class="text-white text-2xl md:text-5xl font-bold m-0">Welcome to Ndwandwa Family</h2>
+        </div>
+    </div>
+</section>
+<section class="w-full bg-white mb-20 p-4">
+    <div style="color: #2e3337; font-size: 16px; font-weight: 500;">
+        <div
+            style="display: flex; margin: 0; padding: 20px; align-items: center; background-color: #ffffff; justify-content: space-between;">
+            <div class="logo" style="padding-right: 27px; align-items: center; display: flex;">
+                <div style="width: 40px; height: 40px; margin-right: 8px; display: inline;">
+                    <img src="{% static 'imgs/logo (2).png' %}" alt="Ndwandwa LOGO" style="object-fit: contain;" />
+                </div>
+                <div style="color: #1e3737; display: inline;">
+                    <h3 style="color: #00B4D8; font-weight: 700; text-transform: uppercase;">Ndwandwa</h3>
+                    <p style="font-size: 11px;">family foundation</p>
+                </div>
+            </div>
+            <h2 style="color: #1e3737; font-weight: 800; font-size: 30px;">
+                Account Activation</h2>
+        </div>
+
+        <div
+            style="margin: 0; margin-top: 32px; margin-bottom: 32px; padding: 15px; text-align: center; background-color: #ffffff;">
+            <h3 style="margin-bottom: 15px; font-size: 23px; color: #1e3737; font-weight: 900;">Hi {{ user }},</h3>
+            <h3 style="margin-bottom: 15px; font-size: 23px; color: #1e3737; font-weight: 800;">Thank you for
+                registering with Ndwadwa Fam</h3>
+            <p>Please select the button below to confirm your email address and activate your account.</p>
+            <div style="margin-top: 40px !important;">
+
+
+                <a href="{% url 'home:email' %}"
+                    style="border: 0; color: #ffffff; background-color: #5865F2; padding: 15px; font-weight: bold; text-decoration: none; border-radius: 5px;">
+                    Verify account
+                </a>
+            </div>
+            <div style="margin-bottom: 30px;">
+                <p style="margin-top: 40px;">Or you can copy the link below to your browser</p>
+                <p>{% url 'home:email' %}</p>
+            </div>
+            <p style="margin-bottom: 30px;">We're here to help, Contact us at <a href="mail:inf0@ndwandwa.org"
+                    style="text-decoration: underline; color: #1e3737; font-weight: 800;">info@ndwadwafam.org</a> if you
+                need assistance</p>
+
+            <p>From the NdwandwaFam Team</p>
+        </div>
+        <div style="text-align: center; margin-top: 20px 0; background-color: #1e3737; color: #ffffff; padding: 60px;">
+            <p style="margin-bottom: 25px;">Questions? Get in touch on</p>
+            <p style="margin-bottom: 25px;"><a href="" style="margin-right: 20px;">Twitter</a> <a href=""
+                    style="margin-right: 20px;">Facebook</a> <a href="" style="margin-right: 20px;">Instagram</a></p>
+            <p style="margin-bottom: 7px;">
+                You are receiving this email because you sign up on our website
+            </p>
+            <p style="margin-bottom: 7px;">
+                PO Box 1345, Home Hell, Cape Town, 7872
+            </p>
+        </div>
+    </div>
+    <div style="color: #2e3337; font-size: 16px; font-weight: 500;">
+        <div
+            style="display: flex; margin: 0; padding: 20px; align-items: center; background-color: #ffffff; justify-content: space-between;">
+            <div class="logo" style="padding-right: 27px; align-items: center; display: flex;">
+                <div style="width: 40px; height: 40px; margin-right: 8px; display: inline;">
+                    <img src="{% static 'imgs/logo (2).png' %}" alt="Ndwandwa LOGO" style="object-fit: contain;" />
+                </div>
+                <div style="color: #1e3737; display: inline;">
+                    <h3 style="color: #00B4D8; font-weight: 700; text-transform: uppercase;">Ndwandwa</h3>
+                    <p style="font-size: 11px;">family foundation</p>
+                </div>
+            </div>
+            <h2 style="color: #1e3737; font-weight: 800; font-size: 30px;">
+                Ticket(s) Order Cancelled</h2>
+        </div>
+        
+
+        <div style="margin: 0; margin-top: 32px; margin-bottom: 32px; padding: 15px; background-color: #ffffff;">
+            <h3 style="margin-bottom: 20px;">Dear {{ user }},</h3>
+
+            <p style="margin-bottom: 20px;">Your transaction on Yoco with the following details was cancelled: </p>
+            <div style="margin-bottom: 20px !important; margin-left: 20px;">
+                <p>Order number: <span style="color: #1e3737; font-weight: 600;">#6790</span></p>
+                <p>Event: Some campaign title</p>
+                <p>Number of tickets: 5</p>
+                <p>Price per ticket: R400</p>
+                <p>Total price(incl. vat): R2000</p>
+            </div>
+            <p style="margin-bottom: 20px;">This cancelled order will be recorded to our database and will be processed
+                shortly. Thank you</p>
+            <p style="margin-bottom: 25px;">If you did not cancel this transaction then please let us know on
+                or email <a href="mail:inf0@ndwandwa.org"
+                    style="text-decoration: underline; color: #1e3737; font-weight: 800;">support@ndwadwafam.org</a>
+            </p>
+
+            <p>From the NdwandwaFam Team</p>
+        </div>
+        <div style="text-align: center; margin-top: 20px 0; background-color: #1e3737; color: #ffffff; padding: 60px;">
+            <p style="margin-bottom: 25px;">Questions? Get in touch on</p>
+            <p style="margin-bottom: 25px;"><a href="" style="margin-right: 20px;">Twitter</a> <a href=""
+                    style="margin-right: 20px;">Facebook</a> <a href="" style="margin-right: 20px;">Instagram</a></p>
+            <p style="margin-bottom: 7px;">
+                You are receiving this email because you sign up on our website
+            </p>
+            <p style="margin-bottom: 7px;">
+                PO Box 1345, Home Hell, Cape Town, 7872
+            </p>
+        </div>
+    </div>
+    <div style="color: #2e3337; font-size: 16px; font-weight: 500;">
+        <div
+            style="display: flex; margin: 0; padding: 20px; align-items: center; background-color: #ffffff; justify-content: space-between;">
+            <div class="logo" style="padding-right: 27px; align-items: center; display: flex;">
+                <div style="width: 40px; height: 40px; margin-right: 8px; display: inline;">
+                    <img src="{% static 'imgs/logo (2).png' %}" alt="Ndwandwa LOGO" style="object-fit: contain;" />
+                </div>
+                <div style="color: #1e3737; display: inline;">
+                    <h3 style="color: #00B4D8; font-weight: 700; text-transform: uppercase;">Ndwandwa</h3>
+                    <p style="font-size: 11px;">family foundation</p>
+                </div>
+            </div>
+            <h2 style="color: #1e3737; font-weight: 800; font-size: 30px;">
+                Donation Cancelled</h2>
+        </div>
+
+        <div style="margin: 0; margin-top: 32px; margin-bottom: 32px; padding: 15px; background-color: #ffffff;">
+            <h3 style="margin-bottom: 20px;">Dear {{ user }},</h3>
+
+            <p style="margin-bottom: 20px;">Your transaction on Yoco with the following details was cancelled: </p>
+            <div style="margin-bottom: 20px !important; margin-left: 20px;">
+                <p>Contribution number: <span style="color: #1e3737; font-weight: 600;">#6790</span></p>
+                <p>Campaign: Some campaign title</p>
+                <p>Contribution amount: R400</p>
+            </div>
+            <p style="margin-bottom: 20px;">This cancelled contribution will be recorded to our database and will be
+                processed shortly. Thank you</p>
+            <p style="margin-bottom: 25px;">If you did not cancel this transaction then please let us know on
+                or email <a href="mail:inf0@ndwandwa.org"
+                    style="text-decoration: underline; color: #1e3737; font-weight: 800;">support@ndwadwafam.org</a>
+            </p>
+
+            <p>From the NdwandwaFam Team</p>
+        </div>
+        <div style="text-align: center; margin-top: 20px 0; background-color: #1e3737; color: #ffffff; padding: 60px;">
+            <p style="margin-bottom: 25px;">Questions? Get in touch on</p>
+            <p style="margin-bottom: 25px;"><a href="" style="margin-right: 20px;">Twitter</a> <a href=""
+                    style="margin-right: 20px;">Facebook</a> <a href="" style="margin-right: 20px;">Instagram</a></p>
+            <p style="margin-bottom: 7px;">
+                You are receiving this email because you sign up on our website
+            </p>
+            <p style="margin-bottom: 7px;">
+                PO Box 1345, Home Hell, Cape Town, 7872
+            </p>
+        </div>
+    </div>
+    <div style="background-color: rgb(234, 233, 231); font-size: 16px; font-weight: 500;">
+        <div
+            style="display: flex; margin: 0; padding: 20px; align-items: center; background-color: #ffffff; justify-content: space-between;">
+            <div class="logo" style="padding-right: 27px; align-items: center; display: flex;">
+                <div style="width: 40px; height: 40px; margin-right: 8px; display: inline;">
+                    <img src="{% static 'imgs/logo (2).png' %}" alt="Ndwandwa LOGO" style="object-fit: contain;" />
+                </div>
+                <div style="color: #1e3737; display: inline;">
+                    <h3 style="color: #00B4D8; font-weight: 700; text-transform: uppercase;">Ndwandwa</h3>
+                    <p style="font-size: 11px;">family foundation</p>
+                </div>
+            </div>
+            <h2 style="color: #1e3737; font-weight: 800; font-size: 30px;">
+                Order Paid</h2>
+        </div>
+        <div style="padding: 50px; text-align: center;">
+            <div style="margin-bottom: 20px;">
+                <h2 style="color: #1e3737; font-weight: 800; font-size: 30px; margin-bottom: 10px;">
+                    Thank you for your Order</h2>
+                <p>Your contribution will go straight to supporting campaign</p>
+            </div>
+            <div
+                style="margin-left: auto; margin-right: auto; margin-bottom: 20px; max-width: 570px; width: fit-content; padding: 40px; background-color: #ffffff;">
+                <div style="margin-bottom: 15px;">
+                    <p style="font-size: 20px; font-weight: 500; margin-bottom: 12px; color: #2e3337;">You have
+                        Paid</p>
+                    <h5 style="font-size: 27px; font-weight: 800; margin-bottom: 25px; color: #1e3737;">R599.00</h5>
+                    <p style="font-size: 20px; font-weight: 500; margin-bottom: 25px; color: #2e3337;">- FOR -</p>
+                    <h5 style="font-size: 25px; font-weight: 800; margin-bottom: 25px; color: #1e3737;">9 Event title Tickets Tickets Tickets</h5>
+
+                </div>
+                <div style="text-align: start; margin-bottom: 20px;">
+                    <div
+                        style="display: flex; align-items: center; width: 100%; justify-content: space-between; margin-bottom: 10px;">
+                        <p style="color: #1e3737; font-size: 15px; font-weight: 700;">Total amount(incl. VAT)</p>
+                        <p style="color: #1e3737; font-size: 15px; font-weight: 700;">R500.00</p>
+                    </div>
+                    <div
+                        style="display: flex; align-items: center; width: 100%; justify-content: space-between; margin-bottom: 10px;">
+                        <p style="color: #1e3737; font-size: 15px; font-weight: 700;">Purchase date</p>
+                        <p style="color: #1e3737; font-size: 15px; font-weight: 700;">Date</p>
+                    </div>
+                    <div
+                        style="display: flex; align-items: center; width: 100%; justify-content: space-between; margin-bottom: 10px;">
+                        <p style="color: #1e3737; font-size: 15px; font-weight: 700;">Order number</p>
+                        <p style="color: #1e3737; font-size: 15px; font-weight: 700;">#6000</p>
+                    </div>
+                    <div
+                        style="display: flex; align-items: center; width: 100%; justify-content: space-between; margin-bottom: 10px;">
+                        <p style="color: #1e3737; font-size: 15px; font-weight: 700;">Payment</p>
+                        <p style="color: #1e3737; font-size: 15px; font-weight: 700;">Paid</p>
+                    </div>
+                </div>
+            </div>
+            <div style="margin-bottom: 20px;">
+                <p>Please find your receipt attached to this email</p>
+            </div>
+            <p style="margin-bottom: 25px;">If you did not perform this task then please let us know on
+                or email <a href="mail:inf0@ndwandwa.org"
+                    style="text-decoration: underline; color: #1e3737; font-weight: 800;">support@ndwadwafam.org</a>
+            </p>
+
+            <p>From the NdwandwaFam Team</p>
+        </div>
+        <div style="text-align: center; margin-top: 20px 0; background-color: #1e3737; color: #ffffff; padding: 60px;">
+            <p style="margin-bottom: 25px;">Questions? Get in touch on</p>
+            <p style="margin-bottom: 25px;"><a href="" style="margin-right: 20px;">Twitter</a> <a href=""
+                    style="margin-right: 20px;">Facebook</a> <a href="" style="margin-right: 20px;">Instagram</a></p>
+            <p style="margin-bottom: 7px;">
+                You are receiving this email because you sign up on our website
+            </p>
+            <p style="margin-bottom: 7px;">
+                PO Box 1345, Home Hell, Cape Town, 7872
+            </p>
+        </div>
+    </div>
+    <div style="background-color: rgb(234, 233, 231); font-size: 16px; font-weight: 500;">
+        <div
+            style="display: flex; margin: 0; padding: 20px; align-items: center; background-color: #ffffff; justify-content: space-between;">
+            <div class="logo" style="padding-right: 27px; align-items: center; display: flex;">
+                <div style="width: 40px; height: 40px; margin-right: 8px; display: inline;">
+                    <img src="{% static 'imgs/logo (2).png' %}" alt="Ndwandwa LOGO" style="object-fit: contain;" />
+                </div>
+                <div style="color: #1e3737; display: inline;">
+                    <h3 style="color: #00B4D8; font-weight: 700; text-transform: uppercase;">Ndwandwa</h3>
+                    <p style="font-size: 11px;">family foundation</p>
+                </div>
+            </div>
+            <h2 style="color: #1e3737; font-weight: 800; font-size: 30px;">
+                Donation Paid</h2>
+        </div>
+        <div style="padding: 50px; text-align: center;">
+            <div style="margin-bottom: 20px;">
+                <h2 style="color: #1e3737; font-weight: 800; font-size: 30px; margin-bottom: 10px;">
+                    Thank you for your generous contribution</h2>
+                <p>Your contribution will go straight to supporting campaign</p>
+            </div>
+            <div
+                style="margin-left: auto; margin-right: auto; margin-bottom: 20px; width: fit-content; padding: 40px; background-color: #ffffff;">
+                <div style="margin-bottom: 15px;">
+                    <p style="font-size: 20px; font-weight: 500; margin-bottom: 12px; color: #2e3337;">You have
+                        contributed</p>
+                    <h5 style="font-size: 27px; font-weight: 800; margin-bottom: 25px; color: #1e3737;">R599.00</h5>
+                    <p style="font-size: 20px; font-weight: 500; margin-bottom: 25px; color: #2e3337;">- TO -</p>
+                    <h5 style="font-size: 25px; font-weight: 800; margin-bottom: 25px; color: #1e3737;">Some Campaign
+                        Title</h5>
+
+                </div>
+                <div style="text-align: start; margin-bottom: 20px;">
+                    <div
+                        style="display: flex; align-items: center; width: 100%; justify-content: space-between; margin-bottom: 10px;">
+                        <p style="color: #1e3737; font-size: 15px; font-weight: 700;">Donation amount</p>
+                        <p style="color: #1e3737; font-size: 15px; font-weight: 700;">R500.00</p>
+                    </div>
+                    <div
+                        style="display: flex; align-items: center; width: 100%; justify-content: space-between; margin-bottom: 10px;">
+                        <p style="color: #1e3737; font-size: 15px; font-weight: 700;">Donation date</p>
+                        <p style="color: #1e3737; font-size: 15px; font-weight: 700;">Date</p>
+                    </div>
+                    <div
+                        style="display: flex; align-items: center; width: 100%; justify-content: space-between; margin-bottom: 10px;">
+                        <p style="color: #1e3737; font-size: 15px; font-weight: 700;">Donation number</p>
+                        <p style="color: #1e3737; font-size: 15px; font-weight: 700;">#6000</p>
+                    </div>
+                    <div
+                        style="display: flex; align-items: center; width: 100%; justify-content: space-between; margin-bottom: 10px;">
+                        <p style="color: #1e3737; font-size: 15px; font-weight: 700;">Payment</p>
+                        <p style="color: #1e3737; font-size: 15px; font-weight: 700;">Paid</p>
+                    </div>
+                </div>
+            </div>
+            <div style="margin-bottom: 20px;">
+                <p>Please find your receipt attached to this email</p>
+            </div>
+            <p style="margin-bottom: 25px;">If you did not perform this task then please let us know on
+                or email <a href="mail:inf0@ndwandwa.org"
+                    style="text-decoration: underline; color: #1e3737; font-weight: 800;">support@ndwadwafam.org</a>
+            </p>
+
+            <p>From the NdwandwaFam Team</p>
+        </div>
+        <div style="text-align: center; margin-top: 20px 0; background-color: #1e3737; color: #ffffff; padding: 60px;">
+            <p style="margin-bottom: 25px;">Questions? Get in touch on</p>
+            <p style="margin-bottom: 25px;"><a href="" style="margin-right: 20px;">Twitter</a> <a href=""
+                    style="margin-right: 20px;">Facebook</a> <a href="" style="margin-right: 20px;">Instagram</a></p>
+            <p style="margin-bottom: 7px;">
+                You are receiving this email because you sign up on our website
+            </p>
+            <p style="margin-bottom: 7px;">
+                PO Box 1345, Home Hell, Cape Town, 7872
+            </p>
+        </div>
+    </div>
+    </div>
+    <div style="color: #2e3337; font-size: 16px; font-weight: 500;">
+        <div
+            style="display: flex; margin: 0; padding: 20px; align-items: center; background-color: #ffffff; justify-content: space-between;">
+            <div class="logo" style="padding-right: 27px; align-items: center; display: flex;">
+                <div style="width: 40px; height: 40px; margin-right: 8px; display: inline;">
+                    <img src="{% static 'imgs/logo (2).png' %}" alt="Ndwandwa LOGO" style="object-fit: contain;" />
+                </div>
+                <div style="color: #1e3737; display: inline;">
+                    <h3 style="color: #00B4D8; font-weight: 700; text-transform: uppercase;">Ndwandwa</h3>
+                    <p style="font-size: 11px;">family foundation</p>
+                </div>
+            </div>
+            <h2 style="color: #1e3737; font-weight: 800; font-size: 30px;">
+                Ticket(s) order Confirmation</h2>
+        </div>
+        
+
+        <div style="margin: 0; margin-top: 32px; margin-bottom: 32px; padding: 15px; background-color: #ffffff;">
+            <h3 style="margin-bottom: 15px;">Dear {{ user }},</h3>
+
+            <p style="margin-bottom: 20px;">We have received your ticket(s) order for event campaign and will be
+                processing it shortly. The details of
+                your ticket(s) order are:</p>
+            <div style="margin-bottom: 20px !important; margin-left: 20px;">
+                <p>Order number: <span style="color: #1e3737; font-weight: 600;">#6790</span></p>
+                <p>Event: Some campaign title</p>
+                <p>Number of tickets: 5</p>
+                <p>Price per ticket: R400</p>
+                <p>Total price(incl. vat): R2000</p>
+            </div>
+            <p style="margin-bottom: 20px;">Thank you for your contribution to this event. Your donation will go
+                straight to helping this event</p>
+            <p style="margin-bottom: 25px;">If you did not perform this task then please let us know on
+                or email <a href="mail:inf0@ndwandwa.org"
+                    style="text-decoration: underline; color: #1e3737; font-weight: 800;">support@ndwadwafam.org</a>
+            </p>
+
+            <p>From the NdwandwaFam Team</p>
+        </div>
+        <div style="text-align: center; margin-top: 20px 0; background-color: #1e3737; color: #ffffff; padding: 60px;">
+            <p style="margin-bottom: 25px;">Questions? Get in touch on</p>
+            <p style="margin-bottom: 25px;"><a href="" style="margin-right: 20px;">Twitter</a> <a href=""
+                    style="margin-right: 20px;">Facebook</a> <a href="" style="margin-right: 20px;">Instagram</a></p>
+            <p style="margin-bottom: 7px;">
+                You are receiving this email because you sign up on our website
+            </p>
+            <p style="margin-bottom: 7px;">
+                PO Box 1345, Home Hell, Cape Town, 7872
+            </p>
+        </div>
+    </div>
+    <div style="color: #2e3337; font-size: 16px; font-weight: 500;">
+        <div
+            style="display: flex; margin: 0; padding: 20px; align-items: center; background-color: #ffffff; justify-content: space-between;">
+            <div class="logo" style="padding-right: 27px; align-items: center; display: flex;">
+                <div style="width: 40px; height: 40px; margin-right: 8px; display: inline;">
+                    <img src="{% static 'imgs/logo (2).png' %}" alt="Ndwandwa LOGO" style="object-fit: contain;" />
+                </div>
+                <div style="color: #1e3737; display: inline;">
+                    <h3 style="color: #00B4D8; font-weight: 700; text-transform: uppercase;">Ndwandwa</h3>
+                    <p style="font-size: 11px;">family foundation</p>
+                </div>
+            </div>
+            <h2 style="color: #1e3737; font-weight: 800; font-size: 30px;">
+                Donation Confirmation</h2>
+        </div>
+
+        <div style="margin: 0; margin-top: 32px; margin-bottom: 32px; padding: 15px; background-color: #ffffff;">
+            <h3 style="margin-bottom: 15px;">Dear {{ user }},</h3>
+
+            <p>We have received your request to contribute on campaign and will be processing it shortly. The details of
+                your contribution are:</p>
+            <div style="margin-top: 20px !important; margin-left: 20px;">
+                <p>Contribution number: <span style="color: #1e3737; font-weight: 600;">#6790</span></p>
+                <p>Campaign: Some campaign title</p>
+                <p>Contribution amount: R400</p>
+            </div>
+            <p style="margin-top: 20px;">Thank you for your contribution to this campaign. Your donation will go
+                straight to helping this campaign</p>
+            <p style="margin-bottom: 25px;">If you did not ask for your password to be reset then please let us know on
+                or email <a href="mail:inf0@ndwandwa.org"
+                    style="text-decoration: underline; color: #1e3737; font-weight: 800;">support@ndwadwafam.org</a>
+            </p>
+
+            <p>From the NdwandwaFam Team</p>
+        </div>
+        <div style="text-align: center; margin-top: 20px 0; background-color: #1e3737; color: #ffffff; padding: 60px;">
+            <p style="margin-bottom: 25px;">Questions? Get in touch on</p>
+            <p style="margin-bottom: 25px;"><a href="" style="margin-right: 20px;">Twitter</a> <a href=""
+                    style="margin-right: 20px;">Facebook</a> <a href="" style="margin-right: 20px;">Instagram</a></p>
+            <p style="margin-bottom: 7px;">
+                You are receiving this email because you sign up on our website
+            </p>
+            <p style="margin-bottom: 7px;">
+                PO Box 1345, Home Hell, Cape Town, 7872
+            </p>
+        </div>
+    </div>
+    <div style="color: #2e3337; font-size: 16px; font-weight: 500;">
+        <div
+            style="display: flex; margin: 0; padding: 20px; align-items: center; background-color: #ffffff; justify-content: space-between;">
+            <div class="logo" style="padding-right: 27px; align-items: center; display: flex;">
+                <div style="width: 40px; height: 40px; margin-right: 8px; display: inline;">
+                    <img src="{% static 'imgs/logo (2).png' %}" alt="Ndwandwa LOGO" style="object-fit: contain;" />
+                </div>
+                <div style="color: #1e3737; display: inline;">
+                    <h3 style="color: #00B4D8; font-weight: 700; text-transform: uppercase;">Ndwandwa</h3>
+                    <p style="font-size: 11px;">family foundation</p>
+                </div>
+            </div>
+            <h2 style="color: #1e3737; font-weight: 800; font-size: 30px;">
+                Reset your password</h2>
+        </div>
+        
+
+        <div style="margin: 0; margin-top: 32px; margin-bottom: 32px; padding: 15px; background-color: #ffffff;">
+            <h3 style="margin-bottom: 15px;">Hi {{ user }},</h3>
+
+            <p>We received a request to reset your NdwandwaFam account password. Please click on the link below and
+                follow the instructions</p>
+            <div style="margin-top: 40px !important; text-align: center;">
+
+
+                <a href="{% url 'home:email' %}"
+                    style="border: 0; color: #ffffff; background-color: #5865F2; padding: 14px 17px; font-weight: bold; text-decoration: none; border-radius: 5px;">
+                    Reset password
+                </a>
+            </div>
+            <div style="margin-bottom: 30px; ">
+                <p style="margin-top: 40px;">Or you can also copy and paste the URL below into your browser. The link
+                    will expire in 20 minutes</p>
+                <p style="text-decoration: underline; color: #1e3737; font-weight: 600;">{% url 'home:email' %}</p>
+            </div>
+            <div>
+
+            </div>
+            <p style="margin-bottom: 25px;">If you did not ask for your password to be reset then please let us know on
+                or email <a href="mail:inf0@ndwandwa.org"
+                    style="text-decoration: underline; color: #1e3737; font-weight: 800;">support@ndwadwafam.org</a>
+            </p>
+
+
+            <p>From the NdwandwaFam Team</p>
+        </div>
+        <div style="text-align: center; margin-top: 20px 0; background-color: #1e3737; color: #ffffff; padding: 60px;">
+            <p style="margin-bottom: 25px;">Questions? Get in touch on</p>
+            <p style="margin-bottom: 25px;"><a href="" style="margin-right: 20px;">Twitter</a> <a href=""
+                    style="margin-right: 20px;">Facebook</a> <a href="" style="margin-right: 20px;">Instagram</a></p>
+            <p style="margin-bottom: 7px;">
+                You are receiving this email because you sign up on our website
+            </p>
+            <p style="margin-bottom: 7px;">
+                PO Box 1345, Home Hell, Cape Town, 7872
+            </p>
+        </div>
+    </div>
+</section>
+
+
+
+
+
+{% endblock content %}

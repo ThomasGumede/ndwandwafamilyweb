@@ -1,0 +1,52 @@
+<div style="color: #2e3337; font-size: 16px; font-weight: 500;">
+    <div
+        style="display: flex; margin: 0; padding: 20px; align-items: center; background-color: #ffffff; justify-content: space-between;">
+        <div class="logo" style="padding-right: 27px; align-items: center; display: flex;">
+            <div style="width: 40px; height: 40px; margin-right: 8px; display: inline;">
+                <img src="{% static 'imgs/logo (2).png' %}" alt="Ndwandwa LOGO" style="object-fit: contain;" />
+            </div>
+            <div style="color: #1e3737; display: inline;">
+                <h3 style="color: #00B4D8; font-weight: 700; text-transform: uppercase;">Ndwandwa</h3>
+                <p style="font-size: 11px;">family foundation</p>
+            </div>
+        </div>
+        <h2 style="color: #1e3737; font-weight: 800; font-size: 30px;">
+            Account Activation</h2>
+    </div>
+
+    <div
+        style="margin: 0; margin-top: 32px; margin-bottom: 32px; padding: 15px; text-align: center; background-color: #ffffff;">
+        <h3 style="margin-bottom: 15px; font-size: 23px; color: #1e3737; font-weight: 900;">Hi {{ user }},</h3>
+        <h3 style="margin-bottom: 15px; font-size: 23px; color: #1e3737; font-weight: 800;">Thank you for
+            registering with Ndwadwa Fam</h3>
+        <p>Please select the button below to confirm your email address and activate your account.</p>
+        <div style="margin-top: 40px !important;">
+
+
+            <a href="{{ protocol }}://{{ domain }}{% url 'accounts:activate' uidb64=uid token=token %}"
+                style="border: 0; color: #ffffff; background-color: #5865F2; padding: 15px; font-weight: bold; text-decoration: none; border-radius: 5px;">
+                Verify account
+            </a>
+        </div>
+        <div style="margin-bottom: 30px;">
+            <p style="margin-top: 40px;">Or you can copy the link below to your browser</p>
+            <p>{{ protocol }}://{{ domain }}{% url 'accounts:activate' uidb64=uid token=token %}</p>
+        </div>
+        <p style="margin-bottom: 30px;">We're here to help, Contact us at <a href="mail:inf0@ndwandwa.org"
+                style="text-decoration: underline; color: #1e3737; font-weight: 800;">info@ndwadwafam.org</a> if you
+            need assistance</p>
+
+        <p>From the NdwandwaFam Team</p>
+    </div>
+    <div style="text-align: center; margin-top: 20px 0; background-color: #1e3737; color: #ffffff; padding: 60px;">
+        <p style="margin-bottom: 25px;">Questions? Get in touch on</p>
+        <p style="margin-bottom: 25px;"><a href="" style="margin-right: 20px;">Twitter</a> <a href=""
+                style="margin-right: 20px;">Facebook</a> <a href="" style="margin-right: 20px;">Instagram</a></p>
+        <p style="margin-bottom: 7px;">
+            You are receiving this email because you sign up on our website
+        </p>
+        <p style="margin-bottom: 7px;">
+            PO Box 1345, Home Hell, Cape Town, 7872
+        </p>
+    </div>
+</div>

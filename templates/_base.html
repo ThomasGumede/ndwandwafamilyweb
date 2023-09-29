@@ -13,7 +13,67 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{% static 'css/all.min.css' %}" />
     <link rel="stylesheet" href="{% static 'fonts/stylesheet.css' %}">
-    <title>{% block title %} Home {% endblock title %} Ndwandwa Family</title>
+    <link rel="shortcut icon" href="{% static 'favicon.ico' %}" type="image/x-icon">
+    {% block description %}
+    <meta name="description" content="ML Geo Consulting Engineers is a geotechnical consulting firm 
+    operating in KwaZulu Natal province. The company has swiftly established itself as a...">
+    <meta name="keywords"
+        content="Ndwandwa Family Foundation &dash; Ndwandwa Family Foundation south africa &dash; Ndwandwa Family Foundation kwazulu natal &dash; Ndwandwa Family Foundation around Durban &dash; Crowdfunding around Durban &dash; ML Geotechnical Consulting Angineers (Pty) Ltd Durban &dash; Ndwandwa family foundation consulting &dash; Durban &dash; construction Durban &dash; Ndwandwa Family Foundation durban &dash; ML Geo Consulting Angineers KwaZulu Natal &dash; geotechnical solutions kzn &dash; geo-technical services south africa &dash; ML Geotechnical Consulting Angineers (Pty) Ltd &dash;  Testing &dash; Geotechnical Investigations &dash; Compaction Testing &dash; Soil Poisoning Concrete Strength Testing &dash; Water Quality Testing &dash; Independent Research Analysis &dash; Exploration &dash; Water &dash; Borehole &dash; Drilling &dash; Cement Content Analysis &dash; Soil Excavations &dash; Soil Profiling &dash; Rural, Township, and Urban Development &dash; Borehole and Exploration Drilling &dash; DCP Testing &dash; MOD AASHTO and Moisture &dash; CBR Bearing Pressure &dash; Soil Poisoning &dash; Road &dash; Layerworks &dash; Earthworks &dash; Compaction Testing &dash; Cement Content Analysis &dash; Stabilised Aggregate Analysis &dash; Asphalt Core Drilling &dash; Rock Aggregate Analysis &dash; Quarry Aggregate Analysis &dash; Geotechnical Investigations &dash; Soil Report Datasets &dash; Tender Monitoring and Evaluation &dash; Independent Research AnalysisSoil Testing &dash; Geotechnical Investigations &dash; Compaction Testing &dash; Soil Poisoning &dash; Concrete Strength Testing &dash; Water Quality Testing &dash; Independent Research Analysis &dash; Exploration &dash; Water &dash; Borehole &dash; Drilling &dash; Cement Content Analysis- KwaZulu Natal &dash; Orange Free State &dash; Gauteng &dash; Cape Regions &dash; Durban &dash; Ballito &dash; Margate &dash; South Coast &dash; Tongaat &dash; Musgrave &dash; Gateway &dash;  Ramsgate &dash; Shelly Beach &dash; Stanger &dash; Melmoth &dash; Ulundi &dash; Pietermaritzburg &dash; Ladysmith &dash; Estcourt &dash; Newcastle &dash; Volksrust &dash;  Dundee &dash; Midlands &dash; Harrismith &dash; QwaQwa &dash; Drakensberg &dash; Clarens &dash; Bethlehem &dash; Warden &dash;  Kestel &dash; Reitz &dash; Vereeniging &dash; Welkom &dash; Villiers &dash; Umtata &dash; Johannesburg &dash; Pretoria &dash; Bloemfontein" />
+        {% endblock description %}
+
+    <!-- ==================================== SCHEMA =================================== -->
+    <script type="application/ld+json">
+        {
+            "@context": "http://schema.org/",
+            "@type": "LocalBusiness",
+            "name": "ML Geotechnical Consulting Angineers (Pty) Ltd",
+            "image": "/assets/images/ml-logo.jpg",
+            "telephone": "+27765591525",
+            "url": "http://mlgeoconsulting.co.za",
+            "address": {
+                "@type": "PostalAddress",
+                "streetAddress": "Suite 2L & M",
+                "addressLocality": "08 Old Main Road, Hillcrest",
+                "addressRegion": "KwaZulu-Natal",
+                "postalCode": "3650",
+                "addressCountry": "South Africa"
+            },
+            "openingHoursSpecification": [
+                {
+                    "@type": "OpeningHoursSpecification",
+                    "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+                    "opens": "09:00",
+                    "closes": "18:00"
+                }
+            ]
+        }
+    </script>
+
+
+    <!-- ==================================== TWITTER =================================== -->
+    {% block twitter %}
+    <meta name="twitter:title" content="Ndwandwa Family Foundation South Africa" />
+    <meta name="twitter:description" content="Ndwandwa Family Foundation (PTY) LTD is a leading geotechnical consulting firm in South 
+    Africa, renowned for its specialized and unique services within the geo-technology industry..."/>
+
+    <meta name="twitter:image" content="{% static 'imgs/logo (2).png' %}" />
+    {% endblock twitter %} 
+
+
+    <!-- ==================================== OG =================================== -->
+    {% block OG %}
+    <meta property="og:type" content="business.business">
+    <meta property="og:title" content="Ndwandwa Family Foundation South Africa">
+    <meta property="og:url" content="https://mlgeoconsulting.co.za">
+    <meta property="og:image" content="{% static 'imgs/logo (2).png' %}">
+    <meta property="business:contact_data:street_address" content="Suite 2L & M">
+    <meta property="business:contact_data:locality" content="08 Old Main Road, Hillcrest">
+    <meta property="business:contact_data:region" content="KwaZulu-Natal">
+    <meta property="business:contact_data:postal_code" content="3650">
+    <meta property="business:contact_data:country_name" content="South Africa">
+    {% endblock OG %}
+
+    <title>{% block title %} Ndwandwa Family Foundation {% endblock title %}</title>
 </head>
 
 <body>
@@ -29,7 +89,7 @@
         {% endblock content %}
     </main>
 
-    {% comment %} {% include "includes/footer.html" %} {% endcomment %}
+    {% include "includes/footer.html" %}
 
     <script src="{% static 'js/all.min.js' %}"></script>
     <script src="{% static 'js/jquery.min.js' %}"></script>

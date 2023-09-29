@@ -34,7 +34,10 @@
 <section class="w-full p-[120px_0_120px] overflow-hidden mb-20">
     <div class="container">
         <div class="w-full mx-auto bg-white">
-            <div class="">
+            <div class="w-full text-center">
+                <p class="text-gray-500 font-normal"></p>
+            </div>
+            <div class="mt-6">
                 <div class="space-y-4  border-0 bg-white w-full relative">
                     {% if form.non_field_errors %}
                     <div class="w-fit space-y-1 mx-auto text-sm text-red-500 font-normal">
@@ -241,6 +244,45 @@
                                     <h6 class="text-blueGray-400 text-sm mt-3 mb-6 font-bold uppercase">
                                         Event Details
                                     </h6>
+                                    <div class="w-full">
+                                        <div class="relative w-full mb-3">
+                                            <label for="id_image"
+                                                class="block uppercase {% if form.image.errors %}text-red-500 {% else %} text-gray-600 {% endif %} text-xs font-bold mb-2"
+                                                htmlfor="grid-password">
+                                                event picture*
+                                            </label>
+                                            <input type="file" name="image" accept="image/*" id="id_image"
+                                                class="w-[0.1px] h-[0.1px] opacity-0 overflow-hidden absolute -z-[1]" />
+                                            <div class="w-full border rounded-md bg-white border-dotted p-6">
+                                                <div
+                                                    class="flex items-center flex-col md:flex-row gap-4 w-full justify-between">
+                                                    <div class="flex items-center space-x-4">
+                                                        <div id="img_container"
+                                                            class="h-16 w-20 overflow-hidden rounded bg-gray-300">
+                                                            <div id="no_image"></div>
+                                                        </div>
+                                                        <div class="space-y-1">
+                                                            <p class="text-xs font-bold text-gray-500">Upload image
+                                                                to illustrate your event</p>
+                                                            <p class="text-xs font-light text-gray-500">SVG, PNG,
+                                                                JPG, JPEG or GIF</p>
+                                                        </div>
+                                                    </div>
+                                                    <div id="pick_image"
+                                                        class="border p-2 cursor-pointer text-center text-black">
+                                                        <p class="text-sm">Browser</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <span
+                                                class="text-[11px] text-custom-tertiary block font-normal lowercase">{{form.image.help_text}}</span>
+                                            {% if form.image.errors %}
+                                            <span
+                                                class="text-[11px] text-red-500 block font-normal lowercase">{{form.image.errors.as_text}}</span>
+                                            {% endif %}
+                                        </div>
+                                    </div>
                                     <div class="flex flex-wrap gap-4">
                                         <div class="w-full lg:w-12/12">
                                             <div class="relative w-full mb-3">
@@ -259,45 +301,7 @@
                                                 {% endif %}
                                             </div>
                                         </div>
-                                        <div class="w-full">
-                                            <div class="relative w-full mb-3">
-                                                <label for="id_image"
-                                                    class="block uppercase {% if form.image.errors %}text-red-500 {% else %} text-gray-600 {% endif %} text-xs font-bold mb-2"
-                                                    htmlfor="grid-password">
-                                                    event picture*
-                                                </label>
-                                                <input type="file" name="image" accept="image/*" id="id_image"
-                                                    class="w-[0.1px] h-[0.1px] opacity-0 overflow-hidden absolute -z-[1]" />
-                                                <div class="w-full border rounded-md bg-white border-dotted p-6">
-                                                    <div
-                                                        class="flex items-center flex-col md:flex-row gap-4 w-full justify-between">
-                                                        <div class="flex items-center space-x-4">
-                                                            <div id="img_container"
-                                                                class="h-16 w-20 overflow-hidden rounded bg-gray-300">
-                                                                <div id="no_image"></div>
-                                                            </div>
-                                                            <div class="space-y-1">
-                                                                <p class="text-xs font-bold text-gray-500">Upload image
-                                                                    to illustrate your event</p>
-                                                                <p class="text-xs font-light text-gray-500">SVG, PNG,
-                                                                    JPG, JPEG or GIF</p>
-                                                            </div>
-                                                        </div>
-                                                        <div id="pick_image"
-                                                            class="border p-2 cursor-pointer text-center text-black">
-                                                            <p class="text-sm">Browser</p>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <span
-                                                    class="text-[11px] text-custom-tertiary block font-normal lowercase">{{form.image.help_text}}</span>
-                                                {% if form.image.errors %}
-                                                <span
-                                                    class="text-[11px] text-red-500 block font-normal lowercase">{{form.image.errors.as_text}}</span>
-                                                {% endif %}
-                                            </div>
-                                        </div>
+                                        
                                         <div class="w-full">
                                             <div class="relative w-full mb-3">
 
@@ -324,8 +328,8 @@
                             </div>
                             <input type="hidden" id="id_event_address" name="event_address" />
                             <hr class="mt-6 border-b-1 border-blueGray-300">
-                            <p class="text-sm text-custom-h font-medium">
-                                By click add submit, you are agreeing to our event <span class="text-custom-primary">terms and conditions</span>
+                            <p class="text-sm text-custom-h font-medium mt-4">
+                                By clicking submit, you are agreeing to our event <span class="text-custom-primary">terms and conditions</span>
                             </p>
 
                             <div class="space-x-7 mt-3">

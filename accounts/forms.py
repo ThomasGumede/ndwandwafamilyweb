@@ -5,7 +5,7 @@ from django.contrib.auth.forms import (AuthenticationForm, PasswordResetForm,
                                        SetPasswordForm, UserCreationForm)
 
 
-from accounts.models import Address, NextOfKin, Qualification
+from accounts.models import AddressModel, RelativeModel, QualificationModel
 
 User = get_user_model()
 
@@ -66,7 +66,7 @@ class PwdResetConfirmForm(SetPasswordForm):
 class AccountUpdateForm(forms.ModelForm):
     class Meta:
         model = User
-        fields = ["photo", "first_name", "last_name", "biography", "occupation", "professional_affiliations"]
+        fields = ["profile_image", "first_name", "last_name", "biography", "occupation", "professional_affiliations"]
 
 class GeneralEditForm(forms.ModelForm):
     """
@@ -74,19 +74,19 @@ class GeneralEditForm(forms.ModelForm):
     """
     class Meta:
         model = User
-        fields = ["username", "email", "tel", "id_number"]
+        fields = ["username", "email", "phone", "identity_number", "identity_choice"]
 
 class AddressForm(forms.ModelForm):
     user_address = forms.UUIDField(required=False)
     class Meta:
-        model = Address
-        fields = ["address_one", "address_two", "city", "country", "state", "zipcode"]
+        model = AddressModel
+        fields = ["address_one", "address_two", "city", "country", "province", "zipcode"]
     
     
 class NextOfKinForm(forms.ModelForm):
     class Meta:
-        model = NextOfKin
-        fields = ['full_name', 'relationship', 'tel']
+        model = RelativeModel
+        fields = ['full_name', 'relationship', 'phone']
 
         # widgets = {
         #     'relationship': forms.DateTimeInput(attrs={"class": "border-0 px-3 py-3 {% if form.relationship.errors %} border-2 border-red-500{% endif %} placeholder-blueGray-300 text-gray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"}),
@@ -94,7 +94,7 @@ class NextOfKinForm(forms.ModelForm):
 
 class QualificationForm(forms.ModelForm):
     class Meta:
-        model = Qualification
+        model = QualificationModel
         fields = ['institution', 'name', 'qualification_type', 'year']
 
         # widgets = {

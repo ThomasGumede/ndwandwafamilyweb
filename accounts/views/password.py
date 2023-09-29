@@ -4,6 +4,7 @@ from django.views.generic import View
 from django.shortcuts import render, redirect
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.template.loader import render_to_string
 from django.contrib import messages
 from django.contrib.auth.views import PasswordResetConfirmView, PasswordResetView
 from django.contrib.auth.forms import PasswordChangeForm

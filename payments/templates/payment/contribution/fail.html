@@ -1,34 +1,9 @@
-{% extends '_base.html' %}
+{% extends '_payment.html' %}
 {% load static %}
+{% block paymenttitle %}Payment failed{% endblock paymenttitle %}
 
-{% block content %}
-<section class="w-full bg-custom-h pt-36 mt-16 relative block pb-32 overflow-hidden border-2">
-    <div id="header-bg"
-        class="absolute top-0 h-fit  border-2 border-custom-primary left-0 bottom-0 right-0 overflow-hidden bg-center opacity-50 bg-no-repeat bg-cover mix-blend-luminosity">
-        <img src="{% static 'imgs/home.jpg' %}" alt="" class="w-full h-96 object-cover">
-    </div>
-    <div class="container">
-        <div class="relative block z-40">
-            <ul class="relative block">
-                <li class="inline-block text-base text-white font-medium opacity-60 relative">
-                    <a href="" class="text-white inline-block text-base font-medium">Home</a>
-                </li>
-                <li class="inline-block text-base text-white font-medium opacity-60 relative">
-                    <span>/</span>
-                </li>
-                <li class="inline-block text-base text-white font-medium opacity-60 relative">
-                    <a href="{% url 'campaign:campaign_list' %}"
-                        class="text-white inline-block text-base font-medium">Campaigns</a>
-                </li>
-                <li class="inline-block text-base text-white font-medium opacity-60 relative">
-                    <span>/</span>
-                </li>
+{% block payment %}
 
-            </ul>
-            <h2 class="text-white text-2xl md:text-5xl font-bold m-0">Payment done!!</h2>
-        </div>
-    </div>
-</section>
 <section class="py-16 h-full bg-gray-100 font-sans">
     <div class="container">
         <div
@@ -37,7 +12,7 @@
                 <div class="space-y-6">
                     <h3 class="text-custom-h text-2xl md:text-4xl font-extrabold">Sorry! Payment not processed</h3>
                     <div>
-                        <i class="fa-regular fa-check-circle text-8xl font-extralight text-custom-h"></i>
+                        <i class="fa-regular fa-circle-xmark text-8xl font-extralight text-custom-h"></i>
                     </div>
 
                     <p class="text-custom-h text-lg font-medium">
@@ -62,7 +37,7 @@
 </section>
 
 
-{% endblock content %}
+{% endblock payment %}
 {% block javascripts %}
 
 

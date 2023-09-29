@@ -31,38 +31,11 @@
     <div class="w-full p-10">
         <div class="w-full">
             <div class="relative mb-2 flex items-center w-full justify-between">
-                <div class="shadow-xl rounded-md w-fit h-fit bg-white">
-                    <div class="px-4 py-1 w-full relative text-black">
-                        <div>
-                            <form action="{% url 'campaign:campaign_list' %}" method="get" class="">
-                                <div class="flex items-center space-x-4 justify-between">
-                                    <div class="flex items-center space-x-3">
-                                        <div class="p-1">
-                                            <i class="fa-solid text-gray-500 fa-search text-2xl"></i>
-                                        </div>
-                                        {% if query %}
-                                        <input value="{{query}}" id="id_q" type="search" name="q" placeholder="search"
-                                            class="border-none  outline-none focus-within:outline-none focus:border-none focus-within:border-none focus:outline-none text-gray-600 placeholder:text-gray-500 h-11" />
-                                        {% else %}
-                                        <input value="" id="id_q" type="search" name="q" placeholder="search"
-                                            class="border-none  outline-none focus-within:outline-none focus:border-none focus-within:border-none focus:outline-none text-gray-600 placeholder:text-gray-500 h-11" />
+                
+                <div id class="relative self-end bg-custom-primary z-40 py-2 px-3">
 
-                                        {% endif %}
-                                    </div>
-                                    <select value="{{query_by}}" name="search_by" id="id_search_by"
-                                        class="border-none outline-none text-sm px-2 text-gray-500">
-                                        <option value="other" class="shadow-none" {% if query_by == "other" %} selected {% endif %}>Search by</option>
-                                        <option value="title" class="shadow-none" {% if query_by == "title" %} selected {% endif %}>Title</option>
-                                        <option value="author" class="shadow-none" {% if query_by == "author" %} selected {% endif %}>Author</option>
-                                    </select>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-                <div id class="relative bg-custom-primary z-40 py-2 px-3">
                     <p id="category_button" aria-haspopup="true" aria-expanded="true"
-                        class="text-white text-sm cursor-pointer">Category</p>
+                        class="text-white text-sm cursor-pointer">{% if category != none %}{{category.label}}{% else %}Category{% endif %}</p>
                     <div id="category_menu" role="menu" aria-orientation="vertical" aria-labelledby="menu-button"
                         class="absolute  hidden right-0 z-20 mt-2 duration-500 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                         <div class="py-1 z-40">

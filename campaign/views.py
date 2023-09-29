@@ -13,31 +13,16 @@ class CampaignListView(View):
 
     def get(self, request, category_id=None, *args, **kwargs):
 
-        query = request.GET.get("q", None)
-        query_by = request.GET.get("search_by", None)
-
+        category = None
         if category_id:
             category = get_object_or_404(Category, id = category_id )
 
-        if query and query_by and category_id:
-            
-            match query_by:
-                case "title":
-                    queryset = Campaign.objects.filter(category=category).filter(title__icontains = query).order_by("-creation_date").select_related("creator", "category")
-                case _:
-                    queryset = Campaign.objects.filter(category=category).filter(title__icontains = query).order_by("-creation_date").select_related("creator", "category")
-        elif query and query_by:
-            match query_by:
-                case "title":
-                    queryset = Campaign.objects.filter(title__icontains = query).order_by("-creation_date").select_related("creator", "category")
-                case _:
-                    queryset = Campaign.objects.filter(title__icontains = query).order_by("-creation_date").select_related("creator", "category")
-        elif category_id:
+        if category_id:
             queryset = Campaign.objects.filter(category=category).order_by("-creation_date").select_related("creator", "category")
         else:
             queryset = Campaign.objects.all().order_by("-creation_date").select_related("creator", "category")
 
-        return render(request, self.template_name, {"campaigns": queryset, "query": query, "query_by": query_by})
+        return render(request, self.template_name, {"campaigns": queryset, "category": category})
     
 
 class CampaignDetailView(DetailView):

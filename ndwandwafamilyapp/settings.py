@@ -37,6 +37,7 @@ SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = str(env('DEBUG')) == '1'
+SANDBOX_MODE = str(env('SANDBOX_MODE')) == '1'
 
 ALLOWED_HOSTS = ['127.0.0.1']
 
@@ -54,8 +55,8 @@ INSTALLED_APPS = [
     'campaign.apps.CampaignConfig',
     'event.apps.EventConfig',
     'orders.apps.OrdersConfig',
-    'actions.apps.ActionsConfig',
     'payments.apps.PaymentsConfig',
+    'news.apps.NewsConfig',
     'home.apps.HomeConfig',
 
     # 3rd party
@@ -73,20 +74,7 @@ DATA_UPLOAD_MAX_MEMORY_SIZE = 5242880 # 5MB
 TINYMCE_DEFAULT_CONFIG = {
     'custom_undo_redo_levels': 100,
     'selector': 'textarea',
-    "menubar": "file edit view insert format tools table help",
-    'plugins': 'preview contextmenu table lists fullscreen',
-    'toolbar1': 'undo redo | backcolor casechange permanentpen formatpainter removeformat formatselect fontselect fontsizeselect',
-    'toolbar2': 'bold italic underline blockquote | alignleft aligncenter alignright alignjustify '
-               '| bullist numlist | outdent indent | table',
-    'contextmenu': 'formats',
-    'block_formats': 'Paragraph=p; Header 1=h1; Header 2=h2',
-    'fontsize_formats': "8pt 10pt 12pt 14pt 16pt 18pt",
-    'content_style': "body { font-family: Lexend Deca; background: white; color: black; font-size: 12pt}",
-    # 'image_class_list': [{'title': 'Fluid', 'value': 'img-fluid', 'style': {} }],
-    'width': '',
     "height": "400px",
-    # 'image_caption': True,
-    # "images_upload_url": "upload_image",
 }
 
 

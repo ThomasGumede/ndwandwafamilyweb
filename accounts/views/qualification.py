@@ -1,4 +1,4 @@
-from accounts.models import Qualification
+from accounts.models import QualificationModel
 from accounts.forms import QualificationForm
 from django.http import HttpResponseForbidden
 from django.shortcuts import render, redirect, get_object_or_404
@@ -8,7 +8,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
 
 class QualificationCreateView(LoginRequiredMixin, View):
-    model = Qualification
+    model = QualificationModel
     template_name = "accounts/manage/qualification/create_form.html"
     form_class = QualificationForm
 
@@ -28,7 +28,7 @@ class QualificationCreateView(LoginRequiredMixin, View):
             return render(request, self.template_name, {"form": form})  
 
 class QualificationUpdateView(LoginRequiredMixin, View):
-    model = Qualification
+    model = QualificationModel
     template_name = "accounts/manage/qualification/update_form.html"
     form_class = QualificationForm
     qualification = None
@@ -59,8 +59,8 @@ class QualificationDeleteView(LoginRequiredMixin, View):
         if request.headers['X-Requested-With'] !=  'XMLHttpRequest':
             return JsonResponse({"success": False, "message": "This request is not allowed"}, status=500)
         try:
-            self.model = Qualification.objects.get(id = qual_id)
-        except Qualification.DoesNotExist:
+            self.model = QualificationModel.objects.get(id = qual_id)
+        except QualificationModel.DoesNotExist:
             return JsonResponse({"success": False, "message": "This qualification is already deleted or does not exists"}, status=200)
         
         return super().dispatch(request, qual_id,*args, **kwargs)

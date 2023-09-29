@@ -17,7 +17,8 @@
                     <span>/</span>
                 </li>
                 <li class="inline-block text-base text-white font-medium opacity-60 relative">
-                    <a href="{% url 'event:event_list' %}" class="text-white inline-block text-base font-medium">Event</a>
+                    <a href="{% url 'event:event_list' %}"
+                        class="text-white inline-block text-base font-medium">Event</a>
                 </li>
                 <li class="inline-block text-base text-white font-medium opacity-60 relative">
                     <span>/</span>
@@ -58,8 +59,7 @@
                         <div>
                             <input type="number" name="amount" value="{{amount}}" id="id_amount"
                                 class="border {% if form.amount.errors %} border-red-500 {% else %}border-gray-500{% endif %} outline-none w-16 p-2 text-sm font-normal text-black" />
-                            <span
-                                class="text-[11px] text-custom-tertiary block font-normal lowercase">{{form.amount.help_text}}</span>
+
                             {% if form.amount.errors %}
                             <span
                                 class="text-[11px] text-red-500 block font-normal lowercase">{{form.amount.errors.as_text}}</span>
@@ -78,6 +78,34 @@
                         <h4 class="text-base font-semibold text-custom-h">Campaign Target</h4>
                         <h4 class="text-base font-semibold text-custom-h">R{{campaign.target}}</h4>
                     </div>
+                </div>
+                <hr class="mt-6 border-b-1 border-gray-300">
+                <div class="mt-6 p-4 bg-gray-100 w-full flex flex-col gap-2">
+                    <h3 class=" text-custom-h font-bold text-lg">Please, select your tip choice:</h3>
+                    <select name="" id="" class="w-full bg-white outline-none p-2 border text-black">
+                        <option>10%</option>
+                        <option>15%</option>
+                        <option>20%</option>
+                        <option>25%</option>
+                    </select>
+                    <div class="self-end w-fit justify-self-end">
+                        <p class="font-normal text-black">
+                            Support amount R34
+                        </p>
+                    </div>
+                    <div class="w-full flex items-center justify-between">
+                        <p class="font-normal text-base text-black">
+                            Ndwandwa Family Foundation does not receive any fees from the campaign owners. We receive a transaction fee from the contributor. Thank you very much for understanding.
+                        </p>
+                        <div>
+
+                        </div>
+                    </div>
+
+                </div>
+                <hr class="mt-6 border-b-1 border-gray-300">
+                <div class="w-full bg-white">
+                    
                 </div>
                 <h3 class=" text-custom-h font-bold text-2xl mt-6">Contributor info</h3>
                 <hr class="mt-6 border-b-1 border-gray-300">
@@ -98,19 +126,35 @@
                 <hr class="mt-6 border-b-1 border-gray-300">
                 <div class="flex items-center mt-5 space-x-4">
 
-                    <input {% if checked == "on" %}checked{% endif %} class="inline-flex" type="checkbox" id="id_accepted_laws"
-                        name="accepted_laws" class="border-red-500"/>
+                    <input class="inline-flex" type="checkbox"
+                        id="id_accepted_laws" name="accepted_laws" class="border-red-500" />
 
                     <label class="font-normal text-base text-gray-500" for="id_accepted_laws">
-                        By clicking, I understand and accept to Ndwandwa Family Foundation's <a href="http://"
-                            target="_blank" rel="noopener noreferrer" class="text-custom-primary">terms and
-                            conditions</a></label><br />
-                            {% if form.accepted_laws.errors %}
-                            <span
-                                class="text-[11px] text-red-500 block font-normal lowercase">{{form.accepted_laws.errors.as_text}}</span>
-                            {% endif %}
-                    
+                        Support as an anonymous supporter</label><br />
+                    {% if form.accepted_laws.errors %}
+                    <span
+                        class="text-[11px] text-red-500 block font-normal lowercase">{{form.accepted_laws.errors.as_text}}</span>
+                    {% endif %}
+
                 </div>
+                <hr class="mt-6 border-b-1 border-gray-300">
+                <div class=" mt-5">
+                    <p class="font-normal text-base text-gray-500">
+                        Please read the <a href="http://" target="_blank" rel="noopener noreferrer"
+                            class="text-custom-primary">terms and
+                            conditions</a> and <a href="http://" target="_blank" rel="noopener noreferrer"
+                            class="text-custom-primary">Privacy Policy</a>
+                    </p>
+                    <p class="font-normal text-base text-gray-500">
+                        After clicking confirm, it will be considered that you agree with the privacy policy and the
+                        terms and conditions of Ndwandwa Family Foundation.
+                    </p>
+                    <p class="font-normal text-base text-gray-500">
+                        *As a general rule, refunds cannot be made after payment is completed
+                    </p>
+                </div>
+
+
                 <div class="flex flex-wrap items-center justify-between gap-4 mt-6 ">
                     <a href="{% url 'campaign:campaign_details' campaign.slug %}"
                         class="w-full px-4 py-2 text-custom-primary border border-custom-primary rounded-md md:w-auto hover:text-gray-100 hover:bg-blue-600 dark:border-gray-700 dark:hover:bg-gray-700 dark:text-gray-300">
@@ -133,7 +177,7 @@
 {% endblock content %}
 {% block javascripts %}
 <script>
-    
+
     // Word count
 
     var max_words = 250;

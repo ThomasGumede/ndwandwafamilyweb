@@ -1,0 +1,49 @@
+{% load static %}
+
+<div style="color: #2e3337; font-size: 16px; font-weight: 500;">
+    <div
+        style="display: flex; margin: 0; padding: 20px; align-items: center; background-color: #ffffff; justify-content: space-between;">
+        <div class="logo" style="padding-right: 27px; align-items: center; display: flex;">
+            <div style="width: 40px; height: 40px; margin-right: 8px; display: inline;">
+                <img src="{% static 'imgs/logo (2).png' %}" alt="Ndwandwa LOGO" style="object-fit: contain;" />
+            </div>
+            <div style="color: #1e3737; display: inline;">
+                <h3 style="color: #00B4D8; font-weight: 700; text-transform: uppercase;">Ndwandwa</h3>
+                <p style="font-size: 11px;">family foundation</p>
+            </div>
+        </div>
+        <h2 style="color: #1e3737; font-weight: 800; font-size: 30px;">
+            Donation Confirmation</h2>
+    </div>
+
+    <div style="margin: 0; margin-top: 32px; margin-bottom: 32px; padding: 15px; background-color: #ffffff;">
+        <h3 style="margin-bottom: 15px;">Dear {{ user }},</h3>
+
+        <p>We have received your request to contribute on campaign and will be processing it shortly. The details of
+            your contribution are:</p>
+        <div style="margin-top: 20px !important; margin-left: 20px;">
+            <p>Contribution number: <span style="color: #1e3737; font-weight: 600;">{{donate_id}}</span></p>
+            <p>Campaign: {{campaign}}</p>
+            <p>Contribution amount: R{{amount}}</p>
+        </div>
+        <p style="margin-top: 20px;">Thank you for your contribution to this campaign. Your donation will go
+            straight to helping this campaign</p>
+        <p style="margin-bottom: 25px;">If you did not ask for your password to be reset then please let us know on
+            or email <a href="mail:inf0@ndwandwa.org"
+                style="text-decoration: underline; color: #1e3737; font-weight: 800;">support@ndwadwafam.org</a>
+        </p>
+
+        <p>From the NdwandwaFam Team</p>
+    </div>
+    <div style="text-align: center; margin-top: 20px 0; background-color: #1e3737; color: #ffffff; padding: 60px;">
+        <p style="margin-bottom: 25px;">Questions? Get in touch on</p>
+        <p style="margin-bottom: 25px;"><a href="" style="margin-right: 20px;">Twitter</a> <a href=""
+                style="margin-right: 20px;">Facebook</a> <a href="" style="margin-right: 20px;">Instagram</a></p>
+        <p style="margin-bottom: 7px;">
+            You are receiving this email because you sign up on our website
+        </p>
+        <p style="margin-bottom: 7px;">
+            PO Box 1345, Home Hell, Cape Town, 7872
+        </p>
+    </div>
+</div>
